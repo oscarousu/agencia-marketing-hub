@@ -328,7 +328,8 @@
   <button class="tab-btn" onclick="openTab('tab-kanban', this)">2. Tablero de Tareas (Oscar & Camilo)</button>
   <button class="tab-btn" onclick="openTab('tab-demos', this)">3. Fábrica de Demos & CRM Cali/Jamundí</button>
   <button class="tab-btn" onclick="openTab('tab-sops', this)">4. Manual Operativo (SOPs & Guiones)</button>
-  <button class="tab-btn" onclick="openTab('tab-notas', this)">5. Bitácora de Reuniones en Vivo</button>
+  <button class="tab-btn" onclick="openTab('tab-finanzas', this)">💰 5. Modelo Financiero & Costos</button>
+  <button class="tab-btn" onclick="openTab('tab-notas', this)">6. Bitácora de Reuniones en Vivo</button>
 </nav>
 
 <main>
@@ -583,9 +584,110 @@ Para arrancar hoy mismo con los guiones y las escenas base, solo necesitamos que
     </div>
   </section>
 
-  <!-- PESTAÑA 5: BITACORA DE REUNIONES -->
+  <!-- PESTAÑA 5: MODELO FINANCIERO Y MATRIZ DE COSTOS GENERAL -->
+  <section id="tab-finanzas" class="tab-content">
+    <h2 class="section-title">5. Modelo Financiero, Costos Generales y Simulador (Entregable Oscar Ortiz)</h2>
+    <p class="section-sub">Estructura financiera rigurosa basada en <strong>Sunra.ai como plataforma única de IA</strong> + costos operativos reales en Colombia (mano de obra técnica/comercial, retenciones/4x1000, OPEX fijo mensual y reserva de compañía).</p>
+
+    <!-- PARAMETROS DEL SIMULADOR -->
+    <div class="card cyan" style="margin-bottom: 24px;">
+      <h3>⚙️ Parámetros Base del Simulador Financiero <span class="pill oscar">Ajustable en Vivo</span></h3>
+      <div class="grid-3" style="margin-bottom: 12px;">
+        <div class="field-group">
+          <label>Tasa de Cambio Referencia (COP / USD)</label>
+          <input type="text" id="fin-trm" value="4200" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>Valor Hora Operativa Interna (COP/h)</label>
+          <input type="text" id="fin-hour-rate" value="35000" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>Gastos Fijos Mensuales OPEX (COP/mes)</label>
+          <input type="text" id="fin-opex" value="399000" oninput="recalcFinances()" />
+        </div>
+      </div>
+      <div class="grid-3" style="margin-bottom: 0;">
+        <div class="field-group">
+          <label>% Provisión Retenciones / 4x1000 / Bancos</label>
+          <input type="text" id="fin-tax-pct" value="5" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>% Fondo Reserva / Caja de la Agencia</label>
+          <input type="text" id="fin-reserve-pct" value="10" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>Factor de Iteración IA (Intentos por Toma)</label>
+          <input type="text" id="fin-iter" value="2.2" oninput="recalcFinances()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- COSTO UNITARIO 15S vs 30S -->
+    <div class="grid-2">
+      <div class="card">
+        <h3>⏱️ Costo Unitario: Video Comercial de 15 Segundos <span class="pill oscar">3 Tomas de 5s + 2 Hooks</span></h3>
+        <ul>
+          <li><strong>Costo Directo IA (Sunra.ai + ElevenLabs + 15% ajuste):</strong> <span id="cost-15-ai" style="color:var(--accent-cyan); font-weight:700;">$11.550 COP</span> (~$2.75 USD)</li>
+          <li><strong>Tiempo Técnico Producción Oscar (1.5 horas):</strong> <span id="cost-15-tech">$52.500 COP</span></li>
+          <li><strong>Tiempo Comercial & Brief Camilo (0.5 horas):</strong> <span id="cost-15-sales">$17.500 COP</span></li>
+          <li><strong>Costo Integral Total (IA + Tiempo Socios):</strong> <strong id="cost-15-total" style="color:var(--accent-gold);">$81.550 COP</strong></li>
+          <li><strong>Precio Venta Suelto Sugerido:</strong> <strong style="color:var(--accent-green);">$260.000 COP</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⏱️ Costo Unitario: Video Comercial de 30 Segundos <span class="pill oscar">6 Tomas de 5s + 2 Hooks</span></h3>
+        <ul>
+          <li><strong>Costo Directo IA (Sunra.ai + ElevenLabs + 15% ajuste):</strong> <span id="cost-30-ai" style="color:var(--accent-cyan); font-weight:700;">$22.470 COP</span> (~$5.35 USD)</li>
+          <li><strong>Tiempo Técnico Producción Oscar (2.5 horas):</strong> <span id="cost-30-tech">$87.500 COP</span></li>
+          <li><strong>Tiempo Comercial & Brief Camilo (0.75 horas):</strong> <span id="cost-30-sales">$26.250 COP</span></li>
+          <li><strong>Costo Integral Total (IA + Tiempo Socios):</strong> <strong id="cost-30-total" style="color:var(--accent-gold);">$136.220 COP</strong></li>
+          <li><strong>Precio Venta Suelto Sugerido:</strong> <strong style="color:var(--accent-green);">$420.000 COP</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TABLA UNIT ECONOMICS DE LOS 3 PLANES -->
+    <div class="card gold" style="margin-bottom: 24px; overflow-x: auto;">
+      <h3>📊 Matriz de Costos, Margen Bruto y Margen Neto por Paquete Comercial</h3>
+      <table style="width:100%; border-collapse:collapse; margin-top:8px;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border); color:var(--accent-cyan); font-size:0.8rem; text-transform:uppercase;">
+            <th style="padding:10px; text-align:left;">Concepto Financiero</th>
+            <th style="padding:10px; text-align:left;">1. Plan Impulso<br/><span style="font-size:0.72rem; color:var(--text-muted);">4 Videos (15s) + Hooks</span></th>
+            <th style="padding:10px; text-align:left;">2. Plan Crecimiento<br/><span style="font-size:0.72rem; color:var(--text-muted);">8 Videos (15s) + 2 (30s) = 10/mes</span></th>
+            <th style="padding:10px; text-align:left;">3. Plan Dominio VIP<br/><span style="font-size:0.72rem; color:var(--text-muted);">10 Videos (15s) + 5 (30s) = 15/mes</span></th>
+          </tr>
+        </thead>
+        <tbody id="fin-plans-tbody" style="font-size:0.9rem;">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SIMULADOR DE FLUJO DE CAJA MENSUAL SEGUN CLIENTES -->
+    <div class="card green">
+      <h3>🚀 Simulador de Utilidad Neta Mensual de la Compañía (Después de OPEX Fijo e Impuestos)</h3>
+      <div class="grid-3" style="margin-top:8px; margin-bottom:12px;">
+        <div class="field-group">
+          <label>Clientes del Mes en Plan Impulso ($950k)</label>
+          <input type="text" id="sim-qty-1" value="2" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>Clientes Activos en Plan Crecimiento ($1.85M)</label>
+          <input type="text" id="sim-qty-2" value="5" oninput="recalcFinances()" />
+        </div>
+        <div class="field-group">
+          <label>Clientes Activos en Plan Dominio VIP ($3.2M)</label>
+          <input type="text" id="sim-qty-3" value="1" oninput="recalcFinances()" />
+        </div>
+      </div>
+      <div class="grid-3" style="margin-bottom:0;" id="sim-summary-cards">
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 6: BITACORA DE REUNIONES -->
   <section id="tab-notas" class="tab-content">
-    <h2 class="section-title">5. Bitácora Compartida de Reuniones (Oscar & Camilo)</h2>
+    <h2 class="section-title">6. Bitácora Compartida de Reuniones (Oscar & Camilo)</h2>
     <p class="section-sub">Espacio libre para tomar apuntes en vivo durante sus videollamadas, anotar ideas de campañas o dejar mensajes para el otro socio.</p>
     <div class="card cyan">
       <h3>📝 Notas y Acuerdos en Vivo <button class="btn small" onclick="pushToCloud()">💾 Guardar Bitácora</button></h3>
@@ -1114,7 +1216,117 @@ Para arrancar hoy mismo con los guiones y las escenas base, solo necesitamos que
     if (!document.hidden) pullFromCloud(false);
   });
 
+  function formatCOP(num) {
+    return "$" + Math.round(num).toLocaleString("es-CO") + " COP";
+  }
+
+  function recalcFinances() {
+    const trm = parseFloat(document.getElementById("fin-trm")?.value) || 4200;
+    const hourRate = parseFloat(document.getElementById("fin-hour-rate")?.value) || 35000;
+    const opex = parseFloat(document.getElementById("fin-opex")?.value) || 399000;
+    const taxPct = (parseFloat(document.getElementById("fin-tax-pct")?.value) || 5) / 100;
+    const reservePct = (parseFloat(document.getElementById("fin-reserve-pct")?.value) || 10) / 100;
+    const iter = parseFloat(document.getElementById("fin-iter")?.value) || 2.2;
+
+    // Costo IA en Sunra.ai (base 2.2x iteración = $2.75 USD para 15s y $5.35 USD para 30s)
+    const ai15 = (2.75 * (iter / 2.2)) * trm;
+    const tech15 = 1.5 * hourRate;
+    const sales15 = 0.5 * hourRate;
+    const total15 = ai15 + tech15 + sales15;
+
+    const ai30 = (5.35 * (iter / 2.2)) * trm;
+    const tech30 = 2.5 * hourRate;
+    const sales30 = 0.75 * hourRate;
+    const total30 = ai30 + tech30 + sales30;
+
+    document.getElementById("cost-15-ai").textContent = formatCOP(ai15);
+    document.getElementById("cost-15-tech").textContent = formatCOP(tech15);
+    document.getElementById("cost-15-sales").textContent = formatCOP(sales15);
+    document.getElementById("cost-15-total").textContent = formatCOP(total15);
+
+    document.getElementById("cost-30-ai").textContent = formatCOP(ai30);
+    document.getElementById("cost-30-tech").textContent = formatCOP(tech30);
+    document.getElementById("cost-30-sales").textContent = formatCOP(sales30);
+    document.getElementById("cost-30-total").textContent = formatCOP(total30);
+
+    // 3 Planes Comerciales
+    const plans = [
+      { name: "Impulso", price: 950000, aiCost: ai15 * 4, laborCost: (tech15 + sales15) * 4 },
+      { name: "Crecimiento", price: 1850000, aiCost: (ai15 * 8) + (ai30 * 2), laborCost: ((tech15 + sales15) * 8) + ((tech30 + sales30) * 2) },
+      { name: "Dominio VIP", price: 3200000, aiCost: (ai15 * 10) + (ai30 * 5), laborCost: ((tech15 + sales15) * 10) + ((tech30 + sales30) * 5) }
+    ];
+
+    plans.forEach(p => {
+      p.taxes = p.price * taxPct;
+      p.netRevenue = p.price - p.taxes;
+      p.grossCashProfit = p.netRevenue - p.aiCost;
+      p.grossCashMargin = (p.grossCashProfit / p.price) * 100;
+      p.corpGrossProfit = p.grossCashProfit - p.laborCost;
+      p.corpGrossMargin = (p.corpGrossProfit / p.price) * 100;
+      p.reserve = p.price * reservePct;
+      p.freeCashForPartners = p.grossCashProfit - p.reserve;
+      p.freeCashMargin = (p.freeCashForPartners / p.price) * 100;
+    });
+
+    const tbody = document.getElementById("fin-plans-tbody");
+    if (tbody) {
+      const row = (label, fn, highlight = "") => `
+        <tr style="border-bottom:1px solid var(--border); ${highlight}">
+          <td style="padding:10px;">${label}</td>
+          <td style="padding:10px;">${fn(plans[0])}</td>
+          <td style="padding:10px;">${fn(plans[1])}</td>
+          <td style="padding:10px;">${fn(plans[2])}</td>
+        </tr>
+      `;
+      tbody.innerHTML = [
+        row("<strong>Precio de Venta Final</strong>", p => `<strong style="color:var(--accent-cyan);">${formatCOP(p.price)}</strong>`),
+        row("(-) Retenciones / 4x1000 / Costo Financiero", p => `-${formatCOP(p.taxes)}`),
+        row("(-) Costo Directo IA (Sunra.ai + Reserva Ajuste)", p => `-${formatCOP(p.aiCost)}`),
+        row("<strong>(=) Utilidad Bruta de Caja & Margen Bruto %</strong>", p => `<strong style="color:var(--accent-green);">${formatCOP(p.grossCashProfit)} (${p.grossCashMargin.toFixed(1)}%)</strong>`, "background:rgba(16,185,129,0.06);"),
+        row("(-) Tiempo Operativo Valorizado (Oscar + Camilo)", p => `-${formatCOP(p.laborCost)} <span style="font-size:0.75rem; color:var(--text-muted);">(queda en socios)</span>`),
+        row("(=) Utilidad Corporativa (Si se delega edición 100%)", p => `${formatCOP(p.corpGrossProfit)} (${p.corpGrossMargin.toFixed(1)}%)`),
+        row("(-) Fondo Reserva / Caja de la Agencia", p => `-${formatCOP(p.reserve)}`),
+        row("<strong>(=) Flujo Neto Libre Socios (Oscar + Camilo)</strong>", p => `<strong style="color:var(--accent-gold);">${formatCOP(p.freeCashForPartners)} (${p.freeCashMargin.toFixed(1)}%)</strong>`, "background:rgba(245,176,65,0.08);"),
+        row("<strong>💵 Pago Neto por Cliente para CADA Socio (50/50)</strong>", p => `<strong>${formatCOP(p.freeCashForPartners / 2)}</strong>`)
+      ].join("");
+    }
+
+    const q1 = parseFloat(document.getElementById("sim-qty-1")?.value) || 0;
+    const q2 = parseFloat(document.getElementById("sim-qty-2")?.value) || 0;
+    const q3 = parseFloat(document.getElementById("sim-qty-3")?.value) || 0;
+
+    const totalRev = (q1 * plans[0].price) + (q2 * plans[1].price) + (q3 * plans[2].price);
+    const totalTaxes = (q1 * plans[0].taxes) + (q2 * plans[1].taxes) + (q3 * plans[2].taxes);
+    const totalAi = (q1 * plans[0].aiCost) + (q2 * plans[1].aiCost) + (q3 * plans[2].aiCost);
+    const totalReserve = (q1 * plans[0].reserve) + (q2 * plans[1].reserve) + (q3 * plans[2].reserve);
+    const totalNetDistributable = totalRev - totalTaxes - totalAi - opex - totalReserve;
+    const netMarginPct = totalRev > 0 ? (totalNetDistributable / totalRev) * 100 : 0;
+    const eachPartner = totalNetDistributable / 2;
+
+    const simCards = document.getElementById("sim-summary-cards");
+    if (simCards) {
+      simCards.innerHTML = `
+        <div class="card" style="background:var(--bg-input);">
+          <h3>Facturación Bruta del Mes</h3>
+          <div style="font-size:1.65rem; font-weight:800; color:var(--accent-cyan);">${formatCOP(totalRev)}</div>
+          <p>Costos IA Sunra: <strong>${formatCOP(totalAi)}</strong><br/>Retenciones (${(taxPct*100).toFixed(1)}%): <strong>${formatCOP(totalTaxes)}</strong><br/>OPEX Fijo: <strong>${formatCOP(opex)}</strong></p>
+        </div>
+        <div class="card" style="background:var(--bg-input);">
+          <h3>Utilidad Neta Libre Distribuible</h3>
+          <div style="font-size:1.65rem; font-weight:800; color:var(--accent-green);">${formatCOP(totalNetDistributable)}</div>
+          <p>Margen Neto Final Real: <strong>${netMarginPct.toFixed(1)}%</strong><br/>Reserva Caja Agencia (${(reservePct*100).toFixed(0)}%): <strong>${formatCOP(totalReserve)}</strong></p>
+        </div>
+        <div class="card gold" style="background:var(--bg-input);">
+          <h3>Ingreso Neto Mensual por Socio</h3>
+          <div style="font-size:1.65rem; font-weight:800; color:var(--accent-gold);">${formatCOP(eachPartner)}</div>
+          <p><strong>50% Oscar Ortiz:</strong> ${formatCOP(eachPartner)}<br/><strong>50% Camilo Cortés:</strong> ${formatCOP(eachPartner)}</p>
+        </div>
+      `;
+    }
+  }
+
   initAuth();
+  recalcFinances();
 </script>
 
 </body>
