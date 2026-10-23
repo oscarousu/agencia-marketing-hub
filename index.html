@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data: https:;" />
+  <title>Espacio Virtual Compartido — Oscar Ortiz & Camilo Cortés</title>
+  <style>
+    :root {
+      --bg-dark: #090b10;
+      --bg-panel: #111520;
+      --bg-card: #161b29;
+      --bg-input: #0d1018;
+      --accent-cyan: #00f0ff;
+      --accent-gold: #f5b041;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Modal de Clave de Socios */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 11, 16, 0.96);
+      backdrop-filter: blur(14px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-overlay.hidden { display: none; }
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 440px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    .auth-card h2 { font-size: 1.4rem; }
+    .auth-card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; }
+
+    header {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand { display: flex; flex-direction: column; gap: 4px; }
+    .brand h1 { font-size: 1.25rem; font-weight: 800; }
+    .sync-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .sync-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      display: inline-block;
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+    .sync-dot.saving { background: var(--accent-gold); box-shadow: 0 0 8px var(--accent-gold); }
+    .sync-dot.error { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .user-select {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .nav-tabs {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text-main); }
+    .tab-btn.active {
+      color: var(--accent-cyan);
+      border-bottom-color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    main {
+      max-width: 1340px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px;
+      flex: 1;
+    }
+    .tab-content { display: none; animation: fadeIn 0.2s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .section-title { font-size: 1.75rem; font-weight: 800; margin-bottom: 6px; }
+    .section-sub { color: var(--text-muted); font-size: 0.98rem; margin-bottom: 24px; line-height: 1.5; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; }
+    @media (max-width: 960px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      header, .nav-tabs, main { padding-left: 16px; padding-right: 16px; }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card.cyan { border-color: rgba(0, 240, 255, 0.4); }
+    .card.gold { border-color: rgba(245, 176, 65, 0.4); }
+    .card.green { border-color: rgba(16, 185, 129, 0.4); }
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card p, .card li { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
+    .card ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+
+    .pill {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pill.oscar { background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan); }
+    .pill.camilo { background: rgba(245, 176, 65, 0.16); color: var(--accent-gold); }
+    .pill.ambos { background: rgba(16, 185, 129, 0.16); color: var(--accent-green); }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+    .field-group label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    input[type="text"], input[type="password"], select, textarea {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+    .btn {
+      background: var(--accent-cyan);
+      color: #061018;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn.secondary {
+      background: var(--bg-input);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+    .btn.gold { background: var(--accent-gold); color: #140d02; }
+    .btn.small { padding: 6px 10px; font-size: 0.78rem; }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 11px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .checklist-item input { margin-top: 3px; transform: scale(1.25); accent-color: var(--accent-cyan); }
+    .checklist-item span { font-size: 0.92rem; color: var(--text-main); line-height: 1.45; }
+
+    .task-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .task-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+    .task-card p { font-size: 0.84rem; color: var(--text-muted); }
+    .task-actions { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+
+    .demo-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .script-box {
+      background: var(--bg-input);
+      border: 1px solid rgba(245, 176, 65, 0.35);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+
+<!-- MODAL DE ACCESO DE SOCIOS (Cifrado AES-256-GCM + PBKDF2) -->
+<div id="auth-modal" class="auth-overlay">
+  <div class="auth-card">
+    <h2>🔐 Espacio Privado — Oscar & Camilo</h2>
+    <p>Selecciona tu perfil de socio e ingresa la clave privada compartida para descifrar (AES-256-GCM) y sincronizar el espacio en la nube.</p>
+    <div class="field-group">
+      <label>¿Quién ingresa?</label>
+      <select id="modal-user">
+        <option value="Oscar Ortiz">Oscar Ortiz (Tecnología, IA & Producción)</option>
+        <option value="Camilo Cortés">Camilo Cortés (Comercial, Estrategia & Cuentas)</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Clave Privada de Socios</label>
+      <input type="password" id="modal-pin" placeholder="Ingresa la clave privada de socios..." autocomplete="current-password" onkeydown="if(event.key==='Enter') unlockWorkspace()" />
+    </div>
+    <button class="btn" onclick="unlockWorkspace()">Desbloquear Espacio Compartido →</button>
+    <p id="auth-error" style="color: var(--accent-red); display: none; font-size: 0.84rem;">Clave incorrecta. Verifica la clave privada con tu socio.</p>
+  </div>
+</div>
+
+<header>
+  <div class="brand">
+    <h1>Espacio de Trabajo Virtual · Agencia Video Marketing IA (Cali & Jamundí)</h1>
+    <div class="sync-bar">
+      <span id="sync-dot" class="sync-dot"></span>
+      <span id="sync-status">Esperando autenticación de socio...</span>
+    </div>
+  </div>
+  <div class="top-controls">
+    <span style="font-size: 0.82rem; color: var(--text-muted);">Conectado como:</span>
+    <select id="active-user" class="user-select" onchange="changeActiveUser(this.value)">
+      <option value="Oscar Ortiz">👨‍💻 Oscar Ortiz (Tecnología & IA)</option>
+      <option value="Camilo Cortés">💼 Camilo Cortés (Comercial & Estrategia)</option>
+    </select>
+    <button class="btn secondary small" onclick="pullFromCloud(true)">🔄 Actualizar</button>
+    <button class="btn small" onclick="pushToCloud()">💾 Guardar Ahora</button>
+    <button class="btn secondary small" onclick="lockWorkspace()" title="Cerrar sesión en este navegador">🔒 Bloquear</button>
+  </div>
+</header>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="openTab('tab-acuerdos', this)">1. Acuerdos & Tarifario</button>
+  <button class="tab-btn" onclick="openTab('tab-kanban', this)">2. Tablero de Tareas (Oscar & Camilo)</button>
+  <button class="tab-btn" onclick="openTab('tab-demos', this)">3. Fábrica de Demos & CRM Cali/Jamundí</button>
+  <button class="tab-btn" onclick="openTab('tab-sops', this)">4. Manual Operativo (SOPs & Guiones)</button>
+  <button class="tab-btn" onclick="openTab('tab-notas', this)">5. Bitácora de Reuniones en Vivo</button>
+</nav>
+
+<main>
+
+  <!-- PESTAÑA 1: ACUERDOS Y CHECKLIST DE REUNION -->
+  <section id="tab-acuerdos" class="tab-content active">
+    <h2 class="section-title">1. Acuerdos de Sociedad y Estructura de Precios</h2>
+    <p class="section-sub">Todo lo que marquen o escriban aquí queda guardado y fusionado en la nube para ambos socios en tiempo real.</p>
+
+    <div class="grid-2">
+      <div class="card cyan">
+        <h3>Checklist de Decisiones de Arranque <span class="pill ambos">Sincronizado</span></h3>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_nombre" onchange="updateChecklist('chk_nombre', this.checked)" />
+          <span><strong>1. Nombre e Identidad:</strong> Definir el nombre comercial de la agencia y su línea gráfica.</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_fondo" onchange="updateChecklist('chk_fondo', this.checked)" />
+          <span><strong>2. Fondo Operativo / APIs:</strong> Separar primero el porcentaje operativo de cada venta para cubrir consumo de modelos IA (Sunra MCP, Higgsfield, ElevenLabs).</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_split" onchange="updateChecklist('chk_split', this.checked)" />
+          <span><strong>3. Distribución de Utilidades:</strong> Acordar el porcentaje de participación sobre la utilidad neta entre Oscar y Camilo.</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_horas" onchange="updateChecklist('chk_horas', this.checked)" />
+          <span><strong>4. Dedicación Semanal:</strong> Definir bloques de horas semanales de Oscar (Producción IA) y Camilo (Prospección y Cierre).</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_precios" onchange="updateChecklist('chk_precios', this.checked)" />
+          <span><strong>5. Tarifario Oficial COP:</strong> Dejar aprobados los precios de los 3 planes en el panel derecho.</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_cobro" onchange="updateChecklist('chk_cobro', this.checked)" />
+          <span><strong>6. Regla de Anticipo:</strong> 50% anticipo para iniciar paquete único / Mes anticipado en planes recurrentes.</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_compuertas" onchange="updateChecklist('chk_compuertas', this.checked)" />
+          <span><strong>7. Regla de Doble Compuerta:</strong> El cliente siempre aprueba Guion + Imagen Base estática antes de animar en video.</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox" id="chk_nichos" onchange="updateChecklist('chk_nichos', this.checked)" />
+          <span><strong>8. Primeras 5 Empresas Objetivo:</strong> Cargar las primeras 5 empresas de Cali/Jamundí en la pestaña 3 (Demos & CRM).</span>
+        </label>
+      </div>
+
+      <div class="card gold">
+        <h3>Parámetros Oficiales Acordados <span class="pill ambos">Editable en Vivo</span></h3>
+        <div class="field-group">
+          <label>Nombre Oficial de la Agencia</label>
+          <input type="text" id="agr_agencyName" oninput="updateAgreement('agencyName', this.value)" />
+        </div>
+        <div class="field-group">
+          <label>Eslogan / Propuesta de Valor</label>
+          <input type="text" id="agr_tagline" oninput="updateAgreement('tagline', this.value)" />
+        </div>
+        <div class="grid-2" style="margin-bottom: 0; gap: 12px;">
+          <div class="field-group">
+            <label>% Fondo Técnico (APIs IA)</label>
+            <input type="text" id="agr_techFundPercent" oninput="updateAgreement('techFundPercent', this.value)" />
+          </div>
+          <div class="field-group">
+            <label>Reparto Utilidad Neta</label>
+            <input type="text" id="agr_profitSplit" oninput="updateAgreement('profitSplit', this.value)" />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Precio Plan 1: Impulso (Entrada / Pago Único)</label>
+          <input type="text" id="agr_planImpulsoPrice" oninput="updateAgreement('planImpulsoPrice', this.value)" />
+        </div>
+        <div class="field-group">
+          <label>Precio Plan 2: Crecimiento (Suscripción Mensual Core)</label>
+          <input type="text" id="agr_planCrecimientoPrice" oninput="updateAgreement('planCrecimientoPrice', this.value)" />
+        </div>
+        <div class="field-group">
+          <label>Precio Plan 3: Dominio VIP (Inmobiliarias / Clínicas + Avatar)</label>
+          <input type="text" id="agr_planDominioPrice" oninput="updateAgreement('planDominioPrice', this.value)" />
+        </div>
+        <div class="field-group">
+          <label>Condiciones de Cobro al Cliente</label>
+          <input type="text" id="agr_paymentTerms" oninput="updateAgreement('paymentTerms', this.value)" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 2: TABLERO KANBAN DE TAREAS -->
+  <section id="tab-kanban" class="tab-content">
+    <h2 class="section-title">2. Tablero de Avance Semanal (Oscar & Camilo)</h2>
+    <p class="section-sub">Cada socio puede agregar tareas y moverlas a medida que avanza durante la semana sin esperar a la siguiente reunión.</p>
+
+    <div class="card" style="margin-bottom: 24px;">
+      <h3>➕ Agregar Nueva Tarea Operativa</h3>
+      <div class="grid-3" style="margin-bottom: 0; align-items: end;">
+        <div class="field-group">
+          <label>Título de la Tarea</label>
+          <input type="text" id="new-task-title" placeholder="Ej. Buscar 5 constructoras en Alfaguara Jamundí" />
+        </div>
+        <div class="field-group">
+          <label>Detalles / Notas</label>
+          <input type="text" id="new-task-notes" placeholder="Notas o links de referencia..." />
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <div class="field-group" style="flex: 1;">
+            <label>Responsable</label>
+            <select id="new-task-owner">
+              <option value="Camilo">Camilo (Comercial/Estrategia)</option>
+              <option value="Oscar">Oscar (Tecnología/IA)</option>
+              <option value="Ambos">Ambos Socios</option>
+            </select>
+          </div>
+          <button class="btn" style="height: 40px; align-self: flex-end;" onclick="addTask()">Crear Tarea</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <h3>📋 Por Hacer <span id="count-todo" class="pill ambos">0</span></h3>
+        <div id="col-todo"></div>
+      </div>
+      <div class="card cyan">
+        <h3>⚡ En Progreso <span id="count-progress" class="pill oscar">0</span></h3>
+        <div id="col-progress"></div>
+      </div>
+      <div class="card green">
+        <h3>✅ Completado <span id="count-done" class="pill ambos">0</span></h3>
+        <div id="col-done"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 3: FABRICA DE DEMOS Y CRM -->
+  <section id="tab-demos" class="tab-content">
+    <h2 class="section-title">3. Fábrica de Demos "Caballo de Troya" & CRM Cali/Jamundí</h2>
+    <p class="section-sub">Camilo carga aquí las empresas objetivo con su "Ficha de Disparo" (foto real + idea de comercial), y Oscar sube el link del video Demo apenas sale del horno.</p>
+
+    <div class="card gold" style="margin-bottom: 24px;">
+      <h3>🎯 Nueva "Ficha de Disparo" (Solicitar Demo o Registrar Prospecto)</h3>
+      <div class="grid-3" style="margin-bottom: 8px;">
+        <div class="field-group">
+          <label>Nombre del Negocio / Empresa</label>
+          <input type="text" id="demo-name" placeholder="Ej. Clínica Odontológica Sonrisa Cali" />
+        </div>
+        <div class="field-group">
+          <label>Ciudad / Zona</label>
+          <select id="demo-city">
+            <option value="Cali — Ciudad Jardín / Sur">Cali — Ciudad Jardín / Sur</option>
+            <option value="Cali — Granada / El Peñón / Norte">Cali — Granada / El Peñón / Norte</option>
+            <option value="Jamundí — Alfaguara / Las Mercedes">Jamundí — Alfaguara / Las Mercedes</option>
+            <option value="Jamundí — Corredor Campestre / Potrerito">Jamundí — Corredor Campestre / Potrerito</option>
+            <option value="Otro (Valle)">Otro (Valle)</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Nicho / Sector</label>
+          <select id="demo-niche">
+            <option value="Inmobiliario / Constructora">1. Inmobiliario / Constructora</option>
+            <option value="Salud / Odontología / Estética">2. Salud / Odontología / Estética</option>
+            <option value="Gastronomía Premium / Gastrobar">3. Gastronomía Premium / Gastrobar</option>
+            <option value="Automotriz / High-Ticket">4. Automotriz / High-Ticket</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom: 8px;">
+        <div class="field-group">
+          <label>Link de Instagram o Web del Prospecto</label>
+          <input type="text" id="demo-ig" placeholder="https://instagram.com/..." />
+        </div>
+        <div class="field-group">
+          <label>Link a la Foto Real del Producto (Para animar con IA)</label>
+          <input type="text" id="demo-photo" placeholder="Pega link del post de Instagram, Drive o foto web" />
+        </div>
+      </div>
+      <div class="grid-2" style="margin-bottom: 8px;">
+        <div class="field-group">
+          <label>Idea Visual de Escena (12 segundos)</label>
+          <input type="text" id="demo-scene" placeholder="Ej. La foto real del plato cobra vida con fuego lento, cámara macro y humo..." />
+        </div>
+        <div class="field-group">
+          <label>Guion de Voz / Gancho (10 segundos)</label>
+          <input type="text" id="demo-script" placeholder="Ej. ¿Ya probaste el corte más jugoso de Granada? Reserva tu mesa hoy por WhatsApp." />
+        </div>
+      </div>
+      <div>
+        <button class="btn gold" onclick="addDemo()">🚀 Guardar Ficha y Enviar a Producción</button>
+      </div>
+    </div>
+
+    <div id="demos-list"></div>
+  </section>
+
+  <!-- PESTAÑA 4: MANUAL OPERATIVO Y SOPS -->
+  <section id="tab-sops" class="tab-content">
+    <h2 class="section-title">4. Manual de Procedimientos (SOPs) y Guiones Listos</h2>
+    <p class="section-sub">Reglas de operación entre Camilo y Oscar, blindaje de revisiones con clientes y plantillas comerciales para copiar en 1 clic.</p>
+
+    <div class="grid-2">
+      <div class="card cyan">
+        <h3>SOP Interno: Cómo Operamos Camilo y Oscar</h3>
+        <ul>
+          <li><strong>1. Filtro de Calidad B2B (Camilo):</strong> Solo creamos Demos gratuitos a empresas de Cali/Jamundí donde 1 o 2 ventas nuevas cubran todo nuestro paquete mensual.</li>
+          <li><strong>2. Ficha de Disparo (Camilo → Oscar):</strong> Ningún Demo entra a producción sin tener foto real nítida + idea de escena + frase de locución cargada en la Pestaña 3.</li>
+          <li><strong>3. Compuerta 1 en Clientes Pagos (Guion + Imagen Base):</strong> Una vez cobrado el anticipo, Camilo recolecta las fotos reales en Drive y aprueba con el cliente el <strong>Guion escrito + Keyframe estático</strong> antes de que Oscar anime con IA.</li>
+          <li><strong>4. Compuerta 2 (Entrega + 1 Ronda):</strong> Oscar produce la animación IA (Sunra MCP / Higgsfield), voz y SFX (ElevenLabs) y masteriza en DaVinci Resolve con variaciones de Hook. El cliente tiene 1 ronda de ajustes de edición/subtítulos.</li>
+        </ul>
+      </div>
+
+      <div class="card gold">
+        <h3>Links Rápidos de Recursos del Proyecto</h3>
+        <ul>
+          <li>📁 <strong>Carpeta Compartida en Canva (Oscar & Camilo):</strong><br/>
+            <a href="https://www.canva.com/folder/FAHYv7ViUTA" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan);">Abrir Carpeta Compartida en Canva →</a>
+          </li>
+          <li>📊 <strong>Presentación Ejecutiva de 9 Slides en Canva:</strong><br/>
+            <a href="https://canva.link/4nntflsw47chb8x" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan);">Abrir Presentación de 9 Slides →</a>
+          </li>
+          <li>📝 <strong>Documento Operativo Colaborativo en Canva Doc:</strong><br/>
+            <a href="https://canva.link/6mtjuld1xm4ghl1" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan);">Abrir Manual Operativo Editable en Canva Doc →</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Guion 1: Envío de Demo por WhatsApp / DM <button class="btn secondary small" onclick="copyText('tpl-1', this)">📋 Copiar</button></h3>
+        <div id="tpl-1" class="script-box">¡Hola [Nombre]! ¿Cómo vas? Soy Camilo Cortés.
+
+Vimos el proyecto/restaurante/clínica [Nombre del Negocio] aquí en [Cali/Jamundí] y nos encantó el nivel de lo que tienen.
+
+Notamos que en Instagram tienen fotos muy buenas de sus productos, así que con mi socio tomamos una foto pública de su [plato / casa campestre / consultorio] y les produjimos este comercial de cine de 12 segundos con nuestra tecnología de IA Híbrida para que vieran cómo luce su marca a este nivel.
+
+[🎥 ADJUNTAR VIDEO DEMO]
+
+¿Cómo lo ves? Si te gusta esta línea visual, te cuento en 5 minutos cómo podemos producirles los comerciales de este mes sin que tengan que cerrar el local ni grabar durante horas.</div>
+      </div>
+
+      <div class="card">
+        <h3>Guion 2: Bienvenida de Cliente Nuevo (Onboarding) <button class="btn secondary small" onclick="copyText('tpl-2', this)">📋 Copiar</button></h3>
+        <div id="tpl-2" class="script-box">¡Bienvenido equipo de [Nombre del Negocio]! 🚀
+
+En este grupo coordinaremos toda la producción de sus comerciales de alto impacto. Les presento a mi socio Oscar Ortiz, nuestro Director de Tecnología y Producción IA.
+
+Para arrancar hoy mismo con los guiones y las escenas base, solo necesitamos que nos compartan por aquí (enviándolas como "Documento" para no perder calidad) o en la carpeta de Google Drive:
+1. Logotipo de la marca (PNG sin fondo o PDF).
+2. De 2 a 3 fotos reales y bien iluminadas de cada producto/espacio que protagonizará los videos.
+3. La oferta, producto estrella o mensaje clave que quieren impulsar primero.
+
+¡En 24 horas tras recibir las fotos les presentamos los guiones e imágenes base (Compuerta 1) para su visto bueno!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PESTAÑA 5: BITACORA DE REUNIONES -->
+  <section id="tab-notas" class="tab-content">
+    <h2 class="section-title">5. Bitácora Compartida de Reuniones (Oscar & Camilo)</h2>
+    <p class="section-sub">Espacio libre para tomar apuntes en vivo durante sus videollamadas, anotar ideas de campañas o dejar mensajes para el otro socio.</p>
+    <div class="card cyan">
+      <h3>📝 Notas y Acuerdos en Vivo <button class="btn small" onclick="pushToCloud()">💾 Guardar Bitácora</button></h3>
+      <textarea id="meeting-notes" rows="16" oninput="updateNotes(this.value)" placeholder="Escribe aquí las notas de la reunión..."></textarea>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const GIST_ID = "c1e33fc78fb3c63d235ba348335e0c7c";
+  // Cifrado autenticado AES-256-GCM con derivación PBKDF2 (150,000 iteraciones SHA-256)
+  const CRYPTO_PAYLOAD = {
+    salt: "3J6ZgJ+LOKwX7FedRaKAGA==",
+    iv: "Oth1mu94uuLNHZ2A",
+    ct: "Ubr6lUJo7xwN2hiEj/lX9oyZ8H6BDHCwceTgF4XsDcIRumsNE/WXevOW8AWtKao8oryk/R78HSQ="
+  };
+
+  let activeUser = localStorage.getItem("agencia_user") || "Oscar Ortiz";
+  let savedPin = sessionStorage.getItem("agencia_session_pin") || localStorage.getItem("agencia_pin") || "";
+  let ghToken = "";
+  let lastEtag = "";
+  let isDirty = false;
+  let isSaving = false;
+  let saveTimeout = null;
+  let dirtyFields = {
+    agreements: new Set(),
+    checklist: new Set(),
+    meetingNotes: false
+  };
+
+  let state = {
+    updatedAt: "",
+    updatedBy: "Oscar Ortiz",
+    agreements: {
+      agencyName: "Por definir (Ej. Vórtex AI Studio / Cali Cinema AI / NovaReel)",
+      tagline: "Comerciales de Cine con IA Híbrida para Marcas de Alto Impacto",
+      techFundPercent: "15%",
+      profitSplit: "50% Oscar Ortiz / 50% Camilo Cortés (sobre utilidad neta)",
+      planImpulsoPrice: "$950.000 COP (4 Videos + 2 Hooks)",
+      planCrecimientoPrice: "$1.800.000 COP/mes (8-10 Videos + Multi-Hook)",
+      planDominioPrice: "$3.200.000 COP/mes (12-15 Videos + Avatar Exclusivo)",
+      paymentTerms: "50% anticipo / 50% contra entrega (Planes mensuales: mes anticipado)"
+    },
+    checklist: {},
+    tasks: [],
+    demos: [],
+    meetingNotes: ""
+  };
+
+  function b64ToBytes(b64) {
+    const bin = atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return arr;
+  }
+
+  async function decryptTokenAES(pin) {
+    if (!pin) return "";
+    try {
+      const enc = new TextEncoder();
+      const keyMaterial = await crypto.subtle.importKey(
+        "raw",
+        enc.encode(pin),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+      );
+      const key = await crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt: b64ToBytes(CRYPTO_PAYLOAD.salt),
+          iterations: 150000,
+          hash: "SHA-256"
+        },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["decrypt"]
+      );
+      const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: b64ToBytes(CRYPTO_PAYLOAD.iv) },
+        key,
+        b64ToBytes(CRYPTO_PAYLOAD.ct)
+      );
+      return new TextDecoder().decode(decrypted);
+    } catch (e) {
+      return "";
+    }
+  }
+
+  async function initAuth() {
+    document.getElementById("active-user").value = activeUser;
+    document.getElementById("modal-user").value = activeUser;
+    if (savedPin) {
+      const candidate = await decryptTokenAES(savedPin);
+      if (candidate && (candidate.startsWith("gho_") || candidate.startsWith("ghp_"))) {
+        ghToken = candidate;
+        document.getElementById("auth-modal").classList.add("hidden");
+        pullFromCloud(true);
+        return;
+      }
+    }
+    document.getElementById("auth-modal").classList.remove("hidden");
+  }
+
+  async function unlockWorkspace() {
+    const pin = document.getElementById("modal-pin").value.trim();
+    const user = document.getElementById("modal-user").value;
+    const candidate = await decryptTokenAES(pin);
+    if (candidate && (candidate.startsWith("gho_") || candidate.startsWith("ghp_"))) {
+      ghToken = candidate;
+      savedPin = pin;
+      activeUser = user;
+      sessionStorage.setItem("agencia_session_pin", pin);
+      localStorage.setItem("agencia_pin", pin);
+      localStorage.setItem("agencia_user", user);
+      document.getElementById("active-user").value = user;
+      document.getElementById("auth-error").style.display = "none";
+      document.getElementById("auth-modal").classList.add("hidden");
+      pullFromCloud(true);
+    } else {
+      document.getElementById("auth-error").style.display = "block";
+    }
+  }
+
+  function lockWorkspace() {
+    ghToken = "";
+    savedPin = "";
+    sessionStorage.removeItem("agencia_session_pin");
+    localStorage.removeItem("agencia_pin");
+    document.getElementById("modal-pin").value = "";
+    document.getElementById("auth-modal").classList.remove("hidden");
+    setSyncIndicator("error", "Sesión bloqueada.");
+  }
+
+  function changeActiveUser(val) {
+    activeUser = val;
+    localStorage.setItem("agencia_user", val);
+  }
+
+  function setSyncIndicator(mode, text) {
+    const dot = document.getElementById("sync-dot");
+    const label = document.getElementById("sync-status");
+    dot.className = "sync-dot " + (mode === "saving" ? "saving" : mode === "error" ? "error" : "");
+    label.textContent = text;
+  }
+
+  function generateId(prefix) {
+    if (crypto.randomUUID) {
+      return prefix + "_" + crypto.randomUUID().slice(0, 8);
+    }
+    return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+  }
+
+  async function pullFromCloud(forceRender = false) {
+    if (!ghToken || isSaving) return;
+    if (!forceRender && (isDirty || document.hidden)) return;
+    try {
+      const headers = {
+        "Authorization": `Bearer ${ghToken}`,
+        "Accept": "application/vnd.github+json"
+      };
+      if (lastEtag && !forceRender) {
+        headers["If-None-Match"] = lastEtag;
+      }
+      const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
+      if (res.status === 304) {
+        return; // Sin cambios en la nube, ahorra 100% de cuota de API
+      }
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const etag = res.headers.get("ETag");
+      if (etag) lastEtag = etag;
+      const data = await res.json();
+      if (data.files && data.files["workspace_state.json"]) {
+        const remote = JSON.parse(data.files["workspace_state.json"].content);
+        if (forceRender || remote.updatedAt !== state.updatedAt) {
+          state = remote;
+          renderAll();
+        }
+        const timeStr = state.updatedAt ? new Date(state.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "ahora";
+        setSyncIndicator("ok", `Sincronizado en la nube · Último avance por ${state.updatedBy || 'Socio'} (${timeStr})`);
+      }
+    } catch (err) {
+      setSyncIndicator("error", "Modo respaldo local activo (reintentando conexión...)");
+    }
+  }
+
+  function mergeStates(remote, local) {
+    const merged = JSON.parse(JSON.stringify(remote));
+    merged.agreements = Object.assign({}, remote.agreements || {}, {});
+    dirtyFields.agreements.forEach(k => {
+      merged.agreements[k] = local.agreements[k];
+    });
+    merged.checklist = Object.assign({}, remote.checklist || {}, {});
+    dirtyFields.checklist.forEach(k => {
+      merged.checklist[k] = local.checklist[k];
+    });
+    if (dirtyFields.meetingNotes) {
+      merged.meetingNotes = local.meetingNotes;
+    }
+    // Conservar tareas y demos locales actualizadas
+    merged.tasks = local.tasks || [];
+    merged.demos = local.demos || [];
+    return merged;
+  }
+
+  async function pushToCloud() {
+    if (!ghToken || isSaving) return;
+    isSaving = true;
+    setSyncIndicator("saving", "Sincronizando y guardando en la nube...");
+    try {
+      // 1. Obtener estado remoto reciente para evitar pisar cambios del otro socio (Smart Merge)
+      const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+        headers: {
+          "Authorization": `Bearer ${ghToken}`,
+          "Accept": "application/vnd.github+json"
+        }
+      });
+      if (getRes.ok) {
+        const getData = await getRes.json();
+        if (getData.files && getData.files["workspace_state.json"]) {
+          const remote = JSON.parse(getData.files["workspace_state.json"].content);
+          state = mergeStates(remote, state);
+        }
+      }
+
+      state.updatedAt = new Date().toISOString();
+      state.updatedBy = activeUser;
+
+      const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${ghToken}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          files: {
+            "workspace_state.json": {
+              content: JSON.stringify(state, null, 2)
+            }
+          }
+        })
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const etag = res.headers.get("ETag");
+      if (etag) lastEtag = etag;
+
+      // Solo limpiar banderas sucias cuando el guardado fue 100% exitoso
+      isDirty = false;
+      dirtyFields.agreements.clear();
+      dirtyFields.checklist.clear();
+      dirtyFields.meetingNotes = false;
+      localStorage.removeItem("agencia_backup_state");
+
+      const timeStr = new Date(state.updatedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      setSyncIndicator("ok", `Guardado en la nube · Por ${state.updatedBy} (${timeStr})`);
+      renderAll();
+    } catch (err) {
+      isDirty = true;
+      localStorage.setItem("agencia_backup_state", JSON.stringify(state));
+      setSyncIndicator("error", "Cambios respaldados localmente (reintentando nube...)");
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  function scheduleSave() {
+    isDirty = true;
+    localStorage.setItem("agencia_backup_state", JSON.stringify(state));
+    setSyncIndicator("saving", "Escribiendo... (auto-guardado en 1.5s)");
+    if (saveTimeout) clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      pushToCloud();
+    }, 1500);
+  }
+
+  function renderAll() {
+    // Checklist
+    Object.keys(state.checklist || {}).forEach(k => {
+      const el = document.getElementById(k);
+      if (el) el.checked = !!state.checklist[k];
+    });
+    // Agreements
+    Object.keys(state.agreements || {}).forEach(k => {
+      const el = document.getElementById("agr_" + k);
+      if (el && document.activeElement !== el) {
+        el.value = state.agreements[k] || "";
+      }
+    });
+    // Notes
+    const notesEl = document.getElementById("meeting-notes");
+    if (notesEl && document.activeElement !== notesEl) {
+      notesEl.value = state.meetingNotes || "";
+    }
+    renderTasks();
+    renderDemos();
+  }
+
+  function updateChecklist(key, val) {
+    if (!state.checklist) state.checklist = {};
+    state.checklist[key] = val;
+    dirtyFields.checklist.add(key);
+    scheduleSave();
+  }
+
+  function updateAgreement(key, val) {
+    if (!state.agreements) state.agreements = {};
+    state.agreements[key] = val;
+    dirtyFields.agreements.add(key);
+    scheduleSave();
+  }
+
+  function updateNotes(val) {
+    state.meetingNotes = val;
+    dirtyFields.meetingNotes = true;
+    scheduleSave();
+  }
+
+  function renderTasks() {
+    const todoEl = document.getElementById("col-todo");
+    const progEl = document.getElementById("col-progress");
+    const doneEl = document.getElementById("col-done");
+    todoEl.innerHTML = "";
+    progEl.innerHTML = "";
+    doneEl.innerHTML = "";
+
+    let cTodo = 0, cProg = 0, cDone = 0;
+
+    (state.tasks || []).forEach(t => {
+      const safeId = escapeHtml(t.id);
+      const pillClass = t.owner === "Oscar" ? "oscar" : t.owner === "Camilo" ? "camilo" : "ambos";
+      const card = document.createElement("div");
+      card.className = "task-card";
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+          <h4>${escapeHtml(t.title)}</h4>
+          <span class="pill ${pillClass}">${escapeHtml(t.owner)}</span>
+        </div>
+        ${t.notes ? `<p>${escapeHtml(t.notes)}</p>` : ""}
+        <div class="task-actions">
+          <div style="display:flex; gap:6px;">
+            ${t.status !== "todo" ? `<button class="btn secondary small" onclick="moveTask('${safeId}', 'todo')">← Por Hacer</button>` : ""}
+            ${t.status !== "in_progress" ? `<button class="btn secondary small" onclick="moveTask('${safeId}', 'in_progress')">⚡ En Progreso</button>` : ""}
+            ${t.status !== "done" ? `<button class="btn small" onclick="moveTask('${safeId}', 'done')">✅ Listo</button>` : ""}
+          </div>
+          <button class="btn secondary small" style="color:var(--accent-red);" onclick="deleteTask('${safeId}')">✕</button>
+        </div>
+      `;
+      if (t.status === "todo") { cTodo++; todoEl.appendChild(card); }
+      else if (t.status === "in_progress") { cProg++; progEl.appendChild(card); }
+      else { cDone++; doneEl.appendChild(card); }
+    });
+
+    document.getElementById("count-todo").textContent = cTodo;
+    document.getElementById("count-progress").textContent = cProg;
+    document.getElementById("count-done").textContent = cDone;
+  }
+
+  function addTask() {
+    const title = document.getElementById("new-task-title").value.trim();
+    const notes = document.getElementById("new-task-notes").value.trim();
+    const owner = document.getElementById("new-task-owner").value;
+    if (!title) return;
+    if (!state.tasks) state.tasks = [];
+    state.tasks.unshift({
+      id: generateId("t"),
+      title,
+      notes,
+      owner,
+      status: "todo"
+    });
+    document.getElementById("new-task-title").value = "";
+    document.getElementById("new-task-notes").value = "";
+    renderTasks();
+    pushToCloud();
+  }
+
+  function moveTask(id, newStatus) {
+    const t = (state.tasks || []).find(x => x.id === id);
+    if (t) {
+      t.status = newStatus;
+      renderTasks();
+      pushToCloud();
+    }
+  }
+
+  function deleteTask(id) {
+    state.tasks = (state.tasks || []).filter(x => x.id !== id);
+    renderTasks();
+    pushToCloud();
+  }
+
+  function renderDemos() {
+    const list = document.getElementById("demos-list");
+    // No destruir el DOM si el socio está escribiendo dentro de una tarjeta de Demo
+    if (list.contains(document.activeElement)) return;
+    list.innerHTML = "";
+    (state.demos || []).forEach(d => {
+      const safeId = escapeHtml(d.id);
+      const safeIgHref = sanitizeUrl(d.instagramUrl);
+      const safeVideoHref = sanitizeUrl(d.videoUrl);
+      const card = document.createElement("div");
+      card.className = "demo-card";
+      card.innerHTML = `
+        <div class="demo-header">
+          <div>
+            <strong style="font-size:1.1rem; color:var(--accent-cyan);">${escapeHtml(d.businessName)}</strong>
+            <span style="font-size:0.85rem; color:var(--text-muted); margin-left:10px;">📍 ${escapeHtml(d.city)} · 🏷️ ${escapeHtml(d.niche)}</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <select onchange="updateDemoStatus('${safeId}', this.value)" style="width:auto; font-weight:700;">
+              <option value="1_filtrado" ${d.status === '1_filtrado' ? 'selected' : ''}>1. Prospecto Filtrado (Camilo)</option>
+              <option value="2_solicitado" ${d.status === '2_solicitado' ? 'selected' : ''}>2. Demo Solicitado a Oscar</option>
+              <option value="3_produccion" ${d.status === '3_produccion' ? 'selected' : ''}>3. En Producción IA (Oscar)</option>
+              <option value="4_listo" ${d.status === '4_listo' ? 'selected' : ''}>4. Demo Listo para Enviar</option>
+              <option value="5_enviado" ${d.status === '5_enviado' ? 'selected' : ''}>5. Enviado al Dueño / Negociando</option>
+              <option value="6_cerrado" ${d.status === '6_cerrado' ? 'selected' : ''}>6. ¡Cliente Cerrado! 🎉</option>
+            </select>
+            <button class="btn secondary small" style="color:var(--accent-red);" onclick="deleteDemo('${safeId}')">Eliminar</button>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom:0; gap:12px;">
+          <p><strong>📸 Foto/Instagram:</strong> <a href="${escapeHtml(safeIgHref)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-cyan);">${escapeHtml(d.instagramUrl)}</a> | <span>${escapeHtml(d.photoUrl)}</span></p>
+          <p><strong>🎬 Idea de Escena IA:</strong> ${escapeHtml(d.sceneIdea)}</p>
+        </div>
+        <p><strong>🎙️ Locución 10s:</strong> <em>"${escapeHtml(d.voiceScript)}"</em></p>
+        <div style="display:flex; gap:10px; align-items:center; margin-top:4px;">
+          <input type="text" placeholder="Pegar aquí el link del Video Demo terminado (Drive / Canva)..." value="${escapeHtml(d.videoUrl || '')}" oninput="updateDemoVideoDraft('${safeId}', this.value)" onchange="pushToCloud()" />
+          ${safeVideoHref !== "#" ? `<a href="${escapeHtml(safeVideoHref)}" target="_blank" rel="noopener noreferrer" class="btn small">▶️ Ver Demo</a>` : ""}
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function addDemo() {
+    const businessName = document.getElementById("demo-name").value.trim();
+    if (!businessName) return;
+    if (!state.demos) state.demos = [];
+    state.demos.unshift({
+      id: generateId("d"),
+      businessName,
+      city: document.getElementById("demo-city").value,
+      niche: document.getElementById("demo-niche").value,
+      instagramUrl: document.getElementById("demo-ig").value.trim() || "#",
+      photoUrl: document.getElementById("demo-photo").value.trim() || "Pendiente foto",
+      sceneIdea: document.getElementById("demo-scene").value.trim(),
+      voiceScript: document.getElementById("demo-script").value.trim(),
+      status: "2_solicitado",
+      videoUrl: ""
+    });
+    document.getElementById("demo-name").value = "";
+    document.getElementById("demo-ig").value = "";
+    document.getElementById("demo-photo").value = "";
+    document.getElementById("demo-scene").value = "";
+    document.getElementById("demo-script").value = "";
+    renderDemos();
+    pushToCloud();
+  }
+
+  function updateDemoStatus(id, status) {
+    const d = (state.demos || []).find(x => x.id === id);
+    if (d) { d.status = status; pushToCloud(); }
+  }
+
+  function updateDemoVideoDraft(id, url) {
+    const d = (state.demos || []).find(x => x.id === id);
+    if (d) {
+      d.videoUrl = url;
+      scheduleSave();
+    }
+  }
+
+  function deleteDemo(id) {
+    state.demos = (state.demos || []).filter(x => x.id !== id);
+    renderDemos();
+    pushToCloud();
+  }
+
+  function openTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  async function copyText(id, btnEl) {
+    const text = document.getElementById(id).innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      if (btnEl) {
+        const orig = btnEl.textContent;
+        btnEl.textContent = "✅ ¡Copiado!";
+        setTimeout(() => { btnEl.textContent = orig; }, 2000);
+      }
+    } catch {
+      // Fallback silencioso
+    }
+  }
+
+  function sanitizeUrl(rawUrl) {
+    try {
+      const parsed = new URL(String(rawUrl || "").trim());
+      return (parsed.protocol === "https:" || parsed.protocol === "http:") ? parsed.href : "#";
+    } catch {
+      return "#";
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  setInterval(() => {
+    pullFromCloud(false);
+  }, 8000);
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) pullFromCloud(false);
+  });
+
+  initAuth();
+</script>
+
+</body>
+</html>

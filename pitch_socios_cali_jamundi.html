@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agencia Video Performance IA — Cali & Jamundí</title>
+  <style>
+    :root {
+      --bg-dark: #090b10;
+      --bg-card: #121621;
+      --bg-card-alt: #181d2c;
+      --accent-cyan: #00f0ff;
+      --accent-gold: #f5b041;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+    .deck-container {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 48px 72px 84px 72px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+      background: radial-gradient(circle at 85% 15%, rgba(0, 240, 255, 0.08), transparent 40%),
+                  radial-gradient(circle at 15% 85%, rgba(245, 176, 65, 0.07), transparent 40%),
+                  var(--bg-dark);
+    }
+    @media (max-width: 1024px) {
+      .slide { padding: 28px 24px 80px 24px; justify-content: flex-start; }
+      h1 { font-size: 2.1rem !important; }
+      h2 { font-size: 1.65rem !important; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+    }
+    .slide.active {
+      display: flex;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      width: fit-content;
+      margin-bottom: 16px;
+    }
+    .badge.gold {
+      background: rgba(245, 176, 65, 0.14);
+      color: var(--accent-gold);
+      border-color: rgba(245, 176, 65, 0.35);
+    }
+    h1 {
+      font-size: 3.1rem;
+      line-height: 1.12;
+      font-weight: 800;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 2.2rem;
+      line-height: 1.18;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.015em;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 880px;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .highlight-cyan { color: var(--accent-cyan); }
+    .highlight-gold { color: var(--accent-gold); }
+    .highlight-green { color: var(--accent-green); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 12px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 12px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card.featured {
+      border-color: rgba(0, 240, 255, 0.5);
+      background: linear-gradient(180deg, rgba(0, 240, 255, 0.07) 0%, var(--bg-card) 100%);
+    }
+    .card.gold-border {
+      border-color: rgba(245, 176, 65, 0.5);
+      background: linear-gradient(180deg, rgba(245, 176, 65, 0.08) 0%, var(--bg-card) 100%);
+    }
+    .card h3 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .card p, .card li {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .card ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .metric-big {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      line-height: 1;
+    }
+    .metric-big.gold { color: var(--accent-gold); }
+    .metric-big.green { color: var(--accent-green); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      background: var(--bg-card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.98rem;
+    }
+    th {
+      background: var(--bg-card-alt);
+      color: var(--accent-cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(18, 22, 33, 0.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      z-index: 100;
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    button {
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.15s ease;
+    }
+    button:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    .progress-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck-container">
+
+  <!-- SLIDE 1: PORTADA -->
+  <section class="slide active">
+    <div class="badge">Visión de Negocio · B2B Performance</div>
+    <h1>Agencia de <span class="highlight-cyan">Video Performance IA</span><br/>en Cali & Jamundí</h1>
+    <p class="subtitle">
+      Producción de comerciales cinematográficos mediante Inteligencia Artificial Híbrida para negocios locales de alto impacto. Reducimos los tiempos de producción en un <strong>90%</strong> frente a una agencia tradicional con una estructura operativa ultra-ligera.
+    </p>
+    <div class="grid-3">
+      <div class="card featured">
+        <div class="metric-big">85% – 92%</div>
+        <h3>Margen Bruto Operativo</h3>
+        <p>Eliminamos costos de rodaje físico, alquiler de equipos, locaciones y suscripciones múltiples mediante conexión directa a modelos vía API.</p>
+      </div>
+      <div class="card gold-border">
+        <div class="metric-big gold">10x Más Rápido</div>
+        <h3>Velocidad de Entrega</h3>
+        <p>Transformamos fotografías reales del negocio en piezas comerciales completas con diseño sonoro y locución en una fracción del tiempo tradicional.</p>
+      </div>
+      <div class="card">
+        <div class="metric-big green">100% Recurrente</div>
+        <h3>Modelo de Suscripción Mensual</h3>
+        <p>Enfocado en sectores de alta rotación publicitaria en Cali y Jamundí que requieren flujo constante de creativos para pauta digital.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: EL PROBLEMA Y LA OPORTUNIDAD -->
+  <section class="slide">
+    <div class="badge gold">1. El Problema del Mercado Local</div>
+    <h2>La Brecha Audiovisual en <span class="highlight-gold">Cali y Jamundí</span></h2>
+    <p class="subtitle">Actualmente, los comercios y empresas de la región enfrentan dos extremos ineficientes para promocionar sus productos:</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3 style="color: var(--accent-red);">Extremo A: Productora Tradicional</h3>
+        <ul>
+          <li>Presupuestos inaccesibles para el 95% de las empresas locales.</li>
+          <li>Logística pesada: coordinación de cámaras, luces, actores y cierre del local.</li>
+          <li>Tiempos de entrega lentos por un volumen mínimo de piezas.</li>
+          <li>Alta fricción para iterar o probar nuevos ángulos de venta.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--accent-red);">Extremo B: Contenido Casero / Básico</h3>
+        <ul>
+          <li>Videos grabados con celular sin estructura comercial ni retención visual.</li>
+          <li>Pérdida de más del 70% de la audiencia en los primeros 3 segundos.</li>
+          <li>Piezas gráficas estáticas que el algoritmo actual de Reels y TikTok penaliza.</li>
+          <li>Desperdicio del presupuesto de pauta por falta de impacto creativo.</li>
+        </ul>
+      </div>
+      <div class="card featured">
+        <h3 style="color: var(--accent-cyan);">Nuestra Posición en el Mercado</h3>
+        <ul>
+          <li>Ofrecemos calidad visual de productora de cine a una <strong>fracción del costo tradicional (60% a 70% más accesible)</strong> para el cliente.</li>
+          <li>Superamos el estándar de IA genérica: combinamos el <strong>producto real</strong> del cliente con entornos generativos de alto impacto.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: LA SOLUCIÓN Y DIFERENCIADOR -->
+  <section class="slide">
+    <div class="badge">2. Propuesta de Valor Diferencial</div>
+    <h2>Más Allá del Video Genérico: <span class="highlight-cyan">Fidelidad Híbrida</span></h2>
+    <p class="subtitle">Combinamos las herramientas más avanzadas del mercado global con un flujo de post-producción diseñado para generar ventas reales:</p>
+    <div class="grid-2">
+      <div class="card featured">
+        <h3>1. Producto 100% Real + Entorno Cinematográfico IA</h3>
+        <p>A diferencia de los videos 100% sintéticos que deforman el producto y engañan al comprador, nosotros conservamos intacta la fotografía real del plato, inmueble o producto, e integramos iluminación de cine, movimiento de cámara FPV y atmósferas hiperrealistas con IA.</p>
+      </div>
+      <div class="card featured">
+        <h3>2. Identidad Auditiva Local + Diseño Sonoro (SFX)</h3>
+        <p>Un gran video sin audio no vende. Integramos síntesis de voz hiperrealista adaptada al tono local y corporativo (ElevenLabs) junto con efectos de sonido envolventes y masterización profesional en DaVinci Resolve.</p>
+      </div>
+      <div class="card gold-border">
+        <h3>3. Presentadores Virtuales Consistentes ("Soul ID")</h3>
+        <p>Desarrollamos avatares e influencers virtuales exclusivos para cada marca con consistencia facial perfecta. El dueño o equipo del negocio no necesita exponerse ni gastar horas grabando frente a cámara.</p>
+      </div>
+      <div class="card gold-border">
+        <h3>4. Estructura de Conversión (Multi-Hook)</h3>
+        <p>Cada pieza se entrega optimizada para pauta en Meta Ads (Instagram/WhatsApp), incluyendo múltiples variaciones de los primeros 3 segundos (Hooks) para multiplicar el retorno de inversión publicitaria del cliente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: EL MOTOR TECNOLÓGICO -->
+  <section class="slide">
+    <div class="badge">3. Arquitectura Técnica</div>
+    <h2>El Motor de Producción: <span class="highlight-cyan">Eficiencia por API</span></h2>
+    <p class="subtitle">Centralizamos los modelos líderes de la industria bajo consumo directo por uso, logrando que el costo técnico represente menos del 8% al 12% del valor del servicio:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Etapa del Flujo</th>
+          <th>Stack Tecnológico</th>
+          <th>Función en la Agencia</th>
+          <th>Peso en el Costo Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Estrategia & Guion</strong></td>
+          <td>Antigravity + Modelos LLM Avanzados</td>
+          <td>Ingeniería de guiones de alta retención (Gancho 3s → Problema → Producto Real → Llamado a la Acción).</td>
+          <td>&lt; 1% del costo operativo</td>
+        </tr>
+        <tr>
+          <td><strong>2. Generación Visual IA</strong></td>
+          <td><strong>Sunra MCP</strong> + <strong>Higgsfield</strong> (Kling / Veo / Sora)</td>
+          <td>Movimientos de cámara cinematográficos, físicas realistas y consistencia de personajes (Soul ID) sin sobrecostos de intermediarios.</td>
+          <td>~6% – 9% del valor del paquete</td>
+        </tr>
+        <tr>
+          <td><strong>3. Voz & Foley (SFX)</strong></td>
+          <td><strong>ElevenLabs MCP</strong></td>
+          <td>Locución comercial natural y generación de efectos sonoros sincronizados con la acción visual.</td>
+          <td>~1% – 2% del valor del paquete</td>
+        </tr>
+        <tr>
+          <td><strong>4. Post-Producción & Corte</strong></td>
+          <td><strong>DaVinci Resolve MCP</strong> + Canva MCP</td>
+          <td>Edición rítmica, subtítulos dinámicos, corrección de color profesional y adaptación a formatos 9:16.</td>
+          <td>0% (Procesamiento Local)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SLIDE 5: MERCADO OBJETIVO EN CALI Y JAMUNDÍ -->
+  <section class="slide">
+    <div class="badge gold">4. Mercado Objetivo Inicial</div>
+    <h2>Los 4 Sectores Clave en <span class="highlight-gold">Cali y Jamundí</span></h2>
+    <p class="subtitle">Priorizamos industrias donde una sola venta adicional generada por nuestros videos cubre con creces la inversión mensual del cliente:</p>
+    <div class="grid-4">
+      <div class="card gold-border">
+        <h3>1. Sector Inmobiliario (Jamundí & Sur)</h3>
+        <p><strong>Foco:</strong> Constructoras, condominios campestres (Alfaguara, Las Mercedes, Potrerito) y proyectos sobre planos.</p>
+        <p><strong>Impacto:</strong> Transformamos renders estáticos y tomas básicas en recorridos cinematográficos aspiracionales.</p>
+      </div>
+      <div class="card featured">
+        <h3>2. Salud, Odontología & Estética (Cali)</h3>
+        <p><strong>Foco:</strong> Clínicas de diseño de sonrisa, cirugía plástica, dermatología y centros estéticos (Ciudad Jardín, Tequendama).</p>
+        <p><strong>Impacto:</strong> Posicionamiento de prestigio e imagen internacional para captar pacientes locales y extranjeros.</p>
+      </div>
+      <div class="card">
+        <h3>3. Gastronomía Premium & Gastrobares</h3>
+        <p><strong>Foco:</strong> Restaurantes de autor en Granada, El Peñón, Pance, Ciudad Jardín y corredores campestres.</p>
+        <p><strong>Impacto:</strong> Videos sensoriales de alto impacto visual diseñados para disparar reservas.</p>
+      </div>
+      <div class="card">
+        <h3>4. Automotriz & Comercio High-Ticket</h3>
+        <p><strong>Foco:</strong> Concesionarios multimarca, detailing automotriz, hoteles boutique y marcas de moda consolidada.</p>
+        <p><strong>Impacto:</strong> Presentación de inventario real en escenarios dinámicos de nivel comercial televisivo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: ESTRATEGIA DE VENTAS CABALLO DE TROYA -->
+  <section class="slide">
+    <div class="badge">5. Estrategia de Adquisición B2B</div>
+    <h2>El Método <span class="highlight-cyan">"Demo Primero"</span> (Venta Basada en Evidencia)</h2>
+    <p class="subtitle">Eliminamos la fricción de la venta en frío tradicional entregando una demostración personalizada antes de la primera reunión:</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="metric-big">Paso 1</div>
+        <h3>Selección Inteligente</h3>
+        <p>Identificamos negocios en Cali y Jamundí con excelente producto e infraestructura física, pero cuya presencia en video digital no refleja la calidad de su marca.</p>
+      </div>
+      <div class="card featured">
+        <div class="metric-big">Paso 2</div>
+        <h3>La Pieza Demostrativa</h3>
+        <p>Tomamos una fotografía pública de su producto o proyecto y producimos un <strong>spot cinematográfico de 12 a 15 segundos</strong> mostrando el contraste directo ("Antes vs. Después").</p>
+      </div>
+      <div class="card gold-border">
+        <div class="metric-big gold">Paso 3</div>
+        <h3>Apertura y Cierre</h3>
+        <p>Entregamos el video directamente al tomador de decisión. Al ver su propio producto transformado en un comercial de alto nivel, la conversación pasa directamente a elegir el volumen mensual.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ESTRUCTURA DE PAQUETES Y RENTABILIDAD EN PORCENTAJES -->
+  <section class="slide">
+    <div class="badge gold">6. Estructura de Oferta y Márgenes</div>
+    <h2>Escaleras de Servicio y <span class="highlight-gold">Distribución Porcentual</span></h2>
+    <p class="subtitle">Modelo escalonado diseñado para facilitar la entrada del cliente y maximizar la retención mensual con altos márgenes operativos:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Nivel del Paquete</th>
+          <th>Alcance del Servicio</th>
+          <th>Costo Técnico IA / API</th>
+          <th>Margen Bruto Estimado</th>
+          <th>Objetivo del Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Plan Impulso</strong> (Entrada)</td>
+          <td>Paquete inicial de videos comerciales IA + Locución + Diseño Sonoro + Variaciones de Gancho.</td>
+          <td>~8% – 10%</td>
+          <td style="color: var(--accent-green); font-weight: 700;">90% – 92%</td>
+          <td>Romper la barrera de confianza inicial con entrega ágil.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Plan Crecimiento</strong> (Core Mensual)</td>
+          <td>Flujo constante mensual de creativos IA + Guiones de conversión + Formatos listos para Meta Ads.</td>
+          <td>~8% – 12%</td>
+          <td style="color: var(--accent-green); font-weight: 700;">88% – 92%</td>
+          <td>Ingreso recurrente principal (70% de la cartera de clientes).</td>
+        </tr>
+        <tr>
+          <td><strong>3. Plan Dominio</strong> (Corporativo / VIP)</td>
+          <td>Producción intensiva mensual + <strong>Avatar Exclusivo de Marca</strong> + Estructura completa de anuncios.</td>
+          <td>~10% – 15%</td>
+          <td style="color: var(--accent-green); font-weight: 700;">85% – 90%</td>
+          <td>Cuentas de alto ticket (Constructoras, Clínicas, Marcas líderes).</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="grid-3" style="margin-top: 18px;">
+      <div class="card">
+        <h3>Ahorro para el Cliente</h3>
+        <p>El negocio local invierte entre un <strong>60% y 75% menos</strong> de lo que le cobraría una productora tradicional en Cali.</p>
+      </div>
+      <div class="card featured">
+        <h3>Eficiencia Operativa</h3>
+        <p>Más del <strong>85% de cada ingreso</strong> queda como margen bruto para la agencia gracias a la automatización por API.</p>
+      </div>
+      <div class="card gold-border">
+        <h3>Escalabilidad</h3>
+        <p>Capacidad de multiplicar el número de clientes activos sin necesidad de contratar equipos de rodaje ni estudios físicos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: HOJA DE RUTA POR FASES (SIN DÍAS) -->
+  <section class="slide">
+    <div class="badge">7. Hoja de Ruta del Proyecto</div>
+    <h2>Fases de Desarrollo y <span class="highlight-cyan">Validación del Modelo</span></h2>
+    <p class="subtitle">Una estructura paso a paso para pasar de la idea a los primeros clientes activos sin inversión pesada:</p>
+    <div class="grid-3">
+      <div class="card featured">
+        <div class="metric-big">Fase 1</div>
+        <h3>Definición y Selección Estratégica</h3>
+        <ul>
+          <li>Definición de la identidad y posicionamiento de la agencia.</li>
+          <li>Configuración del flujo técnico de producción con IA.</li>
+          <li>Selección de las primeras <strong>5 empresas objetivo</strong> en Cali y Jamundí (Inmobiliaria, Salud/Estética, Gastronomía Premium y Automotriz).</li>
+        </ul>
+      </div>
+      <div class="card gold-border">
+        <div class="metric-big gold">Fase 2</div>
+        <h3>Creación del Portafolio Demostrativo</h3>
+        <ul>
+          <li>Producción de los primeros <strong>5 comerciales demostrativos ("Antes vs. Después")</strong> a partir de productos reales de esos negocios.</li>
+          <li>Integración de locución, diseño sonoro y variaciones de gancho visual.</li>
+          <li>Construcción del catálogo digital de muestra para presentaciones comerciales.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="metric-big green">Fase 3</div>
+        <h3>Despliegue Comercial y Tracción</h3>
+        <ul>
+          <li>Acercamiento directo a los tomadores de decisión entregando su pieza demostrativa terminada.</li>
+          <li>Validación de la oferta comercial y cierre de los primeros clientes fundadores.</li>
+          <li>Estandarización del sistema de entrega mensual recurrente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: ROLES DE LOS SOCIOS -->
+  <section class="slide">
+    <div class="badge gold">8. Equipo Fundador y Sinergia</div>
+    <h2>División de Roles: <span class="highlight-cyan">Tecnología</span> + <span class="highlight-gold">Estrategia Comercial</span></h2>
+    <p class="subtitle">Dos áreas complementarias claramente definidas para que cada socio se enfoque al 100% en su fortaleza:</p>
+    <div class="grid-2">
+      <div class="card featured" style="padding: 32px;">
+        <div class="badge" style="margin-bottom: 8px;">Rol Técnico & Creativo (Oscar)</div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Dirección de Tecnología, IA & Producción de Contenido</h3>
+        <ul>
+          <li><strong>Arquitectura y Operación de IA:</strong> Manejo integral del motor generativo (Sunra MCP, Higgsfield, Kling/Veo, ElevenLabs).</li>
+          <li><strong>Creación y Post-Producción de Videos:</strong> Desarrollo visual de los comerciales, Fidelidad Híbrida del producto real, diseño sonoro y edición en DaVinci Resolve.</li>
+          <li><strong>Innovación y Demos:</strong> Producción de las piezas demostrativas ("Antes vs. Después") y automatización de flujos para mantener márgenes superiores al 85%.</li>
+          <li><strong>Control de Calidad:</strong> Garantizar que cada entregable tenga estándar cinematográfico y alto impacto visual.</li>
+        </ul>
+      </div>
+      <div class="card gold-border" style="padding: 32px;">
+        <div class="badge gold" style="margin-bottom: 8px;">Rol Comercial & Estratégico (Socio)</div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Dirección Comercial, Estrategia & Relación con Clientes</h3>
+        <ul>
+          <li><strong>Estrategia de Mercado y Posicionamiento:</strong> Identificación de nichos rentables, estructuración de propuestas y enfoque estratégico de campañas para negocios en Cali y Jamundí.</li>
+          <li><strong>Prospección y Apertura B2B:</strong> Contacto directo con dueños de negocios, constructoras, clínicas y marcas locales para presentar las demos personalizadas.</li>
+          <li><strong>Negociación y Cierre de Ventas:</strong> Conducción de reuniones comerciales, presentación de valor y cierre de planes mensuales.</li>
+          <li><strong>Gestión de Cuentas y Retención:</strong> Relación directa con el cliente, entendimiento de sus objetivos de venta y fidelización mes a mes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-bar">
+  <div class="progress-text" id="slide-counter">Slide 1 de 9 · Navegación con flechas ⬅️ ➡️</div>
+  <div class="nav-controls">
+    <button onclick="prevSlide()">← Anterior</button>
+    <button onclick="nextSlide()">Siguiente →</button>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('slide-counter');
+  let current = 0;
+
+  function updateSlide() {
+    slides.forEach((s, idx) => {
+      s.classList.toggle('active', idx === current);
+    });
+    counter.textContent = `Slide ${current + 1} de ${slides.length} · Navegación con flechas ⬅️ ➡️`;
+  }
+  function nextSlide() {
+    if (current < slides.length - 1) {
+      current++;
+      updateSlide();
+    }
+  }
+  function prevSlide() {
+    if (current > 0) {
+      current--;
+      updateSlide();
+    }
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+</script>
+
+</body>
+</html>
