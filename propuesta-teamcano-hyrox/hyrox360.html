@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline';" />
+  <title>EVENTO HYROX 360 — TEAM CANO | Único HYROX Academy Oficial del Valle del Cauca</title>
+  <meta name="description" content="¡HYROX se vive donde es REAL! Competencia oficial HYROX 360 en TEAM CANO Sede Jamundí (Cra. 10 #26-98)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="hyrox360">
+  <!-- Línea superior minimalista de lectura -->
+  <div class="tc-progress-line" id="globalProgressBar" aria-hidden="true"></div>
+
+  <!-- =====================================================================
+       NAVEGACIÓN EDITORIAL HYROX 360 (CON RETORNO A SEDES & PLANES)
+  ====================================================================== -->
+  <header class="tc-header" id="navbar">
+    <div class="tc-container tc-header-inner">
+      <div class="tc-brand-cluster">
+        <a href="index.html" class="tc-brand" aria-label="Team Cano Inicio">
+          <img src="assets/teamcano_logo.png" alt="Team Cano" class="tc-logo" />
+        </a>
+        <span class="tc-brand-divider"></span>
+        <a href="index.html" class="tc-back-home-link">
+          ← VOLVER A TEAM CANO (SEDES &amp; PLANES)
+        </a>
+      </div>
+
+      <nav class="tc-nav" aria-label="Navegación Evento HYROX 360">
+        <a href="#circuito-estaciones" class="tc-nav-link">8 Estaciones</a>
+        <a href="#configurador-categorias" class="tc-nav-link">Categorías &amp; Pesos</a>
+        <a href="#reglamento-penalidades" class="tc-nav-link">Penalidades</a>
+        <a href="#preventa-checkout" class="tc-nav-link">Inscripción</a>
+      </nav>
+
+      <div class="tc-header-cta">
+        <a href="hyrox360.html" class="tc-hyrox-nav-badge active" aria-current="page">
+          <span>🔥 EVENTO HYROX 360</span>
+        </a>
+        <button class="tc-burger" id="mobileMenuBtn" aria-label="Abrir menú móvil">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="tc-mobile-nav" id="mobileDrawer">
+      <a href="index.html" class="tc-mobile-link tc-text-orange">← Volver a Team Cano (4 Sedes &amp; Plan $220K)</a>
+      <a href="#circuito-estaciones" class="tc-mobile-link">01 — Las 8 Estaciones</a>
+      <a href="#configurador-categorias" class="tc-mobile-link">02 — Categorías &amp; Pesos</a>
+      <a href="#reglamento-penalidades" class="tc-mobile-link">03 — Tabla de Penalidades</a>
+      <a href="#preventa-checkout" class="tc-mobile-link tc-text-orange">04 — Inscripción Directa</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================================
+         SECCIÓN 1 — HERO MINIMALISTA Y VISUAL (100VH — CERO REDUNDANCIA)
+    ====================================================================== -->
+    <section class="tc-hero" id="inicio">
+      <div class="tc-hero-media" aria-hidden="true">
+        <video
+          id="heroBgVideo"
+          class="tc-hero-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="assets/stations/02_sled_push.webp"
+        >
+          <source src="assets/video/teamcano_seedance25_raw_10s.mp4" type="video/mp4" />
+        </video>
+        <div class="tc-hero-overlay"></div>
+      </div>
+
+      <div class="tc-container tc-hero-layout">
+        <div class="tc-hero-top-meta">
+          <span class="tc-eyebrow">SEDE OFICIAL JAMUNDÍ · CRA. 10 #26-98</span>
+          <span class="tc-hero-date-tag">HYROX ACADEMY CERTIFICADO</span>
+        </div>
+
+        <div class="tc-hero-main">
+          <p class="tc-hero-kicker">¡HYROX SE VIVE DONDE ES REAL!</p>
+          <h1 class="tc-hero-title">
+            HYROX 360<br />
+            <span class="tc-text-orange">TEAM CANO</span>
+          </h1>
+
+          <div class="tc-hero-editorial-cols">
+            <p class="tc-hero-lead">
+              8 carreras + 8 estaciones oficiales en el único complejo certificado del Valle del Cauca.
+            </p>
+
+            <div class="tc-hero-actions">
+              <a href="#preventa-checkout" class="tc-btn-editorial-primary">
+                <span>INSCRIBIRME AL EVENTO</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <button type="button" class="tc-btn-editorial-ghost" id="openMasterReelBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>REEL CON AUDIO</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-hero-architectural-strip">
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">HYROX 360</span>
+            <span class="tc-arch-label">RESPALDO OFICIAL</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">8 RUNS + 8 ESTACIONES</span>
+            <span class="tc-arch-label">CIRCUITO COMPLETO</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">TOP 3 PODIO</span>
+            <span class="tc-arch-label">MEDALLA + EFECTIVO</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">$50.000 / PAREJA</span>
+            <span class="tc-arch-label">PACK FOTOGRÁFICO</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECCIÓN 2 — SPLIT-SCREEN SCROLLYTELLING: LAS 8 ESTACIONES (VISUAL)
+         Izquierda: Filas con Miniatura Fotográfica + 1 sola frase corta
+         Derecha: Visor Sticky con <canvas> Seedance 2.5 + Foto en Grande
+    ====================================================================== -->
+    <section class="tc-split-circuit-section" id="circuito-estaciones">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">01 / EL CIRCUITO OFICIAL</span>
+            <h2 class="tc-editorial-heading">8 CARRERAS + <span class="tc-text-orange">8 ESTACIONES.</span></h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Cada estación va precedida de un tramo de carrera (600m o 1km).
+          </p>
+        </div>
+
+        <div class="tc-split-scrolly-wrapper" id="splitCircuitWrapper">
+          <!-- COLUMNA IZQUIERDA: 8 Filas con Miniatura + 1 frase concisa -->
+          <div class="tc-circuit-left-stream" id="stationsStreamList">
+            <!-- Poblado dinámicamente por app.js -->
+          </div>
+
+          <!-- COLUMNA DERECHA: Visor Sticky Sincronizado -->
+          <aside class="tc-circuit-right-sticky" aria-label="Visor sincronizado del circuito">
+            <div class="tc-sticky-stage">
+              <div class="tc-stage-top-bar">
+                <span class="tc-stage-station-indicator" id="stickyStationCode">ESTACIÓN 01 / 08</span>
+                <div class="tc-stage-lens-tabs">
+                  <button type="button" class="tc-lens-tab active" data-lens="hybrid" id="lensHybridBtn">
+                    Vista Estación
+                  </button>
+                  <button type="button" class="tc-lens-tab" data-lens="canvas" id="lensCanvasBtn">
+                    Video Seedance 2.5
+                  </button>
+                </div>
+              </div>
+
+              <div class="tc-stage-visual-frame">
+                <img
+                  src="assets/stations/01_skierg_run.webp"
+                  alt="Estación activa HYROX Team Cano"
+                  class="tc-stage-station-photo"
+                  id="stickyStationPhoto"
+                />
+                <canvas
+                  id="scrollyCanvas"
+                  class="tc-stage-canvas"
+                  aria-label="Secuencia cuadro a cuadro de Sled Push en Team Cano"
+                ></canvas>
+                <div class="tc-stage-gradient"></div>
+
+                <div class="tc-stage-caption-overlay">
+                  <div class="tc-stage-run-kicker" id="stickyStationRun">RUN 1 (600M / 1KM)</div>
+                  <div class="tc-stage-title-row">
+                    <h3 class="tc-stage-active-name" id="stickyStationName">01. SKIERG</h3>
+                    <span class="tc-stage-active-metric" id="stickyStationMetric">1000M / 1500M</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tc-stage-progress-footer">
+                <div class="tc-stage-progress-track">
+                  <div class="tc-stage-progress-fill" id="stickyCircuitProgress"></div>
+                </div>
+                <div class="tc-stage-progress-labels">
+                  <span>01 SKIERG</span>
+                  <span id="stickyFrameReadout">SECUENCIA EN VIVO · 60 FPS</span>
+                  <span>08 WALL BALLS</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECCIÓN 3 — MARCADOR DE CATEGORÍAS DE PODER Y PESOS (CONCISO)
+    ====================================================================== -->
+    <section class="tc-categories-section" id="configurador-categorias">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">02 / PARÁMETROS EN TIEMPO REAL</span>
+            <h2 class="tc-editorial-heading">CATEGORÍAS &amp; <span class="tc-text-orange">PESOS OFICIALES.</span></h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Elige tu categoría y género para ver tus distancias y cargas exactas.
+          </p>
+        </div>
+
+        <div class="tc-editorial-selectors-bar">
+          <div class="tc-tab-group">
+            <span class="tc-tab-group-label">CATEGORÍA</span>
+            <div class="tc-underline-tabs" id="categorySelector" role="tablist">
+              <button type="button" class="tc-utab active" data-category="principiante">
+                <small>01</small> PRINCIPIANTE
+              </button>
+              <button type="button" class="tc-utab" data-category="intermedio">
+                <small>02</small> INTERMEDIO
+              </button>
+              <button type="button" class="tc-utab" data-category="rx">
+                <small>03</small> AVANZADO / RX
+              </button>
+            </div>
+          </div>
+
+          <div class="tc-tab-group">
+            <span class="tc-tab-group-label">MODALIDAD</span>
+            <div class="tc-underline-tabs" id="genderSelector" role="tablist">
+              <button type="button" class="tc-utab active" data-gender="mujer">MUJER</button>
+              <button type="button" class="tc-utab" data-gender="hombre">HOMBRE</button>
+              <button type="button" class="tc-utab" data-gender="mixto">MIXTO</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-cat-open-summary">
+          <div class="tc-cat-open-bio">
+            <div class="tc-cat-open-eyebrow">
+              <span id="activeCatCode">CATEGORÍA 01 · PRINCIPIANTE</span>
+              <span>—</span>
+              <span class="tc-text-orange" id="activeGenderBadge">MODALIDAD MUJER</span>
+            </div>
+            <h3 class="tc-cat-open-title" id="activeCatTitle">PRINCIPIANTE — MUJER</h3>
+            <p class="tc-cat-open-desc" id="activeCatDesc">
+              Cargas y volúmenes adaptados para tu primera competencia oficial HYROX.
+            </p>
+          </div>
+
+          <div class="tc-cat-open-kpis">
+            <div class="tc-open-kpi">
+              <span class="tc-open-kpi-num" id="kpiTotalRun">4.8 KM</span>
+              <span class="tc-open-kpi-lbl">CARRERA TOTAL</span>
+            </div>
+            <div class="tc-open-kpi">
+              <span class="tc-open-kpi-num" id="kpiMaxSled">80 KG</span>
+              <span class="tc-open-kpi-lbl">SLED PUSH MÁX</span>
+            </div>
+            <div class="tc-open-kpi">
+              <span class="tc-open-kpi-num" id="kpiWallBalls">100 / 5 KG</span>
+              <span class="tc-open-kpi-lbl">WALL BALLS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-standards-scoreboard" id="standardsCardsGrid">
+          <!-- Renderizado dinámico por app.js -->
+        </div>
+
+        <div class="tc-cat-open-footer">
+          <div class="tc-exertion-inline">
+            <div class="tc-exertion-metric">
+              <div class="tc-exertion-head">
+                <span>FUERZA</span>
+                <strong id="meterStrengthVal">58%</strong>
+              </div>
+              <div class="tc-exertion-line"><div id="meterStrengthFill" style="width:58%"></div></div>
+            </div>
+
+            <div class="tc-exertion-metric">
+              <div class="tc-exertion-head">
+                <span>CARDIO</span>
+                <strong id="meterCardioVal">65%</strong>
+              </div>
+              <div class="tc-exertion-line"><div id="meterCardioFill" style="width:65%"></div></div>
+            </div>
+
+            <div class="tc-exertion-metric">
+              <div class="tc-exertion-head">
+                <span>RESISTENCIA</span>
+                <strong id="meterMentalVal">68%</strong>
+              </div>
+              <div class="tc-exertion-line"><div id="meterMentalFill" style="width:68%"></div></div>
+            </div>
+          </div>
+
+          <button type="button" class="tc-btn-editorial-primary" id="enrollSelectedCatBtn">
+            <span>INSCRIBIRME EN ESTA CATEGORÍA</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECCIÓN 4 — REGLAMENTO Y PENALIDADES (TABLA ABIERTA FILTRABLE)
+    ====================================================================== -->
+    <section class="tc-penalties-section" id="reglamento-penalidades">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">03 / JUECES DE PISTA</span>
+            <h2 class="tc-editorial-heading">TABLA DE <span class="tc-text-orange">PENALIDADES.</span></h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Sanciones oficiales (+15s, +3 min, +7 min o Descalificación).
+          </p>
+        </div>
+
+        <div class="tc-penalties-controls-row">
+          <div class="tc-minimal-search">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input
+              type="search"
+              id="penaltySearchInput"
+              placeholder="Buscar infracción (ej. carrera, saco, pies, carril)..."
+              aria-label="Buscar penalidad"
+            />
+          </div>
+
+          <div class="tc-penalty-tabs" id="penaltyFilterPills">
+            <button type="button" class="tc-ptab active" data-filter="all">Todas</button>
+            <button type="button" class="tc-ptab" data-filter="General / Carrera">Carrera</button>
+            <button type="button" class="tc-ptab" data-filter="SkiErg">SkiErg</button>
+            <button type="button" class="tc-ptab" data-filter="Sled Push / Pull">Sleds</button>
+            <button type="button" class="tc-ptab" data-filter="Burpee Broad Jump">Burpee BJ</button>
+            <button type="button" class="tc-ptab" data-filter="Rowing / Farmer Carry">Row / Farmer</button>
+            <button type="button" class="tc-ptab" data-filter="Sandbag Lunges">Lunges</button>
+            <button type="button" class="tc-ptab" data-filter="Wall Balls">Wall Balls</button>
+          </div>
+        </div>
+
+        <div class="tc-open-table-container">
+          <table class="tc-open-table">
+            <thead>
+              <tr>
+                <th>ESTACIÓN</th>
+                <th>INFRACCIÓN</th>
+                <th class="tc-align-right">SANCIÓN</th>
+              </tr>
+            </thead>
+            <tbody id="penaltiesTableBody">
+              <!-- Poblado dinámicamente por app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECCIÓN 5 — PREVENTA E INSCRIPCIÓN DIRECTA A WHATSAPP (+57 318 451 7759)
+    ====================================================================== -->
+    <section class="tc-registration-section" id="preventa-checkout">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">04 / RESERVA DE CUPO · 264 INSCRIPCIONES</span>
+            <h2 class="tc-editorial-heading">PREVENTA &amp; <span class="tc-text-orange">CHECKOUT.</span></h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Incluye Kit de Atleta y derecho a premiación. Añade tu paquete de fotos (+$50.000).
+          </p>
+        </div>
+
+        <div class="tc-stages-architectural-row" id="presaleStagesGrid">
+          <div class="tc-stage-column" data-stage-id="etapa1">
+            <div class="tc-stage-col-meta">
+              <span>ETAPA 01</span>
+              <span class="tc-stage-state">APERTURA</span>
+            </div>
+            <div class="tc-stage-col-price">$250.000 <small>COP</small></div>
+            <button type="button" class="tc-stage-select-link tc-select-stage-btn" data-select-stage="etapa1">
+              Simular Etapa 01 →
+            </button>
+          </div>
+
+          <div class="tc-stage-column" data-stage-id="etapa2">
+            <div class="tc-stage-col-meta">
+              <span>ETAPA 02</span>
+              <span class="tc-stage-state">INTERMEDIA</span>
+            </div>
+            <div class="tc-stage-col-price">$300.000 <small>COP</small></div>
+            <button type="button" class="tc-stage-select-link tc-select-stage-btn" data-select-stage="etapa2">
+              Simular Etapa 02 →
+            </button>
+          </div>
+
+          <div class="tc-stage-column active" data-stage-id="etapa3">
+            <div class="tc-stage-col-meta">
+              <span class="tc-text-orange">● ETAPA 03 ACTIVA</span>
+              <span class="tc-stage-state">264 CUPOS MÁX</span>
+            </div>
+            <div class="tc-stage-col-price">$350.000 <small>COP</small></div>
+            <button type="button" class="tc-stage-select-link tc-select-stage-btn active" data-select-stage="etapa3">
+              Etapa Seleccionada ✓
+            </button>
+          </div>
+        </div>
+
+        <div class="tc-editorial-checkout-grid">
+          <div class="tc-checkout-left">
+            <div class="tc-minimal-fields">
+              <div class="tc-minimal-field">
+                <label for="chkCategory">01. CATEGORÍA</label>
+                <select id="chkCategory">
+                  <option value="01. PRINCIPIANTE">01. PRINCIPIANTE</option>
+                  <option value="02. INTERMEDIO">02. INTERMEDIO</option>
+                  <option value="03. AVANZADO / RX">03. AVANZADO / RX</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="chkGender">02. MODALIDAD</label>
+                <select id="chkGender">
+                  <option value="MUJER">MUJER</option>
+                  <option value="HOMBRE">HOMBRE</option>
+                  <option value="MIXTO">MIXTO</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="chkStage">03. ETAPA</label>
+                <select id="chkStage">
+                  <option value="etapa1">ETAPA 1 — $250.000 COP</option>
+                  <option value="etapa2">ETAPA 2 — $300.000 COP</option>
+                  <option value="etapa3" selected>ETAPA 3 — $350.000 COP</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="chkAthleteNames">04. ATLETA / PAREJA (OPCIONAL)</label>
+                <input type="text" id="chkAthleteNames" placeholder="Ej. Camila Ríos &amp; Andrés Valencia" maxlength="80" />
+              </div>
+            </div>
+
+            <div class="tc-photo-toggle-row">
+              <div class="tc-photo-toggle-info">
+                <span class="tc-photo-tag">PAQUETE OFICIAL · +$50.000 COP X PAREJA</span>
+                <h4>AÑADIR REGISTRO FOTOGRÁFICO EN CARRERA</h4>
+              </div>
+              <label class="tc-switch" aria-label="Incluir Registro Fotográfico por $50.000 COP">
+                <input type="checkbox" id="chkPhotoAddon" checked />
+                <span class="tc-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="tc-checkout-right">
+            <div class="tc-summary-sheet">
+              <span class="tc-summary-kicker">LIQUIDACIÓN EN VIVO</span>
+
+              <div class="tc-summary-lines">
+                <div class="tc-summary-line">
+                  <span>Sede</span>
+                  <strong>Jamundí · Cra. 10 #26-98</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Categoría</span>
+                  <strong id="summaryCatGender" class="tc-text-orange">01. PRINCIPIANTE · MUJER</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Cupo (<span id="summaryStageName">Etapa 3</span>)</span>
+                  <strong id="summaryBasePrice">$350.000 COP</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Registro Fotográfico</span>
+                  <strong id="summaryPhotoPrice">+$50.000 COP</strong>
+                </div>
+              </div>
+
+              <div class="tc-summary-total-block">
+                <span>TOTAL A PAGAR</span>
+                <strong id="summaryTotalPrice">$400.000 COP</strong>
+              </div>
+
+              <a
+                href="https://wa.me/573184517759"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tc-btn-whatsapp-editorial"
+                id="whatsappCheckoutBtn"
+              >
+                <span>INSCRIBIRME EN WHATSAPP (+57 318 451 7759)</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+
+              <div class="tc-summary-footnote">
+                <a href="https://forms.gle/M7BB8LWJUdSUu9836" target="_blank" rel="noopener noreferrer">
+                  Formulario de Registro Fotográfico (Google Forms) ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER MINIMALISTA
+  ====================================================================== -->
+  <footer class="tc-footer">
+    <div class="tc-container">
+      <div class="tc-footer-bottom" style="padding-top:0; border-top:none;">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <img src="assets/teamcano_logo.png" alt="Team Cano" style="height:24px;" />
+          <a href="index.html" class="tc-text-link" style="margin-top:0;">← Volver a las 4 Sedes &amp; Plan Mensual ($220.000)</a>
+        </div>
+        <span>Diseño &amp; Ingeniería Web: <strong>Oscar Ortiz &amp; Camilo Cortés</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       MODAL DE VIDEO MASTER SEEDANCE 2.5 CON AUDIO (9:16 FULLHD)
+  ====================================================================== -->
+  <div class="tc-modal-backdrop" id="reelModal" aria-hidden="true">
+    <div class="tc-modal-reel-inner" role="dialog" aria-modal="true" aria-label="Reel Oficial Team Cano">
+      <div class="tc-modal-reel-top">
+        <span>REEL COMERCIAL MASTER · TEAM CANO (1080P CON AUDIO)</span>
+        <button type="button" class="tc-modal-close" id="closeReelModalBtn" aria-label="Cerrar video">✕ CERRAR</button>
+      </div>
+      <div class="tc-modal-video-wrap">
+        <video id="masterReelVideo" controls playsinline preload="metadata" poster="assets/stations/02_sled_push.webp">
+          <source src="assets/video/teamcano_seedance25_master_10s.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODO PRESENTACIÓN AGENCIA
+  ====================================================================== -->
+  <button type="button" class="tc-audit-trigger" id="openAgencyAuditBtn" aria-label="Abrir comparativa de agencia">
+    <span>⚡ AUDITORÍA AGENCIA</span>
+  </button>
+
+  <div class="tc-modal-backdrop" id="agencyAuditModal" aria-hidden="true">
+    <div class="tc-audit-sheet" role="dialog" aria-modal="true" aria-labelledby="auditTitle">
+      <div class="tc-audit-head">
+        <div>
+          <span class="tc-section-index">RESUMEN EJECUTIVO · OSCAR ORTIZ &amp; CAMILO CORTÉS</span>
+          <h2 id="auditTitle">DIAGNÓSTICO: <span class="tc-text-orange">WEB ACTUAL VS. NUEVA ARQUITECTURA</span></h2>
+        </div>
+        <button type="button" class="tc-modal-close" id="closeAgencyAuditBtn">✕ CERRAR</button>
+      </div>
+
+      <div class="tc-audit-rows">
+        <div class="tc-audit-row">
+          <div class="tc-audit-col-title">01. ENFOQUE DE NEGOCIO</div>
+          <div class="tc-audit-col-before">
+            <span>ANTES</span>
+            <strong>Evento Vencido Único</strong>
+            <p>Ocultaba las 4 sedes en Cali y Jamundí y la mensualidad de $220.000 COP con coach por estación.</p>
+          </div>
+          <div class="tc-audit-col-after">
+            <span>AHORA</span>
+            <strong>4 Sedes ($220K/mes) + Botón HYROX 360</strong>
+            <p>Lookbook visual de las 4 sedes y plan mensual + portal exclusivo <code>hyrox360.html</code>.</p>
+          </div>
+        </div>
+
+        <div class="tc-audit-row">
+          <div class="tc-audit-col-title">02. PESO &amp; RENDIMIENTO</div>
+          <div class="tc-audit-col-before">
+            <span>ANTES</span>
+            <strong>&gt; 45.4 MB en JPGs Crudos</strong>
+            <p>Fotos sin comprimir de hasta 14.4 MB cada una.</p>
+          </div>
+          <div class="tc-audit-col-after">
+            <span>AHORA</span>
+            <strong>&lt; 3.8 MB Todo en WebP</strong>
+            <p>+20 fotos reales optimizadas en WebP + secuencia Seedance 2.5 a 60 FPS.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

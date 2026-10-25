@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline';" />
+  <title>TEAM CANO | Entrenamiento Semipersonalizado &amp; HYROX Academy — 4 Sedes en Cali y Jamundí</title>
+  <meta name="description" content="Nunca entrenas solo: un coach guiándote y exigiéndote en cada estación de máquinas y HYROX. 4 sedes en Cali y Jamundí por $220.000 COP/mes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="home">
+  <!-- Línea superior minimalista de lectura -->
+  <div class="tc-progress-line" id="globalProgressBar" aria-hidden="true"></div>
+
+  <!-- =====================================================================
+       A. BARRA DE NAVEGACIÓN SUPERIOR INSTITUCIONAL (ESTILO EQUINOX)
+  ====================================================================== -->
+  <header class="tc-header" id="navbar">
+    <div class="tc-container tc-header-inner">
+      <a href="#inicio" class="tc-brand" aria-label="Team Cano Inicio">
+        <img src="assets/teamcano_logo.png" alt="Team Cano" class="tc-logo" />
+        <span class="tc-brand-divider"></span>
+        <span class="tc-brand-tag">CALI &amp; JAMUNDÍ · <em>4 SEDES</em></span>
+      </a>
+
+      <nav class="tc-nav" aria-label="Navegación Principal Team Cano">
+        <a href="#metodologia" class="tc-nav-link">Metodología</a>
+        <a href="#lookbook" class="tc-nav-link">Instalaciones</a>
+        <a href="#sedes-oficiales" class="tc-nav-link">4 Sedes</a>
+        <a href="#horarios-programacion" class="tc-nav-link">Horarios</a>
+        <a href="#membresia-checkout" class="tc-nav-link">Plan $220K</a>
+      </nav>
+
+      <div class="tc-header-cta">
+        <a href="hyrox360.html" class="tc-hyrox-nav-badge" aria-label="Ir al Evento Oficial HYROX 360">
+          <span>🔥 EVENTO HYROX 360</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <button class="tc-burger" id="mobileMenuBtn" aria-label="Abrir menú móvil">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="tc-mobile-nav" id="mobileDrawer">
+      <a href="#metodologia" class="tc-mobile-link">01 — Metodología Semipersonalizada</a>
+      <a href="#lookbook" class="tc-mobile-link">02 — Lookbook &amp; Instalaciones</a>
+      <a href="#sedes-oficiales" class="tc-mobile-link">03 — Las 4 Sedes (Cali &amp; Jamundí)</a>
+      <a href="#horarios-programacion" class="tc-mobile-link">04 — Horarios Semanales</a>
+      <a href="#membresia-checkout" class="tc-mobile-link">05 — Plan Mensual ($220.000 COP)</a>
+      <a href="hyrox360.html" class="tc-mobile-link tc-text-orange">🔥 Evento Oficial HYROX 360 →</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================================
+         B. HERO MINIMALISTA Y POTENTE (100VH — SCROLL 100% LIBRE)
+    ====================================================================== -->
+    <section class="tc-hero" id="inicio">
+      <div class="tc-hero-media" aria-hidden="true">
+        <video
+          id="heroBgVideo"
+          class="tc-hero-video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="assets/stations/02_sled_push.webp"
+        >
+          <source src="assets/video/teamcano_seedance25_raw_10s.mp4" type="video/mp4" />
+        </video>
+        <div class="tc-hero-overlay"></div>
+      </div>
+
+      <div class="tc-container tc-hero-layout">
+        <div class="tc-hero-top-meta">
+          <span class="tc-eyebrow">CALI &amp; JAMUNDÍ · 4 SEDES</span>
+          <span class="tc-hero-date-tag">HYROX ACADEMY OFICIAL</span>
+        </div>
+
+        <div class="tc-hero-main">
+          <h1 class="tc-hero-title">
+            NUNCA ENTRENAS <span class="tc-text-orange">SOLO.</span>
+          </h1>
+
+          <div class="tc-hero-editorial-cols">
+            <p class="tc-hero-lead">
+              Un coach guiándote y exigiéndote en cada estación de máquinas y HYROX.
+            </p>
+
+            <div class="tc-hero-actions">
+              <a href="#membresia-checkout" class="tc-btn-editorial-primary">
+                <span>PLAN MENSUAL $220.000</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="hyrox360.html" class="tc-btn-editorial-ghost">
+                <span>🔥 EVENTO HYROX 360 →</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra Inferior del Hero: Solo 4 Datos Cortos (2-3 palabras) -->
+        <div class="tc-hero-architectural-strip">
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">$220.000 / MES</span>
+            <span class="tc-arch-label">TODO INCLUIDO</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">LUN A SÁB</span>
+            <span class="tc-arch-label">MUSCULACIÓN GUIADA</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">MAR · JUE · SÁB</span>
+            <span class="tc-arch-label">HYROX OPCIONAL</span>
+          </div>
+          <div class="tc-arch-item">
+            <span class="tc-arch-num">4 SEDES</span>
+            <span class="tc-arch-label">CALI &amp; JAMUNDÍ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         C. SECCIÓN 1 — METODOLOGÍA SPLIT-SCREEN (MÁS VISUAL, MENOS TEXTO)
+         Izquierda: 4 Pilares con miniatura y 1 sola línea corta (máx 12 palabras)
+         Derecha: Visor Sticky con <canvas> Seedance 2.5 + Fotos Reales
+    ====================================================================== -->
+    <section class="tc-split-circuit-section" id="metodologia">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">01 / METODOLOGÍA SEMIPERSONALIZADA</span>
+            <h2 class="tc-editorial-heading">
+              UN ENTRENADOR EN <span class="tc-text-orange">CADA ESTACIÓN.</span>
+            </h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Cero rutina improvisada. Supervisión biomecánica directa en cada serie.
+          </p>
+        </div>
+
+        <div class="tc-split-scrolly-wrapper" id="splitCircuitWrapper">
+          <!-- COLUMNA IZQUIERDA: 4 Filas con Miniatura Fotográfica + 1 frase corta -->
+          <div class="tc-circuit-left-stream" id="methodologyStreamList">
+            <!-- Poblado dinámicamente por app.js -->
+          </div>
+
+          <!-- COLUMNA DERECHA: Visor Sticky a Gran Escala -->
+          <aside class="tc-circuit-right-sticky" aria-label="Visor sincronizado de metodología e instalaciones">
+            <div class="tc-sticky-stage">
+              <div class="tc-stage-top-bar">
+                <span class="tc-stage-station-indicator" id="stickyStationCode">PILAR 01 / 04</span>
+                <div class="tc-stage-lens-tabs">
+                  <button type="button" class="tc-lens-tab active" data-lens="hybrid" id="lensHybridBtn">
+                    Fotografía Real
+                  </button>
+                  <button type="button" class="tc-lens-tab" data-lens="canvas" id="lensCanvasBtn">
+                    Video Seedance 2.5
+                  </button>
+                </div>
+              </div>
+
+              <div class="tc-stage-visual-frame">
+                <img
+                  src="assets/gallery/mosaic_03_coach_lunges_guidance.webp"
+                  alt="Coach guiando atleta en estación Team Cano"
+                  class="tc-stage-station-photo"
+                  id="stickyStationPhoto"
+                />
+                <canvas
+                  id="scrollyCanvas"
+                  class="tc-stage-canvas"
+                  aria-label="Secuencia interactiva Seedance 2.5 Team Cano"
+                ></canvas>
+                <div class="tc-stage-gradient"></div>
+
+                <div class="tc-stage-caption-overlay">
+                  <div class="tc-stage-run-kicker" id="stickyStationRun">INCLUIDO EN TU PLAN ($220.000 / MES)</div>
+                  <div class="tc-stage-title-row">
+                    <h3 class="tc-stage-active-name" id="stickyStationName">01. MUSCULACIÓN GUIADA</h3>
+                    <span class="tc-stage-active-metric" id="stickyStationMetric">LUN A SÁB</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tc-stage-progress-footer">
+                <div class="tc-stage-progress-track">
+                  <div class="tc-stage-progress-fill" id="stickyCircuitProgress"></div>
+                </div>
+                <div class="tc-stage-progress-labels">
+                  <span>01 MUSCULACIÓN</span>
+                  <span id="stickyFrameReadout">SECUENCIA EN VIVO · 60 FPS</span>
+                  <span>04 FISIOTERAPIA</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         D. SECCIÓN 2 (NUEVA) — LOOKBOOK VISUAL DE INSTALACIONES & COMUNIDAD
+         80% Fotografía Real a Gran Escala · Etiquetas Mínimas de 2 Palabras
+    ====================================================================== -->
+    <section class="tc-lookbook-section" id="lookbook">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">02 / @TEAMCANO_FIT EN ACCIÓN</span>
+            <h2 class="tc-editorial-heading">
+              INSTALACIONES &amp; <span class="tc-text-orange">COMUNIDAD REAL.</span>
+            </h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Equipamiento oficial, entrenadores en planta y energía real todos los días.
+          </p>
+        </div>
+
+        <div class="tc-lookbook-bento">
+          <figure class="tc-look-item tc-look-tall">
+            <img src="assets/gallery/mosaic_04_jamundi_building_facade.webp" alt="Edificio Sede Jamundí Team Cano" loading="lazy" />
+            <figcaption>
+              <span>01</span>
+              <strong>SEDE JAMUNDÍ</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item tc-look-wide">
+            <img src="assets/gallery/mosaic_06_every_push_builds_power.webp" alt="Mural Every Push Builds Power Team Cano" loading="lazy" />
+            <figcaption>
+              <span>02</span>
+              <strong>ZONA POTENCIA</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item">
+            <img src="assets/gallery/mosaic_03_coach_lunges_guidance.webp" alt="Coach en planta exigiendo técnica" loading="lazy" />
+            <figcaption>
+              <span>03</span>
+              <strong>COACH EN PLANTA</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item">
+            <img src="assets/gallery/mosaic_10_coach_rower_motivation.webp" alt="Acompañamiento en Remo HYROX" loading="lazy" />
+            <figcaption>
+              <span>04</span>
+              <strong>EXIGENCIA REAL</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item">
+            <img src="assets/gallery/mosaic_01_wallballs_target.webp" alt="Diana Oficial Wall Balls Team Cano" loading="lazy" />
+            <figcaption>
+              <span>05</span>
+              <strong>MURO OFICIAL</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item tc-look-wide">
+            <img src="assets/gallery/mosaic_07_double_sled_push_race.webp" alt="Carriles dobles de trineo Team Cano" loading="lazy" />
+            <figcaption>
+              <span>06</span>
+              <strong>PISTA EXTERIOR</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item">
+            <img src="assets/gallery/mosaic_09_coach_canoverso_screen.webp" alt="Pantalla HYROX Canoverso Team Cano" loading="lazy" />
+            <figcaption>
+              <span>07</span>
+              <strong>CRONOMETRAJE</strong>
+            </figcaption>
+          </figure>
+
+          <figure class="tc-look-item">
+            <img src="assets/gallery/ig_03_workout.webp" alt="Atleta comunidad @teamcano_fit" loading="lazy" />
+            <figcaption>
+              <span>08</span>
+              <strong>@TEAMCANO_FIT</strong>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         E. SECCIÓN 3 — LAS 4 SEDES OFICIALES (CON FOTOGRAFÍA GRANDE POR SEDE)
+         Cero Párrafos Repetidos: Foto Real + Nombre + Dirección + Horario + CTA
+    ====================================================================== -->
+    <section class="tc-locations-section" id="sedes-oficiales">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">03 / COBERTURA EN CALI &amp; JAMUNDÍ</span>
+            <h2 class="tc-editorial-heading">
+              LAS <span class="tc-text-orange">4 SEDES OFICIALES.</span>
+            </h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Elige tu sede más cercana. Misma exigencia y tarifa única ($220.000/mes).
+          </p>
+        </div>
+
+        <div class="tc-branches-visual-grid" id="locationsEditorialList">
+          <!-- Renderizado por app.js con fotografía grande real por sede -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         F. SECCIÓN 4 — HORARIOS & SEMANA DE ENTRENO (100% VISUAL Y ESQUEMÁTICA)
+         3 Bloques Esquemáticos Sin Párrafos Largos
+    ====================================================================== -->
+    <section class="tc-schedule-section" id="horarios-programacion">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">04 / JORNADA CONTINUA CON COACH</span>
+            <h2 class="tc-editorial-heading">
+              HORARIOS &amp; <span class="tc-text-orange">SEMANA DE ENTRENO.</span>
+            </h2>
+          </div>
+          <p class="tc-editorial-sub">
+            Lun–Vie: 5:00 a.m. – 10:00 p.m. · Sábados: 7:00 a.m. – 1:00 p.m.
+          </p>
+        </div>
+
+        <div class="tc-schematic-week-grid">
+          <div class="tc-schem-block">
+            <span class="tc-schem-days">LUN · MIÉ · VIE</span>
+            <h3 class="tc-schem-mode">MUSCULACIÓN &amp; MÁQUINAS</h3>
+            <span class="tc-schem-meta">Coach por estación · 5:00 a.m. – 10:00 p.m.</span>
+          </div>
+
+          <div class="tc-schem-block tc-schem-highlight">
+            <span class="tc-schem-days">MAR · JUE</span>
+            <h3 class="tc-schem-mode">MUSCULACIÓN + <span class="tc-text-orange">HYROX OPCIONAL</span></h3>
+            <span class="tc-schem-meta">Doble modalidad · 5:00 a.m. – 10:00 p.m.</span>
+          </div>
+
+          <div class="tc-schem-block tc-schem-highlight">
+            <span class="tc-schem-days">SÁBADO</span>
+            <h3 class="tc-schem-mode">MUSCULACIÓN + <span class="tc-text-orange">HYROX SÁBADO</span></h3>
+            <span class="tc-schem-meta">Fondos &amp; Fuerza · 7:00 a.m. – 1:00 p.m.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         G. BANNER VISUAL DE ACCESO AL PORTAL EXCLUSIVO HYROX 360
+    ====================================================================== -->
+    <section class="tc-hyrox-portal-banner" aria-label="Competencia Oficial HYROX 360 Team Cano">
+      <div class="tc-container">
+        <div class="tc-portal-grid">
+          <div class="tc-portal-copy">
+            <span class="tc-section-index">COMPETENCIA OFICIAL · SEDE JAMUNDÍ</span>
+            <h2 class="tc-portal-title">
+              EVENTO OFICIAL<br />
+              <span class="tc-text-orange">HYROX 360 TEAM CANO.</span>
+            </h2>
+            <p class="tc-portal-lead">
+              8 Carreras + 8 Estaciones reales, calculadora interactiva de pesos por categoría y tabla oficial de penalidades.
+            </p>
+            <div class="tc-portal-actions">
+              <a href="hyrox360.html" class="tc-btn-editorial-primary">
+                <span>ENTRAR AL PORTAL HYROX 360</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="hyrox360.html#configurador-categorias" class="tc-btn-editorial-ghost">
+                <span>CALCULADORA DE PESOS →</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="tc-portal-visual">
+            <img src="assets/stations/02_sled_push.webp" alt="Atleta en Sled Push HYROX Team Cano" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         H. SECCIÓN 5 — MEMBRESÍA $220.000 / MES + RESERVA RÁPIDA EN WHATSAPP
+         4 Bullets Cortos de 4 Palabras + Configurador Directo
+    ====================================================================== -->
+    <section class="tc-registration-section" id="membresia-checkout">
+      <div class="tc-container">
+        <div class="tc-editorial-section-head">
+          <div>
+            <span class="tc-section-index">05 / AFILIACIÓN INMEDIATA</span>
+            <h2 class="tc-editorial-heading">
+              MEMBRESÍA <span class="tc-text-orange">$220.000 / MES.</span>
+            </h2>
+          </div>
+          <div class="tc-plan-short-bullets">
+            <span>✓ Coach en cada estación</span>
+            <span>✓ Musculación Lun a Sáb</span>
+            <span>✓ HYROX Mar · Jue · Sáb</span>
+            <span>✓ Nutrición y Fisioterapia</span>
+          </div>
+        </div>
+
+        <div class="tc-editorial-checkout-grid">
+          <div class="tc-checkout-left">
+            <div class="tc-minimal-fields">
+              <div class="tc-minimal-field">
+                <label for="memBranch">01. SEDE PREFERIDA</label>
+                <select id="memBranch">
+                  <option value="Sede Jamundí (Cra. 10 #26-98)">Sede Jamundí (Cra. 10 #26-98)</option>
+                  <option value="Sede Bochalema — Sur de Cali (Cl. 48 #106-83)">Sede Bochalema (Cl. 48 #106-83)</option>
+                  <option value="Sede La Flora — Norte de Cali (Av. 3 Norte #60-09)">Sede La Flora (Av. 3 Norte #60-09)</option>
+                  <option value="Sede Quintas de Don Simón — Cali (Cra. 80 entre 14 y 13C)">Sede Quintas de Don Simón (Cra. 80)</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="memFocus">02. MODALIDAD</label>
+                <select id="memFocus">
+                  <option value="Musculación + HYROX (Mar/Jue/Sáb)">Musculación + HYROX (Mar/Jue/Sáb)</option>
+                  <option value="100% Musculación en Máquinas">100% Musculación en Máquinas</option>
+                  <option value="Preparación Competencia HYROX 360">Preparación Competencia HYROX 360</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="memShift">03. JORNADA</label>
+                <select id="memShift">
+                  <option value="Mañana (5:00 a.m. – 12:00 m.)">Mañana (5:00 a.m. – 12:00 m.)</option>
+                  <option value="Tarde (12:00 m. – 5:00 p.m.)">Tarde (12:00 m. – 5:00 p.m.)</option>
+                  <option value="Noche (5:00 p.m. – 10:00 p.m.)">Noche (5:00 p.m. – 10:00 p.m.)</option>
+                </select>
+              </div>
+
+              <div class="tc-minimal-field">
+                <label for="memUserName">04. TU NOMBRE (OPCIONAL)</label>
+                <input type="text" id="memUserName" placeholder="Ej. Alejandro Martínez" maxlength="80" />
+              </div>
+            </div>
+
+            <div class="tc-photo-toggle-row">
+              <div class="tc-photo-toggle-info">
+                <span class="tc-photo-tag">SALUD DEPORTIVA INTEGRAL</span>
+                <h4>INCLUIR VALORACIÓN DE NUTRICIÓN Y FISIOTERAPIA</h4>
+              </div>
+              <label class="tc-switch" aria-label="Solicitar información de Nutrición y Fisioterapia">
+                <input type="checkbox" id="memHealthAddon" checked />
+                <span class="tc-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="tc-checkout-right">
+            <div class="tc-summary-sheet">
+              <span class="tc-summary-kicker">RESUMEN DE AFILIACIÓN</span>
+
+              <div class="tc-summary-lines">
+                <div class="tc-summary-line">
+                  <span>Sede</span>
+                  <strong id="memSummaryBranch" class="tc-text-orange">Sede Jamundí (Cra. 10 #26-98)</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Modalidad</span>
+                  <strong id="memSummaryFocus">Musculación + HYROX (Mar/Jue/Sáb)</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Jornada</span>
+                  <strong id="memSummaryShift">Mañana (5:00 a.m. – 12:00 m.)</strong>
+                </div>
+                <div class="tc-summary-line">
+                  <span>Nutrición / Fisio</span>
+                  <strong id="memSummaryHealth">Valoración incluida</strong>
+                </div>
+              </div>
+
+              <div class="tc-summary-total-block">
+                <span>MENSUALIDAD</span>
+                <strong id="memSummaryTotal">$220.000 COP / MES</strong>
+              </div>
+
+              <a
+                href="https://wa.me/573184517759"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tc-btn-whatsapp-editorial"
+                id="memWhatsappBtn"
+              >
+                <span>ACTIVAR PLAN EN WHATSAPP (+57 318 451 7759)</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER MINIMALISTA
+  ====================================================================== -->
+  <footer class="tc-footer">
+    <div class="tc-container">
+      <div class="tc-footer-bottom" style="padding-top:0; border-top:none;">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <img src="assets/teamcano_logo.png" alt="Team Cano" style="height:24px;" />
+          <span>© 2026 TEAM CANO (@teamcano_fit) · Cali &amp; Jamundí · +57 318 451 7759</span>
+        </div>
+        <span>Diseño &amp; Ingeniería Web: <strong>Oscar Ortiz &amp; Camilo Cortés</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       BOTÓN FLOTANTE DE AUDITORÍA AGENCIA
+  ====================================================================== -->
+  <button type="button" class="tc-audit-trigger" id="openAgencyAuditBtn" aria-label="Abrir comparativa de agencia">
+    <span>⚡ AUDITORÍA AGENCIA</span>
+  </button>
+
+  <div class="tc-modal-backdrop" id="agencyAuditModal" aria-hidden="true">
+    <div class="tc-audit-sheet" role="dialog" aria-modal="true" aria-labelledby="auditTitle">
+      <div class="tc-audit-head">
+        <div>
+          <span class="tc-section-index">RESUMEN EJECUTIVO · OSCAR ORTIZ &amp; CAMILO CORTÉS</span>
+          <h2 id="auditTitle">DIAGNÓSTICO: <span class="tc-text-orange">WEB ACTUAL VS. NUEVA ARQUITECTURA</span></h2>
+        </div>
+        <button type="button" class="tc-modal-close" id="closeAgencyAuditBtn">✕ CERRAR</button>
+      </div>
+
+      <div class="tc-audit-rows">
+        <div class="tc-audit-row">
+          <div class="tc-audit-col-title">01. ENFOQUE DE NEGOCIO</div>
+          <div class="tc-audit-col-before">
+            <span>ANTES</span>
+            <strong>Evento Vencido Único</strong>
+            <p>Ocultaba las 4 sedes en Cali y Jamundí y la mensualidad de $220.000 COP con coach por estación.</p>
+          </div>
+          <div class="tc-audit-col-after">
+            <span>AHORA</span>
+            <strong>4 Sedes ($220K/mes) + Botón HYROX 360</strong>
+            <p>Lookbook visual de las 4 sedes y plan mensual + portal exclusivo <code>hyrox360.html</code>.</p>
+          </div>
+        </div>
+
+        <div class="tc-audit-row">
+          <div class="tc-audit-col-title">02. PESO &amp; RENDIMIENTO</div>
+          <div class="tc-audit-col-before">
+            <span>ANTES</span>
+            <strong>&gt; 45.4 MB en JPGs Crudos</strong>
+            <p>Fotos sin comprimir de hasta 14.4 MB cada una.</p>
+          </div>
+          <div class="tc-audit-col-after">
+            <span>AHORA</span>
+            <strong>&lt; 3.8 MB Todo en WebP</strong>
+            <p>+20 fotos reales optimizadas en WebP + secuencia Seedance 2.5 a 60 FPS.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
