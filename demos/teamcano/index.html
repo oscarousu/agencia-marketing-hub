@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sala de Revisión de Demos · TEAM CANO (Cali & Jamundí)</title>
+  <style>
+    :root {
+      --bg: #090B0E;
+      --card: #12151B;
+      --orange: #F26522;
+      --white: #FFFFFF;
+      --muted: #A1A8B3;
+      --border: rgba(255, 255, 255, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: rgba(9, 11, 14, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand img {
+      height: 34px;
+    }
+    .badge {
+      background: rgba(242, 101, 34, 0.15);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+    .section-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 32px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-hdr h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--orange);
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      cursor: zoom-in;
+      display: block;
+    }
+    .card video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+      display: block;
+    }
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .card-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      flex: 1;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .btn {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 9px 12px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn.primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn:hover { opacity: 0.9; }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 10, 0.95);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 94vw;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="../../propuesta-teamcano-hyrox/assets/teamcano_logo.png" alt="Team Cano Logo" />
+    <span class="badge">Sala de Entregables &amp; Demos</span>
+  </div>
+  <div style="display:flex; gap:10px;">
+    <a href="../../propuesta-teamcano-hyrox/" class="btn secondary" style="flex:initial; padding:8px 14px;">🌐 Ver Propuesta Web Completa</a>
+    <a href="../../" class="btn primary" style="flex:initial; padding:8px 14px;">🔐 Volver al Hub Oscar &amp; Camilo</a>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Entregables de Prueba · TEAM CANO (Cali &amp; Jamundí)</h1>
+  <p class="sub">Paleta Oficial Estricta: <strong>Negro (#090B0E) · Naranja (#F26522) · Blanco (#FFFFFF)</strong>. Haz clic en cualquier imagen para verla en pantalla completa o descárgala en máxima resolución.</p>
+
+  <div class="section-hdr">
+    <h2>📸 4 Posts para Instagram (Versión Editorial + Versión Fotografía Limpia)</h2>
+    <span class="badge">Aprobación Compuerta 1</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <img src="./post_01_coach_branded.jpg" alt="Post 01 Coach en Estación" onclick="openLb(this.src)" />
+      <div class="card-body">
+        <div class="card-title">01 · Coach en Estación ("Nunca entrenas solo")</div>
+        <div class="card-desc">Entrenamiento semi-personalizado en cada estación con corrección técnica en vivo.</div>
+        <div class="actions">
+          <a href="./post_01_coach_branded.jpg" download="TeamCano_Post_01_Coach_Branded.jpg" class="btn primary">⬇ Con Diseño</a>
+          <a href="./post_01_coach_clean.jpg" download="TeamCano_Post_01_Coach_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="./post_02_hyrox_branded.jpg" alt="Post 02 HYROX Sled Push" onclick="openLb(this.src)" />
+      <div class="card-body">
+        <div class="card-title">02 · HYROX Sled Push ("Potencia que se mide")</div>
+        <div class="card-desc">Doble trineo sobre turf negro de alto tráfico frente al mural Every Push Builds Power.</div>
+        <div class="actions">
+          <a href="./post_02_hyrox_branded.jpg" download="TeamCano_Post_02_Hyrox_Branded.jpg" class="btn primary">⬇ Con Diseño</a>
+          <a href="./post_02_hyrox_clean.jpg" download="TeamCano_Post_02_Hyrox_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="./post_03_fuerza_branded.jpg" alt="Post 03 Fuerza y Wall Balls" onclick="openLb(this.src)" />
+      <div class="card-body">
+        <div class="card-title">03 · Fuerza &amp; Wall Balls ("Cada tiro construye poder")</div>
+        <div class="card-desc">Acondicionamiento y potencia frente a las dianas oficiales de Team Cano con luz natural.</div>
+        <div class="actions">
+          <a href="./post_03_fuerza_branded.jpg" download="TeamCano_Post_03_Fuerza_Branded.jpg" class="btn primary">⬇ Con Diseño</a>
+          <a href="./post_03_fuerza_clean.jpg" download="TeamCano_Post_03_Fuerza_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="./post_04_comunidad_branded.jpg" alt="Post 04 Comunidad y Remo" onclick="openLb(this.src)" />
+      <div class="card-body">
+        <div class="card-title">04 · Comunidad &amp; 3 Sedes ("La energía del equipo")</div>
+        <div class="card-desc">Remo indoor y exigencia grupal en las sedes de Caney, El Lido y Jamundí.</div>
+        <div class="actions">
+          <a href="./post_04_comunidad_branded.jpg" download="TeamCano_Post_04_Comunidad_Branded.jpg" class="btn primary">⬇ Con Diseño</a>
+          <a href="./post_04_comunidad_clean.jpg" download="TeamCano_Post_04_Comunidad_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hdr" style="margin-top:48px;">
+    <h2>🎬 Videos Comerciales Demo (Seedance 2.5 / IA Híbrida)</h2>
+    <span class="badge">Audio + Video Master</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <video controls preload="metadata" poster="./post_02_hyrox_clean.jpg">
+        <source src="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-title">Video Hero Actual · Seedance 2.5 Master (10s)</div>
+        <div class="card-desc">Pieza audiovisual actual integrada en el Hero de la propuesta web interactiva.</div>
+        <div class="actions">
+          <a href="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" download="TeamCano_Demo_Hero_10s.mp4" class="btn primary">⬇ Descargar Video MP4</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="justify-content:center; border-style:dashed;">
+      <div class="card-body" style="justify-content:center;">
+        <div class="card-title" style="color:var(--orange);">⏳ Próximo: Video Comercial #1 (12s)</div>
+        <div class="card-desc">Aparecerá automáticamente en esta tarjeta apenas finalicemos el render de la primera pieza de 12 segundos.</div>
+      </div>
+    </div>
+
+    <div class="card" style="justify-content:center; border-style:dashed;">
+      <div class="card-body" style="justify-content:center;">
+        <div class="card-title" style="color:var(--orange);">⏳ Próximo: Video Comercial #2 (12s)</div>
+        <div class="card-desc">Aparecerá automáticamente en esta tarjeta apenas finalicemos el render de la segunda pieza de 12 segundos.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="lb" class="lightbox" onclick="this.classList.remove('open')">
+  <img id="lb-img" src="" alt="Vista completa" />
+</div>
+
+<script>
+  function openLb(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb').classList.add('open');
+  }
+</script>
+</body>
+</html>

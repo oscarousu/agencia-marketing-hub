@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data: https:;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://api.github.com; img-src 'self' data: https:; media-src 'self' data: https:;" />
   <title>Espacio Virtual Compartido — Oscar Ortiz & Camilo Cortés</title>
   <style>
     :root {
@@ -278,6 +278,94 @@
       line-height: 1.55;
       white-space: pre-line;
     }
+
+    /* Galería de Demos & Entregables */
+    .media-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .media-asset-card {
+      background: var(--bg-input);
+      border: 1px solid rgba(242, 101, 34, 0.35);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .media-asset-card:hover {
+      transform: translateY(-3px);
+      border-color: #f26522;
+    }
+    .media-asset-card img, .media-asset-card video {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      display: block;
+      background: #050608;
+      cursor: pointer;
+    }
+    .media-asset-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .media-asset-title {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .media-asset-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      flex: 1;
+    }
+    .media-asset-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .media-asset-actions a, .media-asset-actions button {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.76rem;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    .btn-orange {
+      background: #f26522;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-orange:hover { background: #ff7a38; }
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 11, 0.94);
+      backdrop-filter: blur(10px);
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox-modal.open { display: flex; }
+    .lightbox-modal img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -464,8 +552,105 @@
 
   <!-- PESTAÑA 3: FABRICA DE DEMOS Y CRM -->
   <section id="tab-demos" class="tab-content">
-    <h2 class="section-title">3. Fábrica de Demos "Caballo de Troya" & CRM Cali/Jamundí</h2>
-    <p class="section-sub">Camilo carga aquí las empresas objetivo con su "Ficha de Disparo" (foto real + idea de comercial), y Oscar sube el link del video Demo apenas sale del horno.</p>
+    <h2 class="section-title">3. Fábrica de Demos "Caballo de Troya", Galería de Entregables & CRM Cali/Jamundí</h2>
+    <p class="section-sub">Aquí ambos socios pueden revisar, ampliar y descargar en calidad original las fotos de Post y los videos Demo listos para presentar a cada cliente, además de gestionar las Fichas de Disparo.</p>
+
+    <!-- SALA DE REVISION EN VIVO: TEAM CANO (FOTOS POST V3 + VIDEOS DEMO + WEB) -->
+    <div class="card cyan" style="margin-bottom: 28px; border-color: rgba(242, 101, 34, 0.55);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <div>
+          <h3 style="margin-bottom:4px; font-size:1.18rem;">🔥 Sala de Revisión Activa: TEAM CANO (Cali — Caney / El Lido &amp; Jamundí)</h3>
+          <p style="font-size:0.84rem; color:var(--text-muted);">Paleta Oficial Estricta: <strong>Negro (#090B0E) · Naranja (#F26522) · Blanco (#FFFFFF)</strong> · Técnica Google Gemini Nano Banana (Inpainting Semántico DSLR sobre sedes reales).</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a href="./propuesta-teamcano-hyrox/" target="_blank" rel="noopener noreferrer" class="btn small btn-orange">🌐 Abrir Propuesta Web Interactiva</a>
+          <a href="./demos/teamcano/" target="_blank" rel="noopener noreferrer" class="btn secondary small">🔗 Link Sala de Demos Cliente</a>
+        </div>
+      </div>
+
+      <!-- 4 POSTS OFICIALES V3 -->
+      <h4 style="font-size:0.95rem; color:#f26522; margin-top:10px; margin-bottom:4px;">📸 4 Imágenes para Post de Instagram (Haz clic en cualquier imagen para verla en pantalla completa)</h4>
+      <div class="media-grid-4">
+        <div class="media-asset-card">
+          <img src="./demos/teamcano/post_01_coach_branded.jpg" alt="Post 01 Team Cano - Coach en Estación" onclick="openLightbox(this.src)" />
+          <div class="media-asset-body">
+            <div class="media-asset-title">Post 01 · Coach en Estación</div>
+            <div class="media-asset-desc">"Nunca entrenas solo." Entrenamiento semi-personalizado en estación con fondo limpio DSLR 85mm.</div>
+            <div class="media-asset-actions">
+              <a href="./demos/teamcano/post_01_coach_branded.jpg" download="TeamCano_Post_01_Coach_Branded.jpg" class="btn-orange">⬇ Post con Diseño</a>
+              <a href="./demos/teamcano/post_01_coach_clean.jpg" download="TeamCano_Post_01_Coach_Limpia.jpg" class="btn secondary small">⬇ Foto Limpia</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-asset-card">
+          <img src="./demos/teamcano/post_02_hyrox_branded.jpg" alt="Post 02 Team Cano - Hyrox Sled Push" onclick="openLightbox(this.src)" />
+          <div class="media-asset-body">
+            <div class="media-asset-title">Post 02 · HYROX Sled Push</div>
+            <div class="media-asset-desc">"Potencia que se mide." Doble trineo sobre turf negro con líneas blancas y mural Every Push Builds Power.</div>
+            <div class="media-asset-actions">
+              <a href="./demos/teamcano/post_02_hyrox_branded.jpg" download="TeamCano_Post_02_Hyrox_Branded.jpg" class="btn-orange">⬇ Post con Diseño</a>
+              <a href="./demos/teamcano/post_02_hyrox_clean.jpg" download="TeamCano_Post_02_Hyrox_Limpia.jpg" class="btn secondary small">⬇ Foto Limpia</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-asset-card">
+          <img src="./demos/teamcano/post_03_fuerza_branded.jpg" alt="Post 03 Team Cano - Fuerza y Wall Balls" onclick="openLightbox(this.src)" />
+          <div class="media-asset-body">
+            <div class="media-asset-title">Post 03 · Fuerza &amp; Wall Balls</div>
+            <div class="media-asset-desc">"Cada tiro construye poder." Lanzamiento frente a las dianas oficiales de Team Cano con luz natural.</div>
+            <div class="media-asset-actions">
+              <a href="./demos/teamcano/post_03_fuerza_branded.jpg" download="TeamCano_Post_03_Fuerza_Branded.jpg" class="btn-orange">⬇ Post con Diseño</a>
+              <a href="./demos/teamcano/post_03_fuerza_clean.jpg" download="TeamCano_Post_03_Fuerza_Limpia.jpg" class="btn secondary small">⬇ Foto Limpia</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-asset-card">
+          <img src="./demos/teamcano/post_04_comunidad_branded.jpg" alt="Post 04 Team Cano - Comunidad y Remo" onclick="openLightbox(this.src)" />
+          <div class="media-asset-body">
+            <div class="media-asset-title">Post 04 · Comunidad &amp; Remo</div>
+            <div class="media-asset-desc">"La energía del equipo te impulsa." Remo indoor con acompañamiento directo en las 3 sedes.</div>
+            <div class="media-asset-actions">
+              <a href="./demos/teamcano/post_04_comunidad_branded.jpg" download="TeamCano_Post_04_Comunidad_Branded.jpg" class="btn-orange">⬇ Post con Diseño</a>
+              <a href="./demos/teamcano/post_04_comunidad_clean.jpg" download="TeamCano_Post_04_Comunidad_Limpia.jpg" class="btn secondary small">⬇ Foto Limpia</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEOS DEMO TEAM CANO -->
+      <h4 style="font-size:0.95rem; color:var(--accent-cyan); margin-top:22px; margin-bottom:8px;">🎬 Videos Comerciales Demo — Team Cano (Seedance 2.5 / IA Híbrida)</h4>
+      <div class="grid-3" style="margin-bottom:0;">
+        <div class="media-asset-card" style="border-color: rgba(0, 240, 255, 0.35);">
+          <video controls preload="metadata" poster="./demos/teamcano/post_02_hyrox_clean.jpg" style="aspect-ratio: 16 / 9;">
+            <source src="./propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" type="video/mp4" />
+          </video>
+          <div class="media-asset-body">
+            <div class="media-asset-title">Video Hero Actual · Seedance 2.5 Master (10s)</div>
+            <div class="media-asset-desc">Video cinematográfico integrado en la propuesta web interactiva de Team Cano.</div>
+            <div class="media-asset-actions">
+              <a href="./propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" download="TeamCano_Demo_Hero_Master.mp4" class="btn small">⬇ Descargar MP4</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-asset-card" style="border-color: rgba(245, 176, 65, 0.35); justify-content:center;">
+          <div class="media-asset-body" style="justify-content:center;">
+            <div class="media-asset-title" style="color:var(--accent-gold);">⏳ Próximo: Video Demo #1 (12 Segundos)</div>
+            <div class="media-asset-desc">En cola de producción tras aprobación de las 4 imágenes base (Compuerta 1 → Compuerta 2). Se publicará automáticamente en esta tarjeta apenas salga del render.</div>
+          </div>
+        </div>
+
+        <div class="media-asset-card" style="border-color: rgba(245, 176, 65, 0.35); justify-content:center;">
+          <div class="media-asset-body" style="justify-content:center;">
+            <div class="media-asset-title" style="color:var(--accent-gold);">⏳ Próximo: Video Demo #2 (12 Segundos)</div>
+            <div class="media-asset-desc">Segundo comercial de 12 segundos para prueba de Team Cano. Se actualizará aquí mismo con reproductor y descarga directa para Camilo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="card gold" style="margin-bottom: 24px;">
       <h3>🎯 Nueva "Ficha de Disparo" (Solicitar Demo o Registrar Prospecto)</h3>
@@ -1325,9 +1510,27 @@ Para arrancar hoy mismo con los guiones y las escenas base, solo necesitamos que
     }
   }
 
+  function openLightbox(src) {
+    const modal = document.getElementById("lightbox-modal");
+    const img = document.getElementById("lightbox-img");
+    if (modal && img) {
+      img.src = src;
+      modal.classList.add("open");
+    }
+  }
+
+  function closeLightbox() {
+    const modal = document.getElementById("lightbox-modal");
+    if (modal) modal.classList.remove("open");
+  }
+
   initAuth();
   recalcFinances();
 </script>
+
+<div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Vista previa ampliada" />
+</div>
 
 </body>
 </html>
