@@ -110,7 +110,7 @@
     }
     .card video {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 9 / 16;
       object-fit: cover;
       background: #000;
       display: block;
@@ -249,35 +249,49 @@
   </div>
 
   <div class="section-hdr" style="margin-top:48px;">
-    <h2>🎬 Videos Comerciales Demo (Seedance 2.5 / IA Híbrida)</h2>
-    <span class="badge">Audio + Video Master</span>
+    <h2>🎬 Videos Comerciales Demo (Google Flow Veo 3.1 + Seedance 2.5 · Formato Reel 9:16)</h2>
+    <span class="badge">Aprobados · Audio Reel + Logo Original</span>
   </div>
 
   <div class="grid-4">
-    <div class="card">
-      <video controls preload="metadata" poster="./post_02_hyrox_clean.jpg">
-        <source src="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" type="video/mp4" />
+    <div class="card" style="border-color: var(--orange);">
+      <video controls playsinline preload="metadata" poster="./post_01_coach_branded.jpg">
+        <source src="./video_01_metodologia_12s_branded.mp4" type="video/mp4" />
       </video>
       <div class="card-body">
-        <div class="card-title">Video Hero Actual · Seedance 2.5 Master (10s)</div>
-        <div class="card-desc">Pieza audiovisual actual integrada en el Hero de la propuesta web interactiva.</div>
+        <div class="card-title">Reel 01 · Metodología &amp; Comunidad (12s · Branded)</div>
+        <div class="card-desc">Coaching semi-personalizado en estación + comunidad activa en remo. Diseño sonoro de Reel promocional sin voces y logo original Team Cano.</div>
         <div class="actions">
-          <a href="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" download="TeamCano_Demo_Hero_10s.mp4" class="btn primary">⬇ Descargar Video MP4</a>
+          <a href="./video_01_metodologia_12s_branded.mp4" download="TeamCano_Reel_01_Metodologia_Branded.mp4" class="btn primary">⬇ Con Diseño (Branded)</a>
+          <a href="./video_01_metodologia_12s_clean.mp4" download="TeamCano_Reel_01_Metodologia_Limpio.mp4" class="btn secondary">⬇ Video Limpio</a>
         </div>
       </div>
     </div>
 
-    <div class="card" style="justify-content:center; border-style:dashed;">
-      <div class="card-body" style="justify-content:center;">
-        <div class="card-title" style="color:var(--orange);">⏳ Próximo: Video Comercial #1 (12s)</div>
-        <div class="card-desc">Aparecerá automáticamente en esta tarjeta apenas finalicemos el render de la primera pieza de 12 segundos.</div>
+    <div class="card" style="border-color: var(--orange);">
+      <video controls playsinline preload="metadata" poster="./post_02_hyrox_branded.jpg">
+        <source src="./video_02_hyrox_12s_branded.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-title">Reel 02 · Especialistas HYROX &amp; Fuerza (12s · Branded)</div>
+        <div class="card-desc">Doble trineo HYROX Sled Push + Wall Ball con sentadilla profunda biomecánica, transición dinámica, beat de Reel y logo original Team Cano.</div>
+        <div class="actions">
+          <a href="./video_02_hyrox_12s_branded.mp4" download="TeamCano_Reel_02_Hyrox_Branded.mp4" class="btn primary">⬇ Con Diseño (Branded)</a>
+          <a href="./video_02_hyrox_12s_clean.mp4" download="TeamCano_Reel_02_Hyrox_Limpio.mp4" class="btn secondary">⬇ Video Limpio</a>
+        </div>
       </div>
     </div>
 
-    <div class="card" style="justify-content:center; border-style:dashed;">
-      <div class="card-body" style="justify-content:center;">
-        <div class="card-title" style="color:var(--orange);">⏳ Próximo: Video Comercial #2 (12s)</div>
-        <div class="card-desc">Aparecerá automáticamente en esta tarjeta apenas finalicemos el render de la segunda pieza de 12 segundos.</div>
+    <div class="card">
+      <video controls playsinline preload="metadata" poster="./post_02_hyrox_clean.jpg">
+        <source src="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-title">Video Hero Web · Seedance 2.5 Master (10s)</div>
+        <div class="card-desc">Pieza audiovisual integrada en el Hero de la propuesta web interactiva.</div>
+        <div class="actions">
+          <a href="../../propuesta-teamcano-hyrox/assets/video/teamcano_seedance25_master_10s.mp4" download="TeamCano_Demo_Hero_10s.mp4" class="btn secondary">⬇ Descargar Video MP4</a>
+        </div>
       </div>
     </div>
   </div>
