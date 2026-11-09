@@ -1526,28 +1526,28 @@ body {
 .cf-mobile-subnav {
   display: none;
   border-top: 1px solid var(--cf-line);
-  background: rgba(5, 9, 18, 0.96);
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.cf-mobile-subnav::-webkit-scrollbar {
-  display: none;
+  background: rgba(5, 9, 18, 0.98);
+  width: 100%;
 }
 
 .cf-mob-nav-pill {
-  display: inline-block;
-  padding: 0.72rem 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.68rem 0.25rem;
   color: var(--cf-text-muted);
   text-decoration: none;
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: 0.56rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   border-right: 1px solid var(--cf-line);
+}
+
+.cf-mob-nav-pill:last-child {
+  border-right: none;
 }
 
 .cf-mob-nav-pill:active,
@@ -1558,6 +1558,18 @@ body {
 
 .cf-mobile-bottom-dock {
   display: none;
+}
+
+/* Regla Crítica Anti-Desbordamiento en CSS Grid (Evita corte en iOS Safari) */
+.cf-hero > *,
+.cf-split-showcase > *,
+.cf-hud-console > *,
+.cf-comparator-wrap > *,
+.cf-dual-monolith > *,
+.cf-ledger-row > *,
+.cf-stage-bottom-hud > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (max-width: 1120px) {
@@ -1571,7 +1583,8 @@ body {
     justify-content: flex-end;
   }
   .cf-mobile-subnav {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .cf-hero,
@@ -1579,7 +1592,8 @@ body {
   .cf-hud-console,
   .cf-comparator-wrap,
   .cf-dual-monolith {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
   }
 
   .cf-hero-left {
@@ -1683,40 +1697,103 @@ body {
   .cf-hud-output,
   .cf-comp-col,
   .cf-footer {
-    padding: 1.65rem 1.15rem;
+    padding: 1.5rem 1rem;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .cf-hero-kinetic-bg {
+    font-size: 3.2rem;
+    top: 18%;
+  }
+
+  .cf-eyebrow-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    max-width: 100%;
   }
 
   .cf-hero-title {
-    font-size: clamp(1.7rem, 7.5vw, 2.45rem);
+    font-size: clamp(1.18rem, 5.1vw, 1.55rem);
+    line-height: 1.22;
+    letter-spacing: 0.01em;
+    margin-bottom: 1.15rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .cf-hero-lead {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    max-width: 100%;
+    padding-left: 0.85rem;
+    margin-bottom: 1.5rem;
   }
 
   .cf-hero-cta-row {
     flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    width: 100%;
   }
   .cf-btn-primary,
   .cf-btn-outline {
     width: 100%;
+    max-width: 100%;
+    padding: 0.92rem 0.75rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    white-space: normal;
     justify-content: center;
     text-align: center;
   }
 
   .cf-hero-metrics {
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 0.85rem;
+    padding-top: 1.15rem;
   }
   .cf-metric-item {
     border-right: none;
     padding-left: 0;
   }
+  .cf-metric-val {
+    font-size: 1.15rem;
+  }
 
+  .cf-stage-top-hud {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
   .cf-stage-pedestal {
-    min-height: 270px;
+    min-height: 250px;
   }
   .cf-hero-jar-img {
-    height: 245px;
+    height: 225px;
   }
   .cf-stage-bottom-hud {
     grid-template-columns: 1fr;
+  }
+  .cf-stage-prod-name {
+    font-size: 1.1rem;
+  }
+  .cf-stage-selector-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+    overflow-x: visible;
+  }
+  .cf-stage-QuickBtn {
+    text-align: center;
+    padding: 0.45rem 0.2rem;
+    font-size: 0.6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .cf-filter-strip {
