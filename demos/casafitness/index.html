@@ -118,8 +118,8 @@
       <!-- Columna Derecha: Escenario Reactivo en 3 Capas con el Isotipo Triangular CF -->
       <div class="cf-hero-right" id="heroStageRight">
         <div class="cf-stage-top-hud">
-          <span id="heroHudCode">CF-01 // MONO</span>
-          <span id="heroHudLab">UNIVERSAL NUTRITION</span>
+          <span class="cf-code-pill" id="heroHudCode">CF-01 // MONO</span>
+          <span class="cf-lab-insignia" id="heroHudLab">UNIVERSAL NUTRITION</span>
         </div>
 
         <div class="cf-stage-pedestal">
@@ -236,12 +236,12 @@
             <div class="cf-dissect-header">
               <div>
                 <span class="cf-dissect-code" id="dissectCode">CF-01 // MONO</span>
-                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cf-blue-bright);" id="dissectCat">
+                <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--cf-blue-bright); display: block;" id="dissectCat">
                   CREATINA MONOHIDRATADA
                 </span>
               </div>
-              <div class="cf-dissect-lab-badge">
-                <img id="dissectLabImg" src="assets/labs/lab_01_creatina_animal.png" alt="Universal Nutrition" />
+              <div class="cf-lab-insignia" id="dissectLabBadge">
+                Universal Nutrition
               </div>
             </div>
 
@@ -323,8 +323,12 @@
       </div>
 
       <div class="cf-dual-monolith">
-        <div class="cf-monolith-pane" style="background-image: url('assets/brand/banner_monohidratadas.jpg');">
-          <div class="cf-monolith-overlay"></div>
+        <div class="cf-monolith-pane mono-stage">
+          <div class="cf-cluster-showcase">
+            <img src="assets/products/09_creatina_on.png" alt="Creatina ON" class="cf-cluster-jar" loading="lazy" />
+            <img src="assets/products/01_creatina_animal.png" alt="Creatina Animal" class="cf-cluster-jar center-hero" loading="lazy" />
+            <img src="assets/products/04_cell_tech.png" alt="Cell Tech" class="cf-cluster-jar" loading="lazy" />
+          </div>
           <div class="cf-monolith-content">
             <span class="cf-eyebrow-tag" style="display:inline-block;margin-bottom:0.75rem;">LÍNEA 01 // POTENCIA &amp; MASA</span>
             <h3 class="cf-monolith-title">CREATINAS MONOHIDRATADAS</h3>
@@ -337,8 +341,12 @@
           </div>
         </div>
 
-        <div class="cf-monolith-pane" style="background-image: url('assets/brand/banner_hcl.jpg');">
-          <div class="cf-monolith-overlay"></div>
+        <div class="cf-monolith-pane hcl-stage">
+          <div class="cf-cluster-showcase">
+            <img src="assets/products/13_atomic_hcl.png" alt="Atomic HCL" class="cf-cluster-jar" loading="lazy" />
+            <img src="assets/products/12_legacy_proscience.png" alt="Legacy ProScience" class="cf-cluster-jar center-hero" loading="lazy" />
+            <img src="assets/products/15_creactor_muscletech.png" alt="Creactor MuscleTech" class="cf-cluster-jar" loading="lazy" />
+          </div>
           <div class="cf-monolith-content">
             <span class="cf-eyebrow-tag" style="display:inline-block;margin-bottom:0.75rem;background:var(--cf-blue);">LÍNEA 02 // DEFINICIÓN &amp; PUREZA</span>
             <h3 class="cf-monolith-title">CREATINAS HCL (HIDROCLORURO)</h3>

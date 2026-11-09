@@ -365,8 +365,7 @@ function updateDissectionStage(prodId) {
 
   document.getElementById('dissectCode').textContent = prod.code;
   document.getElementById('dissectCat').textContent = prod.categoryLabel;
-  document.getElementById('dissectLabImg').src = prod.labImg;
-  document.getElementById('dissectLabImg').alt = prod.lab;
+  document.getElementById('dissectLabBadge').textContent = prod.lab;
   document.getElementById('dissectBgWord').textContent = prod.bgWord;
   document.getElementById('dissectJarImg').src = prod.jarImg;
   document.getElementById('dissectJarImg').alt = prod.name;
@@ -466,8 +465,8 @@ function renderSwissLedger() {
           <h3 class="cf-row-prod-title">${prod.name}</h3>
           <p class="cf-row-prod-benefit">${prod.lab} · ${activeVar.servings} servicios aprox.</p>
         </div>
-        <div class="cf-row-lab-pill" title="Laboratorio: ${prod.lab}">
-          <img src="${prod.labImg}" alt="${prod.lab}" loading="lazy" />
+        <div class="cf-row-lab-col">
+          <span class="cf-row-lab-badge">${prod.lab}</span>
         </div>
         <div class="cf-row-variants">
           ${variantChips}
