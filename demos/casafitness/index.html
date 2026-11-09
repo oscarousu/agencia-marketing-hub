@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>CASA FITNESS COLOMBIA (@casafitnesscol) | Suplementos Deportivos &amp; Bio-Performance Lab</title>
+  <meta name="description" content="Plataforma oficial de suplementación deportiva de Casa Fitness Colombia (@casafitnesscol). Creatinas Monohidratadas, Creatinas HCL, Proteínas y Pre-entrenos 100% originales con envíos a toda Colombia. Pedidos: +57 317 4242001." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- =====================================================================
+       1. BARRA SUPERIOR DE TELEMETRÍA OFICIAL (#003399 -> #9E020B)
+  ====================================================================== -->
+  <div class="cf-top-telebar">
+    <div class="cf-top-telebar-left">
+      <span><i class="cf-pulse-dot"></i>DESPACHOS ACTIVOS A TODA COLOMBIA 🇨🇴</span>
+      <span>SUPLEMENTOS 100% ORIGINALES SELLADOS DE LABORATORIO</span>
+    </div>
+    <div class="cf-top-telebar-right">
+      <span>IG: <strong>@casafitnesscol</strong></span>
+      <span>FB: <strong>Casa Fitness Colombia</strong></span>
+      <span>WHATSAPP DIRECTO: <strong>+57 317 4242001</strong></span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       2. HEADER ARQUITECTÓNICO DE 1PX (LOGO OFICIAL + NAVEGACIÓN + CARRITO)
+  ====================================================================== -->
+  <header class="cf-header">
+    <div class="cf-header-grid">
+      <a href="#inicio" class="cf-brand-cell" aria-label="Casa Fitness Colombia Inicio">
+        <img src="assets/brand/casafitness_logo_white.png" alt="Casa Fitness Suplementos Deportivos" class="cf-brand-logo" />
+      </a>
+
+      <nav class="cf-nav-cell" aria-label="Navegación Principal Casa Fitness">
+        <a href="#catalogo-interactivo" class="cf-nav-link active">01 // Catálogo Interactivo (15)</a>
+        <a href="#lineas-moleculares" class="cf-nav-link">02 // Monohidratadas vs HCL</a>
+        <a href="#consola-diagnostico" class="cf-nav-link">03 // Asesor Bio-Métrico</a>
+        <a href="#comparador-laboratorio" class="cf-nav-link">04 // Duelo de Laboratorios</a>
+      </nav>
+
+      <div class="cf-actions-cell">
+        <button type="button" class="cf-cart-trigger" onclick="toggleCartDrawer(true)">
+          <span>MI PEDIDO</span>
+          <span class="cf-cart-count" id="headerCartCount">0</span>
+        </button>
+        <a href="https://wa.me/573174242001?text=Hola%20Casa%20Fitness%20Colombia%20(%40casafitnesscol)%2C%20quiero%20asesor%C3%ADa%20sobre%20suplementos%20deportivos."
+           target="_blank" rel="noopener" class="cf-wa-direct-btn">
+          <span>WHATSAPP +57 317 4242001</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================================
+         3. HERO ESCULTÓRICO EN 3 CAPAS DE PROFUNDIDAD (CERO CUADROS)
+    ====================================================================== -->
+    <section class="cf-hero" id="inicio">
+      <!-- Palabra Cinética Monumental en Capa 1 -->
+      <div class="cf-hero-kinetic-bg" id="heroKineticWord" aria-hidden="true">
+        ANIMAL // CASA FITNESS
+      </div>
+
+      <!-- Columna Izquierda: Manifiesto & Telemetría de Marca -->
+      <div class="cf-hero-left">
+        <div>
+          <div class="cf-eyebrow-strip">
+            <span class="cf-eyebrow-tag">DISTRIBUIDOR OFICIAL</span>
+            <span>SUPLEMENTOS DEPORTIVOS · COLOMBIA</span>
+          </div>
+
+          <h1 class="cf-hero-title">
+            POTENCIA <span class="cf-stroke-red">MOLECULAR.</span><br />
+            PUREZA DE <span class="cf-stroke-blue">LABORATORIO.</span>
+          </h1>
+
+          <p class="cf-hero-lead">
+            Bienvenido a la plataforma interactiva de <strong>Casa Fitness Colombia (@casafitnesscol)</strong>.
+            Explora nuestro catálogo oficial de <strong>Creatinas Monohidratadas y Creatinas HCL</strong> de los laboratorios líderes del mundo, compara costos exactos por servicio diario y envía tu pedido directo a nuestro WhatsApp sin intermediarios.
+          </p>
+
+          <div class="cf-hero-cta-row">
+            <a href="#catalogo-interactivo" class="cf-btn-primary">
+              <span>EXPLORAR CATÁLOGO OFICIAL</span>
+              <span>→</span>
+            </a>
+            <a href="#consola-diagnostico" class="cf-btn-outline">
+              <span>DIAGNÓSTICO DE SUPLEMENTO EN 15s</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="cf-hero-metrics">
+          <div class="cf-metric-item">
+            <span class="cf-metric-val">15+</span>
+            <span class="cf-metric-lbl">REFERENCIAS EN CATÁLOGO</span>
+          </div>
+          <div class="cf-metric-item">
+            <span class="cf-metric-val">12</span>
+            <span class="cf-metric-lbl">LABORATORIOS GLOBALES</span>
+          </div>
+          <div class="cf-metric-item">
+            <span class="cf-metric-val">100%</span>
+            <span class="cf-metric-lbl">SELLOS DE ORIGINALIDAD</span>
+          </div>
+          <div class="cf-metric-item">
+            <span class="cf-metric-val">$80K</span>
+            <span class="cf-metric-lbl">DESDE $80.000 COP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Escenario Reactivo en 3 Capas con el Isotipo Triangular CF -->
+      <div class="cf-hero-right" id="heroStageRight">
+        <div class="cf-stage-top-hud">
+          <span id="heroHudCode">CF-01 // MONO</span>
+          <span id="heroHudLab">UNIVERSAL NUTRITION</span>
+        </div>
+
+        <div class="cf-stage-pedestal">
+          <!-- Geometría Triangular Oficial CF en SVG -->
+          <svg class="cf-stage-triangle" viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="25,20 135,20 175,95 140,95 112,46 68,46 155,215 175,180 202,225 155,268" stroke="#CE0410" stroke-width="4" fill="rgba(206,4,16,0.08)" />
+            <polygon points="150,20 275,20 255,55 190,55 202,78 242,78 225,110 218,110 232,140 212,175" stroke="#026CC0" stroke-width="4" fill="rgba(2,108,192,0.08)" />
+          </svg>
+
+          <img
+            id="heroJarImg"
+            src="assets/products/01_creatina_animal.png"
+            alt="Creatina Animal Universal"
+            class="cf-hero-jar-img"
+          />
+        </div>
+
+        <div>
+          <div class="cf-stage-bottom-hud">
+            <div>
+              <span class="cf-stage-prod-cat" id="heroProdCat">CREATINA MONOHIDRATADA // 300 GR</span>
+              <h2 class="cf-stage-prod-name" id="heroProdName">CREATINA ANIMAL</h2>
+              <span class="cf-stage-prod-price" id="heroProdPrice">$108.000</span>
+            </div>
+            <button type="button" class="cf-btn-primary" id="heroAddBtn" onclick="addToCart('creatina-animal', 0)">
+              <span>+ AGREGAR AL PEDIDO</span>
+            </button>
+          </div>
+
+          <!-- Selector rápido de tarro en el escenario Hero -->
+          <div class="cf-stage-selector-strip" aria-label="Cambiar suplemento en vitrina principal">
+            <button type="button" class="cf-stage-QuickBtn active" data-hero-id="creatina-animal" onclick="setHeroProduct('creatina-animal')">01. Animal</button>
+            <button type="button" class="cf-stage-QuickBtn" data-hero-id="legacy-proscience" onclick="setHeroProduct('legacy-proscience')">02. Legacy HCL</button>
+            <button type="button" class="cf-stage-QuickBtn" data-hero-id="cell-tech" onclick="setHeroProduct('cell-tech')">03. Cell Tech</button>
+            <button type="button" class="cf-stage-QuickBtn" data-hero-id="creatina-on" onclick="setHeroProduct('creatina-on')">04. ON Gold</button>
+            <button type="button" class="cf-stage-QuickBtn" data-hero-id="creatina-dymatize" onclick="setHeroProduct('creatina-dymatize')">05. Dymatize</button>
+            <button type="button" class="cf-stage-QuickBtn" data-hero-id="creactor-muscletech" onclick="setHeroProduct('creactor-muscletech')">06. Creactor</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4. MARQUESINA CINÉTICA DE LABORATORIOS OFICIALES
+    ====================================================================== -->
+    <div class="cf-marquee-bar" aria-hidden="true">
+      <div class="cf-marquee-track">
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> UNIVERSAL ANIMAL</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> MUSCLETECH</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> PROSCIENCE LEGACY</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> OPTIMUM NUTRITION (ON)</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> DYMATIZE CREAPURE®</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> NUTREX RESEARCH</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> MET-RX</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> NUTRAMERICAN PHARMA</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> SMARTMUSCLE</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> NATURAL NUTRITION</span>
+        <!-- Duplicado para loop infinito -->
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> UNIVERSAL ANIMAL</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> MUSCLETECH</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> PROSCIENCE LEGACY</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> OPTIMUM NUTRITION (ON)</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> DYMATIZE CREAPURE®</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> NUTREX RESEARCH</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> MET-RX</span>
+        <span class="cf-marquee-item"><span class="cf-marquee-slash">//</span> NUTRAMERICAN PHARMA</span>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         5. VITRINA ESCULTÓRICA SPLIT-STAGE & LISTA EDITORIAL SUIZA (15 PRODUCTOS)
+    ====================================================================== -->
+    <section id="catalogo-interactivo">
+      <div class="cf-section-header">
+        <div>
+          <span class="cf-sec-kicker">01 // CATÁLOGO OFICIAL INTERACTIVO — CERO PDFS ESTÁTICOS</span>
+          <h2 class="cf-sec-title">ÍNDICE DE SUPLEMENTACIÓN &amp; LABORATORIO</h2>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-text-muted); max-width: 44ch;">
+          Selecciona cualquier suplemento o gramaje en la tabla derecha para inspeccionar su telemetría molecular y costo por servicio en el escenario izquierdo.
+        </div>
+      </div>
+
+      <!-- Barra de Filtros Reticular de 1px -->
+      <div class="cf-filter-strip">
+        <button type="button" class="cf-filter-tab active" data-filter="all" onclick="setCatalogFilter('all')">
+          TODOS LOS SUPLEMENTOS (15)
+        </button>
+        <button type="button" class="cf-filter-tab" data-filter="monohidratada" onclick="setCatalogFilter('monohidratada')">
+          CREATINAS MONOHIDRATADAS (11)
+        </button>
+        <button type="button" class="cf-filter-tab" data-filter="hcl" onclick="setCatalogFilter('hcl')">
+          CREATINAS HCL &amp; DEFINICIÓN (4)
+        </button>
+        <button type="button" class="cf-filter-tab" data-filter="oferta" onclick="setCatalogFilter('oferta')">
+          🔥 OFERTAS OFICIALES (2)
+        </button>
+        <div class="cf-search-cell">
+          <input
+            type="search"
+            id="catalogSearchInput"
+            class="cf-search-input"
+            placeholder="🔍 Buscar por suplemento o laboratorio (ej. Animal, Legacy, ON, MuscleTech, 1 KG)..."
+            aria-label="Buscar suplemento o laboratorio"
+          />
+        </div>
+      </div>
+
+      <!-- Escenario Split-Stage: Izquierda Fija (Mesa de Disección) + Derecha (Tabla Editorial Suiza) -->
+      <div class="cf-split-showcase">
+        <!-- MESA DE DISECCIÓN DEL PRODUCTO ACTIVO -->
+        <aside class="cf-dissection-stage" aria-live="polite">
+          <div>
+            <div class="cf-dissect-header">
+              <div>
+                <span class="cf-dissect-code" id="dissectCode">CF-01 // MONO</span>
+                <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--cf-blue-bright);" id="dissectCat">
+                  CREATINA MONOHIDRATADA
+                </span>
+              </div>
+              <div class="cf-dissect-lab-badge">
+                <img id="dissectLabImg" src="assets/labs/lab_01_creatina_animal.png" alt="Universal Nutrition" />
+              </div>
+            </div>
+
+            <div class="cf-dissect-visual">
+              <div class="cf-dissect-bg-word" id="dissectBgWord">ANIMAL</div>
+              <img id="dissectJarImg" src="assets/products/01_creatina_animal.png" alt="Creatina Animal" class="cf-dissect-jar" />
+            </div>
+
+            <h3 class="cf-dissect-title" id="dissectTitle">CREATINA ANIMAL</h3>
+            <p class="cf-dissect-subtitle" id="dissectSubtitle">
+              Creatina monohidratada pura de grado pesado para fuerza bruta, resíntesis acelerada de ATP e hipertrofia sarcomérica.
+            </p>
+
+            <!-- Barras de Telemetría Bio-Métrica -->
+            <div class="cf-telemetry-bars">
+              <div class="cf-tele-row">
+                <span>FUERZA / ATP</span>
+                <div class="cf-tele-track"><div class="cf-tele-fill" id="teleAtpBar" style="width: 98%;"></div></div>
+                <strong id="teleAtpVal">98%</strong>
+              </div>
+              <div class="cf-tele-row">
+                <span>VOLUMEN CELULAR</span>
+                <div class="cf-tele-track"><div class="cf-tele-fill" id="teleVolBar" style="width: 95%;"></div></div>
+                <strong id="teleVolVal">95%</strong>
+              </div>
+              <div class="cf-tele-row">
+                <span>BIODISPONIBILIDAD</span>
+                <div class="cf-tele-track"><div class="cf-tele-fill" id="teleAbsBar" style="width: 92%;"></div></div>
+                <strong id="teleAbsVal">92%</strong>
+              </div>
+              <div class="cf-tele-row">
+                <span>CERO RETENCIÓN</span>
+                <div class="cf-tele-track"><div class="cf-tele-fill" id="teleDefBar" style="width: 85%;"></div></div>
+                <strong id="teleDefVal">85%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span class="cf-variant-selector-label">SELECCIONA PRESENTACIÓN / GRAMAJE:</span>
+            <div class="cf-variant-pills" id="dissectVariantPills"></div>
+
+            <div class="cf-dissect-price-bar">
+              <div>
+                <span class="cf-dissect-price-main" id="dissectPriceMain">$108.000</span>
+                <span class="cf-dissect-cost-per-day" id="dissectCostPerDay">≈ $1.800 / servicio (60 serv.)</span>
+              </div>
+              <button type="button" class="cf-btn-primary" id="dissectAddBtn">
+                <span>+ PEDIR AHORA</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ÍNDICE EDITORIAL SUIZO (INSPIRADO EN LA TABLA OFICIAL DE CASA FITNESS) -->
+        <div class="cf-swiss-ledger">
+          <div class="cf-ledger-head">
+            <span>IMAGEN</span>
+            <span>PRODUCTO</span>
+            <span>LABORATORIO</span>
+            <span>PRESENTACIÓN</span>
+            <span>PRECIO OFICIAL</span>
+            <span>ACCIÓN</span>
+          </div>
+          <div id="swissLedgerBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         6. MONOLITO VISUAL DE LAS DOS LÍNEAS OFICIALES (MONOHIDRATADAS VS HCL)
+    ====================================================================== -->
+    <section id="lineas-moleculares">
+      <div class="cf-section-header">
+        <div>
+          <span class="cf-sec-kicker">02 // ARQUITECTURA VISUAL OFICIAL CASA FITNESS</span>
+          <h2 class="cf-sec-title">DOS RUTAS FISIOLÓGICAS: MONOHIDRATADAS VS. HCL</h2>
+        </div>
+      </div>
+
+      <div class="cf-dual-monolith">
+        <div class="cf-monolith-pane" style="background-image: url('assets/brand/banner_monohidratadas.jpg');">
+          <div class="cf-monolith-overlay"></div>
+          <div class="cf-monolith-content">
+            <span class="cf-eyebrow-tag" style="display:inline-block;margin-bottom:0.75rem;">LÍNEA 01 // POTENCIA &amp; MASA</span>
+            <h3 class="cf-monolith-title">CREATINAS MONOHIDRATADAS</h3>
+            <p style="color: var(--cf-text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.4rem; max-width: 52ch;">
+              La molécula con mayor respaldo científico en la historia del deporte. Ideal para atletas que buscan <strong>incrementar sus levantamientos máximos (1RM), hidratar la célula muscular a máxima capacidad y acelerar la ganancia de masa magra</strong>. Presentaciones desde 300g hasta 1 Kilo y 6 Libras.
+            </p>
+            <button type="button" class="cf-btn-primary" onclick="setCatalogFilter('monohidratada'); document.getElementById('catalogo-interactivo').scrollIntoView({behavior:'smooth'});">
+              <span>FILTRAR LAS 11 MONOHIDRATADAS</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cf-monolith-pane" style="background-image: url('assets/brand/banner_hcl.jpg');">
+          <div class="cf-monolith-overlay"></div>
+          <div class="cf-monolith-content">
+            <span class="cf-eyebrow-tag" style="display:inline-block;margin-bottom:0.75rem;background:var(--cf-blue);">LÍNEA 02 // DEFINICIÓN &amp; PUREZA</span>
+            <h3 class="cf-monolith-title">CREATINAS HCL (HIDROCLORURO)</h3>
+            <p style="color: var(--cf-text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.4rem; max-width: 52ch;">
+              Unida a una sal de ácido clorhídrico para lograr una <strong>solubilidad hasta 38 veces superior</strong>. No requiere fase de carga, ofrece confort digestivo absoluto y garantiza <strong>cero retención de líquido subcutáneo</strong> para etapas de definición y rocosidad estética.
+            </p>
+            <button type="button" class="cf-btn-outline" onclick="setCatalogFilter('hcl'); document.getElementById('catalogo-interactivo').scrollIntoView({behavior:'smooth'});">
+              <span>FILTRAR LAS 4 CREATINAS HCL</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         7. CONSOLA BIO-MÉTRICA HUD: DIAGNÓSTICO DE PROTOCOLO EN TIEMPO REAL
+    ====================================================================== -->
+    <section id="consola-diagnostico">
+      <div class="cf-section-header">
+        <div>
+          <span class="cf-sec-kicker">03 // ASESORÍA AUTOMATIZADA 24/7</span>
+          <h2 class="cf-sec-title">CONSOLA BIO-MÉTRICA DE SELECCIÓN</h2>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-text-muted); max-width: 44ch;">
+          Ajusta los 3 parámetros fisiológicos y el motor seleccionará el suplemento y gramaje exacto del inventario oficial de Casa Fitness.
+        </div>
+      </div>
+
+      <div class="cf-hud-console">
+        <div class="cf-hud-controls">
+          <div class="cf-hud-step">
+            <span class="cf-hud-step-title">PARÁMETRO 01 // OBJETIVO FISIOLÓGICO PRINCIPAL</span>
+            <div class="cf-hud-options">
+              <button type="button" class="cf-hud-opt-btn active" data-hud-group="goal" data-hud-val="fuerza" onclick="setHudParam('goal', 'fuerza')">
+                ⚡ Fuerza Bruta &amp; Potencia (Monohidrato Puro)
+              </button>
+              <button type="button" class="cf-hud-opt-btn" data-hud-group="goal" data-hud-val="definicion" onclick="setHudParam('goal', 'definicion')">
+                🧬 Definición Estética &amp; Cero Retención (HCL)
+              </button>
+              <button type="button" class="cf-hud-opt-btn" data-hud-group="goal" data-hud-val="volumen" onclick="setHudParam('goal', 'volumen')">
+                🏋️‍♂️ Volumen Extremo &amp; Masa (Complejos / Cell Tech)
+              </button>
+            </div>
+          </div>
+
+          <div class="cf-hud-step">
+            <span class="cf-hud-step-title">PARÁMETRO 02 // DURACIÓN DEL CICLO DE ENTRENAMIENTO</span>
+            <div class="cf-hud-options" style="grid-template-columns: 1fr 1fr;">
+              <button type="button" class="cf-hud-opt-btn active" data-hud-group="duration" data-hud-val="standard" onclick="setHudParam('duration', 'standard')">
+                Ciclo Estándar (50 a 60 Servicios · 2 Meses)
+              </button>
+              <button type="button" class="cf-hud-opt-btn" data-hud-group="duration" data-hud-val="extended" onclick="setHudParam('duration', 'extended')">
+                Ciclo Extendido Ahorro (80 a 200 Servicios · 3-6 Meses)
+              </button>
+            </div>
+          </div>
+
+          <div class="cf-hud-step">
+            <span class="cf-hud-step-title">PARÁMETRO 03 // RANGO DE INVERSIÓN</span>
+            <div class="cf-hud-options" style="grid-template-columns: 1fr 1fr;">
+              <button type="button" class="cf-hud-opt-btn" data-hud-group="budget" data-hud-val="optimo" onclick="setHudParam('budget', 'optimo')">
+                Optimizado ($80.000 — $110.000 COP)
+              </button>
+              <button type="button" class="cf-hud-opt-btn active" data-hud-group="budget" data-hud-val="all" onclick="setHudParam('budget', 'all')">
+                Élite / Máxima Capacidad ($112.000 — $225.000 COP)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cf-hud-output" aria-live="polite">
+          <span class="cf-sec-kicker" id="hudResultCode">MATCH ÓPTIMO // CF-01</span>
+          <h3 style="font-family: var(--font-display); font-size: 1.55rem; text-transform: uppercase;" id="hudResultTitle">
+            CREATINA ANIMAL (300 GR)
+          </h3>
+          <span style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-blue-bright); margin-top: 0.25rem;" id="hudResultLab">
+            LABORATORIO: UNIVERSAL NUTRITION
+          </span>
+
+          <div class="cf-hud-result-grid">
+            <img id="hudResultJar" src="assets/products/01_creatina_animal.png" alt="Creatina recomendada" class="cf-hud-result-jar" />
+            <div>
+              <p style="font-size: 0.92rem; color: var(--cf-text-muted); line-height: 1.6; margin-bottom: 1rem;" id="hudResultDesc"></p>
+              <div style="font-family: var(--font-mono); font-size: 1.75rem; font-weight: 700;" id="hudResultPrice">$108.000</div>
+              <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-whatsapp); margin-bottom: 1.25rem;" id="hudResultServ"></div>
+              <button type="button" class="cf-btn-primary" id="hudAddBtn">
+                <span>+ AGREGAR PROTOCOLO RECOMENDADO AL PEDIDO</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         8. COMPARADOR CARA A CARA DE LABORATORIO (HEAD-TO-HEAD DUEL)
+    ====================================================================== -->
+    <section id="comparador-laboratorio">
+      <div class="cf-section-header">
+        <div>
+          <span class="cf-sec-kicker">04 // TRANSPARENCIA TÉCNICA</span>
+          <h2 class="cf-sec-title">DUELO CARA A CARA ENTRE SUPLEMENTOS</h2>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-text-muted); max-width: 44ch;">
+          Compara cualquier par de suplementos de Casa Fitness lado a lado: servicios por tarro, costo diario y enfoque fisiológico.
+        </div>
+      </div>
+
+      <div class="cf-comparator-wrap">
+        <div class="cf-comp-col">
+          <label for="compSelectA" class="cf-variant-selector-label">SUPLEMENTO A:</label>
+          <select id="compSelectA" class="cf-comp-select"></select>
+          <div id="compBodyA"></div>
+        </div>
+
+        <div class="cf-comp-col">
+          <label for="compSelectB" class="cf-variant-selector-label">SUPLEMENTO B:</label>
+          <select id="compSelectB" class="cf-comp-select"></select>
+          <div id="compBodyB"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       9. DRAWER LATERAL DE PEDIDO + WHATSAPP ONE-CLICK CHECKOUT
+  ====================================================================== -->
+  <div class="cf-drawer-backdrop" id="drawerBackdrop" onclick="toggleCartDrawer(false)"></div>
+  <aside class="cf-cart-drawer" id="cartDrawer" aria-label="Carrito de pedido Casa Fitness">
+    <div class="cf-drawer-head">
+      <span class="cf-drawer-title">ORDEN DE PEDIDO // CASA FITNESS</span>
+      <button type="button" class="cf-drawer-close" onclick="toggleCartDrawer(false)" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <div class="cf-drawer-body" id="cartDrawerBody"></div>
+
+    <div class="cf-drawer-foot">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;font-family:var(--font-mono);">
+        <span style="color:var(--cf-text-muted);font-size:0.78rem;">SUBTOTAL ESTIMADO:</span>
+        <strong style="font-size:1.25rem;color:var(--cf-white);" id="cartTotalValue">$0 COP</strong>
+      </div>
+
+      <input
+        type="text"
+        id="checkoutCity"
+        class="cf-checkout-field"
+        placeholder="📍 Ciudad de entrega (ej. Tuluá, Cali, Bogotá, Medellín...)"
+      />
+      <select id="checkoutPayment" class="cf-checkout-field">
+        <option value="Transferencia Nequi / Bancolombia">💳 Pago por Transferencia (Nequi / Bancolombia / Daviplata)</option>
+        <option value="Pago Contraentrega / Coordinar con Asesor">📦 Coordinar Envío y Pago con Asesor</option>
+      </select>
+
+      <button type="button" class="cf-wa-checkout-btn" onclick="checkoutViaWhatsApp()">
+        <span>ENVIAR PEDIDO A WHATSAPP (+57 317 4242001)</span>
+        <span>→</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- =====================================================================
+       10. FOOTER OFICIAL CON LA IDENTIDAD DE CASA FITNESS COLOMBIA
+  ====================================================================== -->
+  <footer class="cf-footer">
+    <div class="cf-footer-grid">
+      <div>
+        <img src="assets/brand/casafitness_logo_white.png" alt="Casa Fitness Colombia" style="height: 58px; width: auto; margin-bottom: 1.2rem;" />
+        <p style="color: var(--cf-text-muted); font-size: 0.9rem; line-height: 1.65; max-width: 44ch;">
+          <strong>CASA FITNESS — SUPLEMENTOS DEPORTIVOS.</strong> Comercialización y distribución de suplementación deportiva 100% original con asesoría personalizada y despachos seguros a todo el territorio colombiano.
+        </p>
+      </div>
+
+      <div>
+        <span class="cf-sec-kicker" style="margin-bottom: 1rem;">CANALES OFICIALES DIRECTOS</span>
+        <ul style="list-style: none; font-family: var(--font-mono); font-size: 0.82rem; line-height: 2.2;">
+          <li>
+            <a href="https://wa.me/573174242001" target="_blank" rel="noopener" style="color: var(--cf-whatsapp); text-decoration: none;">
+              💬 WhatsApp: +57 317 4242001
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/casafitnesscol/" target="_blank" rel="noopener" style="color: var(--cf-white); text-decoration: none;">
+              📸 Instagram: @casafitnesscol
+            </a>
+          </li>
+          <li style="color: var(--cf-text-muted);">
+            📘 Facebook: Casa Fitness Colombia
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <span class="cf-sec-kicker" style="margin-bottom: 1rem;">LABORATORIOS EN CATÁLOGO</span>
+        <p style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--cf-text-muted); line-height: 1.9;">
+          Universal Animal · MuscleTech · ProScience · Optimum Nutrition (ON) · Dymatize · Nutrex Research · MET-Rx · Nutramerican Pharma · Smart Nutrition · SmartMuscle · Angry Supplements · Natural Nutrition.
+        </p>
+      </div>
+    </div>
+
+    <div style="padding-top: 1.75rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--cf-text-dim);">
+      <span>© 2026 CASA FITNESS COLOMBIA (@casafitnesscol). TODOS LOS DERECHOS RESERVADOS.</span>
+      <span>ARQUITECTURA BIO-PERFORMANCE // AGENCIA MARKETING IA</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1503 @@
+/* ==========================================================================
+   CASA FITNESS COLOMBIA (@casafitnesscol) — BIO-PERFORMANCE BRUTALIST SYSTEM
+   Identidad Oficial Extraída:
+   - Crimson Red ("C"): #CE0410 / #BA0101
+   - Electric Blue ("F"): #026CC0 / #0476D2
+   - Catalog Royal Blue Header: #003399
+   - Dark Slate Stone Base: #0B0D11 / #13171D + Textura Oficial de Roca
+   - Tipografía Oficial: Syncopate (Display Wide) + Plus Jakarta Sans + JetBrains Mono
+   - Cero Cajas Genéricas: Arquitectura Reticular Suiza de 1px (Exposed Hairlines)
+   ========================================================================== */
+
+:root {
+  --cf-red: #ce0410;
+  --cf-red-dark: #9e020b;
+  --cf-red-glow: rgba(206, 4, 16, 0.32);
+  --cf-blue: #026cc0;
+  --cf-blue-bright: #0582e6;
+  --cf-blue-glow: rgba(2, 108, 192, 0.34);
+  --cf-navy: #003399;
+  --cf-bg: #090b0e;
+  --cf-bg-elevated: #0f1318;
+  --cf-bg-panel: rgba(15, 19, 25, 0.86);
+  --cf-white: #ffffff;
+  --cf-text-muted: #9aa4b2;
+  --cf-text-dim: #5e6877;
+  --cf-line: rgba(255, 255, 255, 0.11);
+  --cf-line-strong: rgba(255, 255, 255, 0.24);
+  --cf-offer: #ff2a2a;
+  --cf-whatsapp: #1ed760;
+
+  --font-display: 'Syncopate', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--cf-bg);
+  color: var(--cf-white);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--cf-bg);
+  background-image:
+    linear-gradient(180deg, rgba(9, 11, 14, 0.88) 0%, rgba(9, 11, 14, 0.95) 50%, rgba(9, 11, 14, 0.92) 100%),
+    url('assets/brand/slate_texture_clean.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  overflow-x: hidden;
+  selection-background-color: var(--cf-red);
+}
+
+::selection {
+  background: var(--cf-red);
+  color: var(--cf-white);
+}
+
+/* ==========================================================================
+   1. BARRA SUPERIOR OFICIAL (#003399) + HEADER ARQUITECTÓNICO DE 1PX
+   ========================================================================== */
+.cf-top-telebar {
+  background: linear-gradient(90deg, var(--cf-navy) 0%, #002266 50%, var(--cf-red-dark) 100%);
+  border-bottom: 1px solid var(--cf-line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 60;
+}
+
+.cf-top-telebar-left,
+.cf-top-telebar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cf-pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--cf-whatsapp);
+  display: inline-block;
+  margin-right: 0.45rem;
+  box-shadow: 0 0 10px var(--cf-whatsapp);
+  animation: cfPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes cfPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.cf-header {
+  position: sticky;
+  top: 0;
+  z-index: 55;
+  background: rgba(9, 11, 14, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-header-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr auto;
+  align-items: stretch;
+  min-height: 74px;
+}
+
+.cf-brand-cell {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.75rem;
+  border-right: 1px solid var(--cf-line);
+  text-decoration: none;
+  position: relative;
+}
+
+.cf-brand-logo {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.6));
+  transition: transform 0.25s ease;
+}
+
+.cf-brand-cell:hover .cf-brand-logo {
+  transform: scale(1.03);
+}
+
+.cf-nav-cell {
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 2.25rem;
+}
+
+.cf-nav-link {
+  color: var(--cf-text-muted);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.cf-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cf-red), var(--cf-blue));
+  transition: width 0.25s ease;
+}
+
+.cf-nav-link:hover,
+.cf-nav-link.active {
+  color: var(--cf-white);
+}
+
+.cf-nav-link:hover::after,
+.cf-nav-link.active::after {
+  width: 100%;
+}
+
+.cf-actions-cell {
+  display: flex;
+  align-items: stretch;
+  border-left: 1px solid var(--cf-line);
+}
+
+.cf-cart-trigger {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--cf-line);
+  color: var(--cf-white);
+  padding: 0 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.2s ease;
+}
+
+.cf-cart-trigger:hover {
+  background: rgba(2, 108, 192, 0.14);
+}
+
+.cf-cart-count {
+  background: var(--cf-red);
+  color: var(--cf-white);
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.cf-wa-direct-btn {
+  background: var(--cf-red);
+  color: var(--cf-white);
+  text-decoration: none;
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+
+.cf-wa-direct-btn:hover {
+  background: var(--cf-blue);
+}
+
+/* ==========================================================================
+   2. HERO ESCULTÓRICO EN 3 CAPAS DE PROFUNDIDAD (ZERO BOXES)
+   ========================================================================== */
+.cf-hero {
+  position: relative;
+  min-height: calc(100vh - 108px);
+  border-bottom: 1px solid var(--cf-line);
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  overflow: hidden;
+}
+
+/* Marca de agua triangular CF oficial en el fondo */
+.cf-hero-watermark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.cf-hero-kinetic-bg {
+  position: absolute;
+  top: 50%;
+  left: -5%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 11vw, 11.5rem);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cf-hero-left {
+  position: relative;
+  z-index: 3;
+  padding: 3.5rem 3rem 3rem 3rem;
+  border-right: 1px solid var(--cf-line);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cf-eyebrow-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cf-white);
+  margin-bottom: 1.5rem;
+}
+
+.cf-eyebrow-tag {
+  background: linear-gradient(90deg, var(--cf-red) 0%, var(--cf-blue) 100%);
+  padding: 0.25rem 0.75rem;
+  font-weight: 700;
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 6% 100%);
+}
+
+.cf-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.1vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.cf-hero-title .cf-stroke-red {
+  color: var(--cf-red);
+  text-shadow: 0 0 35px var(--cf-red-glow);
+}
+
+.cf-hero-title .cf-stroke-blue {
+  color: var(--cf-blue-bright);
+  text-shadow: 0 0 35px var(--cf-blue-glow);
+}
+
+.cf-hero-lead {
+  font-size: 1.04rem;
+  line-height: 1.65;
+  color: var(--cf-text-muted);
+  max-width: 58ch;
+  margin-bottom: 2.25rem;
+  border-left: 3px solid var(--cf-red);
+  padding-left: 1.25rem;
+}
+
+.cf-hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.75rem;
+}
+
+.cf-btn-primary {
+  background: var(--cf-red);
+  color: var(--cf-white);
+  border: 1px solid var(--cf-red);
+  padding: 1.05rem 2rem;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, 95% 0, 100% 28%, 100% 100%, 5% 100%, 0 72%);
+  transition: all 0.22s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cf-btn-primary:hover {
+  background: var(--cf-blue);
+  border-color: var(--cf-blue-bright);
+  transform: translateY(-2px);
+}
+
+.cf-btn-outline {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--cf-white);
+  border: 1px solid var(--cf-line-strong);
+  padding: 1.05rem 1.85rem;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, 95% 0, 100% 28%, 100% 100%, 5% 100%, 0 72%);
+  transition: all 0.22s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cf-btn-outline:hover {
+  border-color: var(--cf-blue-bright);
+  background: rgba(2, 108, 192, 0.15);
+}
+
+/* Barra de telemetría inferior del Hero (Sin cajas, líneas de 1px) */
+.cf-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--cf-line);
+  padding-top: 1.5rem;
+}
+
+.cf-metric-item {
+  padding-right: 1rem;
+  border-right: 1px solid var(--cf-line);
+  padding-left: 1rem;
+}
+
+.cf-metric-item:first-child {
+  padding-left: 0;
+}
+
+.cf-metric-item:last-child {
+  border-right: none;
+}
+
+.cf-metric-val {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--cf-white);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.cf-metric-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--cf-text-muted);
+}
+
+/* Columna Derecha del Hero: Escenario Reactivo de Producto en 3 Capas */
+.cf-hero-right {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.25rem 2.5rem;
+  background:
+    radial-gradient(circle at 50% 45%, var(--hero-stage-glow, rgba(206, 4, 16, 0.28)) 0%, rgba(2, 108, 192, 0.12) 45%, transparent 72%);
+  transition: background 0.4s ease;
+}
+
+.cf-stage-top-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--cf-line);
+  padding-bottom: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--cf-text-muted);
+}
+
+.cf-stage-pedestal {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+  padding: 1.5rem 0;
+}
+
+/* Triángulo luminoso oficial CF detrás del tarro */
+.cf-stage-triangle {
+  position: absolute;
+  width: 290px;
+  height: 290px;
+  pointer-events: none;
+  opacity: 0.35;
+  filter: drop-shadow(0 0 25px var(--cf-blue));
+}
+
+.cf-hero-jar-img {
+  position: relative;
+  z-index: 3;
+  height: 300px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 38px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 28px rgba(2, 108, 192, 0.28));
+  animation: cfFloatJar 4.5s ease-in-out infinite;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+}
+
+@keyframes cfFloatJar {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-1deg); }
+}
+
+.cf-stage-bottom-hud {
+  border-top: 1px solid var(--cf-line);
+  padding-top: 1.15rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.cf-stage-prod-cat {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cf-blue-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.cf-stage-prod-name {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.cf-stage-prod-price {
+  font-family: var(--font-mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--cf-white);
+}
+
+.cf-stage-selector-strip {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  border-top: 1px solid var(--cf-line);
+  padding-top: 0.85rem;
+  overflow-x: auto;
+}
+
+.cf-stage-QuickBtn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--cf-line);
+  color: var(--cf-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.42rem 0.7rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.cf-stage-QuickBtn.active,
+.cf-stage-QuickBtn:hover {
+  background: var(--cf-navy);
+  border-color: var(--cf-blue-bright);
+  color: var(--cf-white);
+}
+
+/* ==========================================================================
+   3. MARQUESINA CINÉTICA DE LABORATORIOS OFICIALES (ESTILO SWISS LAB)
+   ========================================================================== */
+.cf-marquee-bar {
+  background: #06080a;
+  border-bottom: 1px solid var(--cf-line);
+  overflow: hidden;
+  padding: 0.9rem 0;
+  position: relative;
+}
+
+.cf-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+  animation: cfMarquee 32s linear infinite;
+  align-items: center;
+}
+
+.cf-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--cf-text-muted);
+  text-transform: uppercase;
+}
+
+.cf-marquee-slash {
+  color: var(--cf-red);
+  font-weight: 700;
+}
+
+@keyframes cfMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   4. VITRINA ESCULTÓRICA SPLIT-STAGE + ÍNDICE EDITORIAL SUIZO (CERO CUADROS)
+   ========================================================================== */
+.cf-section-header {
+  border-bottom: 1px solid var(--cf-line);
+  background: linear-gradient(90deg, rgba(0, 51, 153, 0.28) 0%, rgba(9, 11, 14, 0.92) 65%);
+  padding: 2.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.cf-sec-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cf-blue-bright);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.cf-sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3vw, 2.65rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Barra de filtros arquitectónica (Sin botones redondos, pestañas de 1px) */
+.cf-filter-strip {
+  display: grid;
+  grid-template-columns: repeat(4, auto) 1fr;
+  border-bottom: 1px solid var(--cf-line);
+  background: rgba(9, 11, 14, 0.92);
+}
+
+.cf-filter-tab {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--cf-line);
+  color: var(--cf-text-muted);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 1.15rem 1.75rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.cf-filter-tab:hover {
+  color: var(--cf-white);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cf-filter-tab.active {
+  color: var(--cf-white);
+  background: linear-gradient(180deg, rgba(0, 51, 153, 0.45) 0%, rgba(206, 4, 16, 0.18) 100%);
+  box-shadow: inset 0 -3px 0 var(--cf-red);
+}
+
+.cf-search-cell {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.cf-search-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--cf-white);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.cf-search-input::placeholder {
+  color: var(--cf-text-dim);
+}
+
+/* Split-Stage Container */
+.cf-split-showcase {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  border-bottom: 1px solid var(--cf-line);
+  align-items: start;
+}
+
+/* Panel Izquierdo Fijo: Mesa de Disección del Suplemento Activo */
+.cf-dissection-stage {
+  position: sticky;
+  top: 75px;
+  border-right: 1px solid var(--cf-line);
+  min-height: calc(100vh - 75px);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(2, 108, 192, 0.22) 0%, rgba(206, 4, 16, 0.12) 45%, rgba(9, 11, 14, 0.95) 80%),
+    url('assets/brand/slate_texture_clean.jpg') center/cover;
+}
+
+.cf-dissect-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--cf-line);
+  padding-bottom: 1rem;
+}
+
+.cf-dissect-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--cf-red);
+  letter-spacing: 0.14em;
+  display: block;
+}
+
+.cf-dissect-lab-badge {
+  background: #ffffff;
+  padding: 0.35rem 0.65rem;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(0 0, 93% 0, 100% 100%, 7% 100%);
+}
+
+.cf-dissect-lab-badge img {
+  max-height: 26px;
+  max-width: 110px;
+  object-fit: contain;
+}
+
+.cf-dissect-visual {
+  position: relative;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.cf-dissect-bg-word {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.08);
+  text-transform: uppercase;
+  pointer-events: none;
+  text-align: center;
+  line-height: 0.9;
+}
+
+.cf-dissect-jar {
+  position: relative;
+  z-index: 2;
+  max-height: 245px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.9));
+  transition: transform 0.3s ease;
+}
+
+.cf-dissect-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.cf-dissect-subtitle {
+  font-size: 0.86rem;
+  color: var(--cf-text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+
+/* Barras de Telemetría Bio-Métrica */
+.cf-telemetry-bars {
+  border-top: 1px solid var(--cf-line);
+  border-bottom: 1px solid var(--cf-line);
+  padding: 0.9rem 0;
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cf-tele-row {
+  display: grid;
+  grid-template-columns: 135px 1fr 42px;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.cf-tele-track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.cf-tele-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cf-blue) 0%, var(--cf-red) 100%);
+  transition: width 0.35s ease;
+}
+
+/* Selector de Gramaje / Presentación en Vivo */
+.cf-variant-selector-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--cf-text-muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.cf-variant-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.15rem;
+}
+
+.cf-variant-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--cf-line-strong);
+  color: var(--cf-white);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.cf-variant-btn.active {
+  background: var(--cf-red);
+  border-color: var(--cf-red);
+  box-shadow: 0 0 18px var(--cf-red-glow);
+}
+
+.cf-dissect-price-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.cf-dissect-price-main {
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--cf-white);
+  display: block;
+}
+
+.cf-dissect-cost-per-day {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--cf-whatsapp);
+}
+
+/* ==========================================================================
+   5. LISTA EDITORIAL SUIZA DE 1PX (INSPIRADA EN LA TABLA OFICIAL DE CASA FITNESS)
+   ========================================================================== */
+.cf-swiss-ledger {
+  width: 100%;
+}
+
+/* Cabecera Azul Real Oficial (#003399) como en las páginas 3, 4 y 6 del catálogo */
+.cf-ledger-head {
+  display: grid;
+  grid-template-columns: 95px 1.4fr 145px 1.2fr 150px 135px;
+  background: var(--cf-navy);
+  border-bottom: 1px solid var(--cf-line-strong);
+  padding: 0.85rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cf-white);
+  align-items: center;
+}
+
+.cf-ledger-row {
+  display: grid;
+  grid-template-columns: 95px 1.4fr 145px 1.2fr 150px 135px;
+  align-items: center;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid var(--cf-line);
+  background: rgba(9, 11, 14, 0.78);
+  transition: background 0.2s ease, border-left 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.cf-ledger-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0px;
+  background: linear-gradient(180deg, var(--cf-red), var(--cf-blue));
+  transition: width 0.2s ease;
+}
+
+.cf-ledger-row:hover,
+.cf-ledger-row.active {
+  background: rgba(2, 108, 192, 0.13);
+}
+
+.cf-ledger-row:hover::before,
+.cf-ledger-row.active::before {
+  width: 5px;
+}
+
+.cf-row-jar-wrap {
+  width: 72px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cf-row-jar-img {
+  max-width: 68px;
+  max-height: 82px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.75));
+  transition: transform 0.25s ease;
+}
+
+.cf-ledger-row:hover .cf-row-jar-img {
+  transform: scale(1.1) translateY(-3px);
+}
+
+.cf-row-prod-info {
+  padding-right: 1rem;
+}
+
+.cf-row-cat-badge {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cf-blue-bright);
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.cf-row-offer-tag {
+  background: var(--cf-red);
+  color: var(--cf-white);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.12rem 0.45rem;
+  margin-left: 0.45rem;
+  letter-spacing: 0.1em;
+}
+
+.cf-row-prod-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cf-white);
+  margin-bottom: 0.25rem;
+}
+
+.cf-row-prod-benefit {
+  font-size: 0.78rem;
+  color: var(--cf-text-muted);
+}
+
+.cf-row-lab-pill {
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.3rem 0.55rem;
+  width: 118px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(0 0, 94% 0, 100% 100%, 6% 100%);
+}
+
+.cf-row-lab-pill img {
+  max-width: 102px;
+  max-height: 26px;
+  object-fit: contain;
+}
+
+.cf-row-variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding-right: 0.75rem;
+}
+
+.cf-row-var-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--cf-line-strong);
+  color: var(--cf-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.28rem 0.55rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cf-row-var-chip.active,
+.cf-row-var-chip:hover {
+  background: var(--cf-blue);
+  border-color: var(--cf-blue-bright);
+  color: var(--cf-white);
+  font-weight: 700;
+}
+
+.cf-row-price-col {
+  font-family: var(--font-mono);
+}
+
+.cf-row-price-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cf-white);
+  display: block;
+}
+
+.cf-row-serv-cost {
+  font-size: 0.66rem;
+  color: var(--cf-text-muted);
+}
+
+.cf-row-add-btn {
+  background: transparent;
+  border: 1px solid var(--cf-red);
+  color: var(--cf-white);
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.65rem 0.85rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  clip-path: polygon(0 0, 92% 0, 100% 100%, 8% 100%);
+}
+
+.cf-row-add-btn:hover {
+  background: var(--cf-red);
+}
+
+/* ==========================================================================
+   6. BANNERS EDITORIALES OFICIALES (MONOHIDRATADAS VS CREATINAS HCL)
+   ========================================================================== */
+.cf-dual-monolith {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-monolith-pane {
+  position: relative;
+  min-height: 440px;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-right: 1px solid var(--cf-line);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center top;
+}
+
+.cf-monolith-pane:last-child {
+  border-right: none;
+}
+
+.cf-monolith-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9, 11, 14, 0.25) 0%, rgba(9, 11, 14, 0.85) 68%, rgba(9, 11, 14, 0.97) 100%);
+  z-index: 1;
+}
+
+.cf-monolith-content {
+  position: relative;
+  z-index: 2;
+}
+
+.cf-monolith-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   7. CONSOLA BIO-MÉTRICA HUD: RECOMENDADOR DE PROTOCOLO EN TIEMPO REAL
+   ========================================================================== */
+.cf-hud-console {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--cf-line);
+  background: rgba(9, 11, 14, 0.92);
+}
+
+.cf-hud-controls {
+  padding: 3rem;
+  border-right: 1px solid var(--cf-line);
+}
+
+.cf-hud-step {
+  margin-bottom: 2rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-hud-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.cf-hud-step-title {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cf-red);
+  margin-bottom: 0.85rem;
+  display: block;
+}
+
+.cf-hud-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--cf-line-strong);
+}
+
+.cf-hud-opt-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: none;
+  border-right: 1px solid var(--cf-line);
+  color: var(--cf-text-muted);
+  padding: 1rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cf-hud-opt-btn:last-child {
+  border-right: none;
+}
+
+.cf-hud-opt-btn.active {
+  background: linear-gradient(135deg, var(--cf-navy) 0%, var(--cf-blue) 100%);
+  color: var(--cf-white);
+  box-shadow: inset 0 -3px 0 var(--cf-red);
+}
+
+.cf-hud-output {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 75% 30%, rgba(206, 4, 16, 0.18), transparent 60%),
+    radial-gradient(circle at 25% 75%, rgba(2, 108, 192, 0.2), transparent 60%);
+}
+
+.cf-hud-result-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  align-items: center;
+  border-top: 1px solid var(--cf-line);
+  border-bottom: 1px solid var(--cf-line);
+  padding: 2rem 0;
+  margin: 1.25rem 0;
+}
+
+.cf-hud-result-jar {
+  max-height: 210px;
+  width: auto;
+  margin: 0 auto;
+  display: block;
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.85));
+}
+
+/* ==========================================================================
+   8. COMPARADOR CARA A CARA DE LABORATORIO (HEAD-TO-HEAD DUEL)
+   ========================================================================== */
+.cf-comparator-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-comp-col {
+  padding: 2.75rem 3rem;
+  border-right: 1px solid var(--cf-line);
+}
+
+.cf-comp-col:last-child {
+  border-right: none;
+}
+
+.cf-comp-select {
+  width: 100%;
+  background: #0d1117;
+  color: var(--cf-white);
+  border: 1px solid var(--cf-line-strong);
+  padding: 0.9rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 2rem;
+  outline: none;
+}
+
+.cf-comp-stage {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.cf-comp-stage img.cf-comp-jar {
+  max-height: 175px;
+  width: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.85));
+}
+
+.cf-comp-spec-list {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--cf-line);
+}
+
+.cf-comp-spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--cf-line);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+/* ==========================================================================
+   9. DRAWER TÁCTICO DE PEDIDO DIRECTO A WHATSAPP (+57 317 4242001)
+   ========================================================================== */
+.cf-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cf-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cf-cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(460px, 100vw);
+  height: 100vh;
+  background: #0b0e13;
+  border-left: 1px solid var(--cf-line-strong);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cf-cart-drawer.open {
+  transform: translateX(0);
+}
+
+.cf-drawer-head {
+  background: var(--cf-navy);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--cf-line-strong);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cf-drawer-title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cf-drawer-close {
+  background: transparent;
+  border: 1px solid var(--cf-line-strong);
+  color: var(--cf-white);
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.cf-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.cf-cart-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-cart-item img {
+  max-height: 62px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.cf-drawer-foot {
+  padding: 1.35rem 1.5rem;
+  border-top: 1px solid var(--cf-line-strong);
+  background: #080a0e;
+}
+
+.cf-checkout-field {
+  width: 100%;
+  background: #11161f;
+  border: 1px solid var(--cf-line-strong);
+  color: var(--cf-white);
+  padding: 0.7rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  margin-bottom: 0.65rem;
+  outline: none;
+}
+
+.cf-wa-checkout-btn {
+  width: 100%;
+  background: var(--cf-whatsapp);
+  color: #04140a;
+  border: none;
+  padding: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   10. FOOTER OFICIAL DE MARCA (CON PORTADA Y CANALES REALES)
+   ========================================================================== */
+.cf-footer {
+  border-top: 1px solid var(--cf-line-strong);
+  background:
+    linear-gradient(180deg, rgba(9, 11, 14, 0.92) 0%, rgba(5, 7, 10, 0.98) 100%),
+    url('assets/brand/slate_texture_clean.jpg') center/cover;
+  padding: 4rem 3rem 2.5rem;
+}
+
+.cf-footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+/* ==========================================================================
+   11. RESPONSIVE DESIGN (MOBILE & TABLET DE ALTA PRECISIÓN)
+   ========================================================================== */
+@media (max-width: 1120px) {
+  .cf-hero,
+  .cf-split-showcase,
+  .cf-hud-console,
+  .cf-comparator-wrap,
+  .cf-dual-monolith {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-dissection-stage {
+    position: relative;
+    top: 0;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--cf-line-strong);
+  }
+
+  .cf-ledger-head {
+    display: none;
+  }
+
+  .cf-ledger-row {
+    grid-template-columns: 76px 1fr;
+    gap: 0.85rem;
+    padding: 1.25rem;
+  }
+
+  .cf-row-lab-pill,
+  .cf-row-variants,
+  .cf-row-price-col,
+  .cf-row-action-col {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .cf-top-telebar {
+    padding: 0.45rem 1rem;
+    font-size: 0.62rem;
+  }
+  .cf-top-telebar-right {
+    display: none;
+  }
+  .cf-header-grid {
+    grid-template-columns: 180px 1fr;
+  }
+  .cf-nav-cell {
+    display: none;
+  }
+  .cf-hero-left,
+  .cf-hero-right,
+  .cf-section-header,
+  .cf-hud-controls,
+  .cf-hud-output,
+  .cf-comp-col,
+  .cf-footer {
+    padding: 1.75rem 1.25rem;
+  }
+  .cf-hero-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .cf-filter-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cf-search-cell {
+    grid-column: 1 / -1;
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--cf-line);
+  }
+  .cf-hud-options {
+    grid-template-columns: 1fr;
+  }
+  .cf-hud-result-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .cf-footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
