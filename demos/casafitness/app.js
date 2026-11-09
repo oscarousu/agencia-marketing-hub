@@ -356,7 +356,7 @@ function setHeroProduct(prodId) {
 /* ==========================================================================
    2. VITRINA SPLIT-STAGE & LISTA EDITORIAL SUIZA DE 1PX
    ========================================================================== */
-function updateDissectionStage(prodId) {
+function updateDissectionStage(prodId, shouldScrollMobile = false) {
   state.activeProductId = prodId;
   const prod = CF_PRODUCTS.find(p => p.id === prodId) || CF_PRODUCTS[0];
   const varIdx = state.selectedVariantByProduct[prod.id] || 0;
@@ -371,6 +371,13 @@ function updateDissectionStage(prodId) {
   document.getElementById('dissectJarImg').alt = prod.name;
   document.getElementById('dissectTitle').textContent = prod.name;
   document.getElementById('dissectSubtitle').textContent = prod.summary;
+
+  if (shouldScrollMobile && window.innerWidth <= 1120) {
+    const panel = document.getElementById('dissectionStagePanel');
+    if (panel) {
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 
   // Barras de telemetría
   document.getElementById('teleAtpBar').style.width = prod.metrics.atp + '%';
@@ -454,8 +461,8 @@ function renderSwissLedger() {
     return `
       <article class="cf-ledger-row ${isActive ? 'active' : ''}"
         data-prod-id="${prod.id}"
-        onmouseenter="updateDissectionStage('${prod.id}')"
-        onclick="updateDissectionStage('${prod.id}')">
+        onmouseenter="if(window.innerWidth > 1120) updateDissectionStage('${prod.id}', false)"
+        onclick="updateDissectionStage('${prod.id}', true)">
         <div class="cf-row-jar-wrap">
           <img src="${prod.jarImg}" alt="${prod.name}" class="cf-row-jar-img" loading="lazy" />
         </div>
@@ -672,6 +679,7 @@ function changeCartQty(key, delta) {
 
 function renderCart() {
   const countEl = document.getElementById('headerCartCount');
+  const mobCountEl = document.getElementById('mobileDockCartCount');
   const bodyEl = document.getElementById('cartDrawerBody');
   const totalEl = document.getElementById('cartTotalValue');
 
@@ -679,6 +687,7 @@ function renderCart() {
   const totalPrice = state.cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
   if (countEl) countEl.textContent = totalItems;
+  if (mobCountEl) mobCountEl.textContent = totalItems;
   if (totalEl) totalEl.textContent = formatCOP(totalPrice) + ' COP';
 
   if (!bodyEl) return;

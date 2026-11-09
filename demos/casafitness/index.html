@@ -50,10 +50,18 @@
         </button>
         <a href="https://wa.me/573174242001?text=Hola%20Casa%20Fitness%20Colombia%20(%40casafitnesscol)%2C%20quiero%20asesor%C3%ADa%20sobre%20suplementos%20deportivos."
            target="_blank" rel="noopener" class="cf-wa-direct-btn">
-          <span>WHATSAPP +57 317 4242001</span>
+          <span class="cf-wa-full-text">WHATSAPP +57 317 4242001</span>
+          <span class="cf-wa-short-text">WHATSAPP</span>
         </a>
       </div>
     </div>
+    <!-- Barra de navegación táctil deslizable para Móvil y Tablet -->
+    <nav class="cf-mobile-subnav" aria-label="Navegación rápida móvil">
+      <a href="#catalogo-interactivo" class="cf-mob-nav-pill">01. Catálogo (15)</a>
+      <a href="#lineas-moleculares" class="cf-mob-nav-pill">02. Mono vs HCL</a>
+      <a href="#consola-diagnostico" class="cf-mob-nav-pill">03. Asesor 15s</a>
+      <a href="#comparador-laboratorio" class="cf-mob-nav-pill">04. Comparador</a>
+    </nav>
   </header>
 
   <main>
@@ -231,7 +239,7 @@
       <!-- Escenario Split-Stage: Izquierda Fija (Mesa de Disección) + Derecha (Tabla Editorial Suiza) -->
       <div class="cf-split-showcase">
         <!-- MESA DE DISECCIÓN DEL PRODUCTO ACTIVO -->
-        <aside class="cf-dissection-stage" aria-live="polite">
+        <aside class="cf-dissection-stage" id="dissectionStagePanel" aria-live="polite">
           <div>
             <div class="cf-dissect-header">
               <div>
@@ -551,6 +559,16 @@
       <span>ARQUITECTURA BIO-PERFORMANCE // AGENCIA MARKETING IA</span>
     </div>
   </footer>
+
+  <!-- Dock Inferior Táctico para Celulares (One-Thumb UX) -->
+  <div class="cf-mobile-bottom-dock">
+    <a href="#catalogo-interactivo" class="cf-dock-link">CATÁLOGO</a>
+    <a href="#consola-diagnostico" class="cf-dock-link">ASESOR 15s</a>
+    <button type="button" class="cf-dock-cart-btn" onclick="toggleCartDrawer(true)">
+      <span>PEDIDO WHATSAPP</span>
+      <span class="cf-cart-count" id="mobileDockCartCount">0</span>
+    </button>
+  </div>
 
   <script src="app.js"></script>
 </body>
