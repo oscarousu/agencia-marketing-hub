@@ -600,10 +600,10 @@
       <!-- Step 1: Instant Copy Payment Info -->
       <div class="pay-strip">
         <div>
-          <div style="font-size:0.75rem;font-weight:900;color:var(--kc-green-vivid);text-transform:uppercase;letter-spacing:1px;">Cuenta Oficial Nequi / Llave</div>
-          <div style="font-size:1.22rem;font-weight:900;color:#fff;" id="display-pay-account">304 455 2193</div>
+          <div style="font-size:0.75rem;font-weight:900;color:var(--kc-green-vivid);text-transform:uppercase;letter-spacing:1px;">Llave Oficial (Cualquier Banco / Nequi / Nu / DaviPlata)</div>
+          <div style="font-size:1.22rem;font-weight:900;color:#fff;" id="display-pay-account">@oscar9052</div>
         </div>
-        <button type="button" class="copy-chip" onclick="copyPayNumber()">📋 Copiar Número</button>
+        <button type="button" class="copy-chip" onclick="copyPayNumber()">📋 Copiar Llave @oscar9052</button>
       </div>
 
       <div class="field-row">
@@ -704,7 +704,7 @@
       </div>
       <div class="field">
         <label>Cuenta Nequi / Llave visible para pagos</label>
-        <input type="text" id="adm-paynum" class="input" value="304 455 2193" onchange="saveAdminConfig()" />
+        <input type="text" id="adm-paynum" class="input" value="@oscar9052" onchange="saveAdminConfig()" />
       </div>
     </div>
 
@@ -755,7 +755,7 @@
 <script>
   // Default Cloud Webhook URL (if configured in code or via Admin panel)
   const DEFAULT_WEBHOOK_URL = "";
-  const DEFAULT_PAY_ACCOUNT = "304 455 2193";
+  const DEFAULT_PAY_ACCOUNT = "@oscar9052";
 
   function getWebhookUrl() {
     return (localStorage.getItem('kpari_webhook_url') || DEFAULT_WEBHOOK_URL).trim();
@@ -779,7 +779,7 @@
   function copyPayNumber() {
     const num = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).replace(/\s+/g, '');
     navigator.clipboard.writeText(num);
-    alert('Número ' + num + ' copiado. Haz tu transferencia y sube la captura abajo.');
+    const btn = document.querySelector('.copy-chip'); if (btn) { const old = btn.textContent; btn.textContent = '✅ ¡Llave ' + num + ' copiada!'; setTimeout(() => btn.textContent = old, 2600); }
   }
 
   function selectStage(idx) {
