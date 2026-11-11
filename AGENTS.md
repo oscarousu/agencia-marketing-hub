@@ -47,10 +47,11 @@ En cada nueva conversación, orquesta estos agentes especializados (definiendo c
      - **4 Imágenes para Post de Instagram (`3:4`, `1080x1440`):** `post_01_...`, `post_02_...`, `post_03_...`, `post_04_...` (cada una con versión `_branded.jpg` y `_clean.jpg`).
 3. **Bloqueo de Mismo Eje en Keyframes Encadenados (`Same-Axis Keyframe Locking`):**
    - Cuando un objeto/alimento pasa de la mesa a las manos o hacia la boca/rostro entre `Clip A` y `Clip B`, los keyframes deben mantener el objeto en **exactamente el mismo eje vertical/geométrico** y con el mismo tipo de agarre manual para evitar que el modelo de video gire el objeto 90° en el aire.
-4. **Selección Explícita de `Omni 1.2 Flash`, Inspección `2 fps` y Recorte Quirúrgico (`Surgical Trim`) en Google Flow:**
-   - En Google Flow, verificar siempre en el selector de modelo que esté activo **`Omni 1.2 Flash`** (o la versión más reciente disponible, evitando caer por defecto en `1.1`) para obtener paralaje 3D real, partículas físicas vivas y movimientos tipo brazo robótico / Steadicam.
-   - Apenas se descargan los clips de Google Flow, extraer siempre una grilla `tile=4x3` a `2 fps` e inspeccionarla con `read_file`.
-   - Si el modelo hizo un giro antinatural del objeto o de la mano en los primeros `0.0s–2.5s` pero de `2.6s` a `6.0s` el movimiento es 100% natural en el mismo eje, **recortar quirúrgicamente (`trim=2.65:6.03`)**, aplicar curvas de *speed-ramping* (`setpts`) y transiciones *flash-bloom* + texto cinético (*slide-up*) para un acabado comercial de alto impacto.
+4. **Selección Explícita de `Omni 1.2 Flash`, Auditoría Forense `>= 5 fps` (Prohibido `1–2 fps`) y Permanencia Rígida de Objetos en Google Flow:**
+   - En Google Flow, verificar siempre en el selector de modelo que esté activo **`Omni 1.2 Flash`** (o la versión más reciente disponible, evitando caer por defecto en `1.1`).
+   - En tomas *tabletop* con múltiples productos ya encuadrados (ej. promo 3x2), usar siempre **`Start + End` keyframes anclados en eje de profundidad (`dolly-in` frontal)** en lugar de paneos laterales abiertos, para evitar que un plato salga del cuadro y el modelo alucine otro plato clonado entrando y superponiéndose (`se sobreponen`).
+   - Apenas se descargan los clips de Google Flow (y en el máster final), extraer siempre una **grilla cronometrada a `>= 5 fps` (cada `0.20s`, 30–60 cuadros)** e inspeccionarla con `read_file` (**nunca usar `1 fps` o `2 fps`**, ya que oculta superposiciones o giros que ocurren en `0.5s` entre segundos enteros).
+   - Si el modelo hizo un giro antinatural o deslizamiento en un tramo pero el resto del clip es 100% físico y anclado, aplicar recorte quirúrgico (`trim`) o regenerar con `Start + End` bloqueados.
 5. **Anatomía Humana y Agarres Ergonómicos (`5 Dedos + Muñeca Recta + Cero Objetos Flotantes`):**
    - Prohibidas las porciones o productos flotando en el aire sin soporte físico real. Toda mano en cuadro debe tener 5 dedos bien articulados y muñeca en línea anatómica natural.
 6. **Coherencia Térmica y Lógica Espacial (`Zero Steam on Cold Drinks / 1-to-1 Object Count`):**
