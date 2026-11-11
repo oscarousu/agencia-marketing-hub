@@ -9,21 +9,19 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   <style>
     :root {
-      /* Exact K-C Palette */
       --kc-purple: #5800CD;
       --kc-purple-mid: #6B48D1;
       --kc-purple-soft: #B3B3E9;
       --kc-purple-ice: #DDDFF5;
       --kc-orange: #FC873D;
       --kc-orange-soft: #FCC294;
-      --kc-orange-ice: #FBEFE3;
       --kc-green: #007F4E;
       --kc-green-mid: #37A17C;
       --kc-green-vivid: #2EE69C;
       --kc-green-ice: #DDECE5;
       --bg-deep: #0E0524;
-      --surface-soft: rgba(34, 12, 82, 0.42);
-      --border: rgba(179, 179, 233, 0.14);
+      --surface-soft: rgba(34, 12, 82, 0.44);
+      --border: rgba(179, 179, 233, 0.16);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -42,7 +40,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(14, 5, 36, 0.84);
+      background: rgba(14, 5, 36, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 12px 24px;
@@ -57,7 +55,6 @@
       gap: 10px;
       font-weight: 900;
       font-size: clamp(1.05rem, 2.5vw, 1.28rem);
-      letter-spacing: 0.5px;
       color: var(--kc-orange);
     }
     .logo-tag {
@@ -84,7 +81,18 @@
       padding: clamp(18px, 4vw, 40px) clamp(16px, 4vw, 32px) 84px;
     }
 
-    /* FRAMELESS OPEN HERO BANNER — DESKTOP, TABLET & MOBILE */
+    /* DOOR QR VERIFIER BANNER */
+    .verify-banner {
+      display: none;
+      margin-bottom: 28px;
+      padding: 20px 24px;
+      border-radius: 20px;
+      background: rgba(0, 127, 78, 0.35);
+      text-align: center;
+    }
+    .verify-banner.show { display: block; }
+
+    /* FRAMELESS OPEN HERO BANNER */
     .hero-grid {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -122,8 +130,6 @@
       margin-bottom: 24px;
       max-width: 580px;
     }
-
-    /* Frameless Event Meta Strip */
     .event-meta-open {
       display: flex;
       flex-wrap: wrap;
@@ -144,11 +150,7 @@
       font-weight: 900;
       color: #FFFFFF;
     }
-
-    /* Frameless Open Countdown & Progress */
-    .fomo-open {
-      margin-bottom: 28px;
-    }
+    .fomo-open { margin-bottom: 28px; }
     .fomo-headline {
       display: flex;
       flex-wrap: wrap;
@@ -179,12 +181,7 @@
       gap: 12px;
       margin-top: 10px;
     }
-    .cd-cell {
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 4px 0;
-    }
+    .cd-cell { text-align: left; padding: 4px 0; }
     .cd-val {
       font-size: clamp(1.85rem, 3.6vw, 2.5rem);
       font-weight: 900;
@@ -200,24 +197,18 @@
       color: var(--kc-orange);
       margin-top: 4px;
     }
-
-    /* Frameless Blended Hero Artwork (Zero border, zero box!) */
     .poster-visual {
       width: 100%;
       max-width: 430px;
       margin: 0 auto;
-      position: relative;
-      border: none;
-      background: none;
     }
     .poster-visual img {
       width: 100%;
       height: auto;
       display: block;
       border-radius: 28px;
-      border: none;
-      -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 85%, transparent 100%);
       filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.65));
     }
 
@@ -247,14 +238,12 @@
     .stage-card {
       background: var(--surface-soft);
       backdrop-filter: blur(10px);
-      border: none;
       border-radius: 24px;
       padding: 26px;
-      position: relative;
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
     }
     .stage-card.active-stage {
-      background: linear-gradient(160deg, rgba(0, 127, 78, 0.36), rgba(28, 10, 68, 0.72));
+      background: linear-gradient(160deg, rgba(0, 127, 78, 0.38), rgba(28, 10, 68, 0.74));
       box-shadow: 0 18px 44px rgba(0, 127, 78, 0.28);
     }
     .badge {
@@ -275,8 +264,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       width: 100%;
-      min-height: 50px;
+      min-height: 52px;
       padding: 14px 20px;
       border-radius: 14px;
       border: none;
@@ -285,9 +275,16 @@
       font-size: 1rem;
       cursor: pointer;
       text-decoration: none;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, opacity 0.2s ease;
     }
-    .btn-main:hover { transform: translateY(-2px); }
+    .btn-main:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn-main:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      background: rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.65);
+      box-shadow: none;
+    }
     .btn-green { background: var(--kc-green); color: #fff; }
     .btn-orange { background: var(--kc-orange); color: #190538; box-shadow: 0 10px 28px rgba(252, 135, 61, 0.35); }
     .btn-purple { background: var(--kc-purple); color: #fff; }
@@ -300,24 +297,49 @@
     }
     .exp-card {
       background: var(--surface-soft);
-      border: none;
       border-radius: 22px;
       padding: 22px;
     }
     .exp-card h3 { color: var(--kc-orange); margin-bottom: 8px; font-size: 1.12rem; }
     .exp-card p { font-size: 0.93rem; color: var(--kc-purple-ice); }
 
-    /* REGISTRATION FORM */
+    /* SELF-SERVICE UPLOAD & AUTO-UNLOCK REGISTRATION */
     .reg-container {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.18fr 0.82fr;
       gap: 28px;
-      background: linear-gradient(145deg, rgba(88, 0, 205, 0.24), rgba(20, 7, 50, 0.72));
-      border: none;
+      background: linear-gradient(145deg, rgba(88, 0, 205, 0.24), rgba(20, 7, 50, 0.78));
       border-radius: 28px;
-      padding: clamp(20px, 4vw, 34px);
+      padding: clamp(20px, 4vw, 36px);
       margin-top: 28px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
+    }
+    .pay-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(0, 127, 78, 0.26);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .copy-chip {
+      background: var(--kc-green-vivid);
+      color: #082418;
+      border: none;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.84rem;
+      padding: 9px 14px;
+      border-radius: 99px;
+      cursor: pointer;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
     .field { margin-bottom: 14px; }
     .field label {
@@ -331,27 +353,87 @@
       width: 100%;
       padding: 13px 14px;
       border-radius: 12px;
-      border: 1px solid rgba(179, 179, 233, 0.2);
+      border: 1px solid rgba(179, 179, 233, 0.18);
       background: rgba(10, 4, 28, 0.75);
       color: #fff;
       font-family: inherit;
-      font-size: 16px; /* Prevents iOS Safari auto-zoom on tap */
+      font-size: 16px;
     }
     .input:focus { outline: none; border-color: var(--kc-orange); }
 
-    /* ADMIN DRAWER */
+    /* UPLOAD DROPZONE */
+    .upload-zone {
+      position: relative;
+      border-radius: 18px;
+      background: rgba(10, 4, 28, 0.65);
+      border: 2px dashed rgba(46, 230, 156, 0.55);
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      margin-bottom: 16px;
+    }
+    .upload-zone:hover { background: rgba(0, 127, 78, 0.18); border-color: var(--kc-green-vivid); }
+    .upload-zone.loaded {
+      border-style: solid;
+      border-color: var(--kc-green-vivid);
+      background: rgba(0, 127, 78, 0.24);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .receipt-thumb {
+      display: none;
+      max-height: 130px;
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 10px auto 4px;
+      object-fit: contain;
+    }
+
+    /* SUCCESS MODAL FOR INSTANT TICKET UNLOCK */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(8, 2, 22, 0.90);
+      backdrop-filter: blur(12px);
+      overflow-y: auto;
+      padding: 24px 16px;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      width: 100%;
+      max-width: 440px;
+      background: linear-gradient(165deg, #1d074a, #0e0424);
+      border-radius: 28px;
+      padding: 26px 22px;
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.8);
+      margin: auto;
+    }
+
+    /* ADMIN REPOSITORY */
     .admin-panel {
       display: none;
       margin-top: 48px;
       padding: clamp(18px, 3.5vw, 28px);
       border-radius: 26px;
-      background: rgba(12, 4, 32, 0.94);
+      background: rgba(12, 4, 32, 0.95);
     }
     .admin-panel.open { display: block; }
     .table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; min-width: 520px; border-collapse: collapse; margin-top: 14px; font-size: 0.9rem; }
-    th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; }
-    th { color: var(--kc-orange); font-size: 0.78rem; text-transform: uppercase; }
+    table { width: 100%; min-width: 680px; border-collapse: collapse; margin-top: 14px; font-size: 0.88rem; }
+    th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { color: var(--kc-orange); font-size: 0.76rem; text-transform: uppercase; }
     footer {
       text-align: center;
       margin-top: 56px;
@@ -361,59 +443,23 @@
       font-size: 0.85rem;
     }
 
-    /* TABLET BREAKPOINT (641px - 1024px) */
     @media (max-width: 1024px) {
-      .hero-grid {
-        grid-template-columns: 1fr 0.9fr;
-        gap: 24px;
-      }
-      .stages-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .exp-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .reg-container {
-        grid-template-columns: 1fr;
-      }
+      .hero-grid { grid-template-columns: 1fr 0.9fr; gap: 24px; }
+      .stages-grid { grid-template-columns: repeat(2, 1fr); }
+      .exp-grid { grid-template-columns: repeat(2, 1fr); }
+      .reg-container { grid-template-columns: 1fr; }
     }
-
-    /* MOBILE BREAKPOINT (<= 720px) */
     @media (max-width: 720px) {
       .topbar { padding: 10px 14px; }
       .logo-tag { display: none; }
-      .hero-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 20px;
-      }
-      /* Show Pixar visual right at top on phones or cleanly integrated */
-      .poster-visual {
-        order: -1;
-        max-width: 320px;
-        margin: 0 auto -12px;
-      }
+      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+      .poster-visual { order: -1; max-width: 310px; margin: 0 auto -12px; }
       .hero-sub { margin-left: auto; margin-right: auto; }
-      .event-meta-open {
-        justify-content: center;
-        gap: 14px 22px;
-      }
-      .fomo-headline {
-        justify-content: center;
-        text-align: center;
-      }
-      .countdown {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 340px;
-        margin: 10px auto 0;
-      }
+      .event-meta-open { justify-content: center; gap: 14px 22px; }
+      .fomo-headline { justify-content: center; text-align: center; }
+      .countdown { grid-template-columns: repeat(4, 1fr); max-width: 340px; margin: 10px auto 0; }
       .cd-cell { text-align: center; }
-      .stages-grid {
-        grid-template-columns: 1fr;
-      }
-      .exp-grid {
-        grid-template-columns: 1fr;
-      }
+      .stages-grid, .exp-grid, .field-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -424,10 +470,13 @@
     <span>🎉 K-PARI 2026</span>
     <span class="logo-tag">17 DIC • CALI</span>
   </div>
-  <a href="#registro" class="cta-mini">Separar Cupo $110k →</a>
+  <a href="#registro" class="cta-mini">Subir Pago & Boleta →</a>
 </nav>
 
 <div class="wrap">
+
+  <!-- AUTOMATIC DOOR QR VERIFIER -->
+  <div id="verifyBanner" class="verify-banner"></div>
 
   <!-- FRAMELESS MAIN BANNER -->
   <section class="hero-grid">
@@ -465,7 +514,7 @@
         </div>
       </div>
 
-      <a href="#registro" class="btn-main btn-orange">INSCRIBIRME EN PREVENTA $110.000</a>
+      <a href="#registro" class="btn-main btn-orange">PAGAR Y DESBLOQUEAR MI BOLETA QR</a>
     </div>
 
     <div class="poster-visual">
@@ -476,20 +525,20 @@
   <!-- 3 PRICING STAGES -->
   <div class="sec-head">
     <h2>Escalonamiento de Boletas (El que madruga, rumbea más barato)</h2>
-    <p>La reserva de estadía y emisión de tu Boleta QR se garantiza únicamente con el <strong>pago 100% full</strong> del valor de la etapa vigente.</p>
+    <p>Transfiere el <strong>100% del valor de la etapa vigente</strong>, sube la captura de tu comprobante abajo y descarga al instante tu Boleta Electrónica QR sin intermediarios.</p>
   </div>
 
   <section class="stages-grid">
     <div class="stage-card active-stage">
       <span class="badge" style="background:var(--kc-green);color:#fff;">🔥 Etapa 1 • Activa hasta el 16 Nov</span>
       <h3>Madrugadores VIP</h3>
-      <div class="price-num" style="color:#52ffb8;">$110.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
+      <div class="price-num" style="color:var(--kc-green-vivid);">$110.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
         ✅ <strong>Ahorras $30.000</strong> sobre el precio final.<br>
-        ✅ Reserva garantizada con <strong>pago full ($110.000)</strong> antes del 16 de nov.<br>
-        ✅ Recibes Boleta Electrónica QR personalizada.
+        ✅ Pago 100% full ($110.000) antes del 16 de nov.<br>
+        ✅ Sube tu comprobante y descarga tu Boleta QR al instante.
       </p>
-      <a href="#registro" class="btn-main btn-green" onclick="selectStage('Etapa 1 ($110.000 - Pago Total)', 110000)">Elegir Etapa 1 ($110k)</a>
+      <a href="#registro" class="btn-main btn-green" onclick="selectStage(0)">Elegir Etapa 1 ($110k)</a>
     </div>
 
     <div class="stage-card">
@@ -498,176 +547,220 @@
       <div class="price-num" style="color:var(--kc-orange);">$120.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
         ✅ <strong>Ahorras $20.000</strong> antes de diciembre.<br>
-        ✅ Disponible hasta el 1 de diciembre a medianoche.<br>
-        ⚠️ Sujeto a los cupos que deje la Etapa 1.
+        ✅ Pago 100% full ($120.000) del 17 nov al 1 dic.<br>
+        ⚠️ Sujeto a disponibilidad.
       </p>
-      <a href="#registro" class="btn-main btn-purple" onclick="selectStage('Etapa 2 ($120.000)', 120000)">Separar en Etapa 2</a>
+      <a href="#registro" class="btn-main btn-purple" onclick="selectStage(1)">Elegir Etapa 2 ($120k)</a>
     </div>
 
     <div class="stage-card">
       <span class="badge" style="background:rgba(252,135,61,0.2);color:var(--kc-orange);">🚨 Etapa 3 • Desde el 2 Dic</span>
-      <h3>Última Llamada (FOMO)</h3>
+      <h3>Última Llamada</h3>
       <div class="price-num" style="color:var(--kc-orange-soft);">$140.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
         ⚠️ Tarifa plena sin descuento para rezagados.<br>
-        ⚠️ Pago único 100% de contado únicamente si quedan boletas disponibles.
+        ⚠️ Pago único 100% full ($140.000) desde el 2 de diciembre.
       </p>
-      <a href="#registro" class="btn-main btn-purple" onclick="selectStage('Etapa 3 ($140.000)', 140000)">Últimos Cupos</a>
+      <a href="#registro" class="btn-main btn-purple" onclick="selectStage(2)">Elegir Etapa 3 ($140k)</a>
     </div>
   </section>
 
   <!-- DISRUPTIVE SCENARIO -->
   <div class="sec-head">
     <h2>¿Por qué la K-PARI 2026 va a romper todos los récords?</h2>
-    <p>Tu inscripción en esta página activa de inmediato la experiencia interactiva de la noche en <strong>La Terraza Cali</strong>.</p>
+    <p>Tu registro activa de inmediato las dinámicas de la noche en <strong>La Terraza Cali</strong>.</p>
   </div>
 
   <section class="exp-grid">
     <div class="exp-card">
-      <h3>🏆 1. Los "K-PARI Awards" en Pantalla Gigante</h3>
-      <p>Al inscribirte abajo postulas en secreto a tus amigos en categorías épicas. Los ganadores se proyectarán en el <strong>Video Beam HD</strong> del rooftop.</p>
+      <h3>🏆 1. Los "K-PARI Awards"</h3>
+      <p>Postula en secreto a tus amigos al registrarte. Los ganadores saldrán en el <strong>Video Beam HD</strong> del rooftop.</p>
     </div>
     <div class="exp-card">
       <h3>🎵 2. DJ Jukebox Democrático</h3>
-      <p>Nada de playlists aburridas: cada boleta QR emitida tiene derecho a exigir <strong>1 himno bailable innegociable</strong> que sonará en la pista LED con máquina de humo.</p>
+      <p>Cada boleta emitida tiene derecho a exigir <strong>1 himno bailable innegociable</strong> en la pista LED con máquina de humo.</p>
     </div>
     <div class="exp-card">
-      <h3>🪗 3. Rooftop LED + Show & Rumba</h3>
-      <p>2 ambientes (terraza panorámica + salón neón), cubos y barras LED, sonido profesional, meseros y parqueadero vigilado en la Calle 10 # 61-47.</p>
+      <h3>🪗 3. Rooftop LED + Rumba</h3>
+      <p>2 ambientes (terraza panorámica + salón neón), cubos y barras LED, sonido profesional, meseros y parqueadero vigilado.</p>
     </div>
     <div class="exp-card">
-      <h3>🎟️ 4. Check-In con Boleta QR Pixar</h3>
-      <p>Cuando confirmas tu pago recibes tu <strong>Pase VIP Digital con código QR único</strong> y tu rango fiestero oficial para entrar directo a La Terraza.</p>
+      <h3>⚡ 4. Boleta Instantánea Sin Filas</h3>
+      <p>Cero chats eternos: subes tu comprobante aquí mismo y el sistema desbloquea tu <strong>Boleta Pixar QR</strong> en 2 segundos.</p>
     </div>
   </section>
 
-  <!-- INTERACTIVE REGISTRATION -->
+  <!-- ZERO-FRICTION SELF-SERVICE REGISTRATION + RECEIPT UPLOAD -->
   <section id="registro" class="reg-container">
     <div>
-      <span class="badge" style="background:var(--kc-orange);color:#190538;">PASO 1 DE 2 • REGISTRO RÁPIDO QR</span>
-      <h2 style="font-size:1.85rem;margin-bottom:8px;">Inscríbete y Genera tu Pre-Reserva VIP</h2>
-      <p style="color:var(--kc-purple-ice);font-size:0.93rem;margin-bottom:18px;">Completa tus datos en 15 segundos. Al enviar, se generará tu código de reserva y se abrirá WhatsApp para enviar tu comprobante y recibir tu <strong>Boleta Electrónica QR oficial</strong>.</p>
+      <span class="badge" style="background:var(--kc-orange);color:#190538;">AUTOSERVICIO EN 30 SEGUNDOS • SIN ESCRIBIR POR WHATSAPP</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,1.95rem);margin-bottom:6px;">Sube tu Comprobante y Descarga tu Boleta QR</h2>
+      <p style="color:var(--kc-purple-ice);font-size:0.93rem;margin-bottom:16px;">1. Transfiere el valor full de la etapa • 2. Adjunta la captura del pago • 3. Tu Boleta QR se desbloquea al instante.</p>
 
-      <div class="field">
-        <label>Tu Nombre y Apellido *</label>
-        <input type="text" id="r-name" class="input" placeholder="Ej. Camilo Restrepo" oninput="updatePassPreview()" />
-      </div>
-      <div class="field">
-        <label>Elige tu Apodo / Rango Fiestero en la Boleta *</label>
-        <select id="r-role" class="input" onchange="updatePassPreview()">
-          <option value="LEYENDA DEL ROOFTOP">🔥 Leyenda del Rooftop</option>
-          <option value="REY / REINA DE LA PISTA LED">💃 Rey / Reina de la Pista LED</option>
-          <option value="SOBREVIVIENTE DEL AÑO">🛡️ Sobreviviente del Año</option>
-          <option value="MAESTRO DEL ACORDEÓN & EL CORO">🪗 Maestro del Acordeón & el Coro</option>
-          <option value="TEAM CIERRE HASTA LAS 2 AM">🌙 Team Cierre hasta las 2:00 AM</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Modalidad de Pago que vas a realizar hoy *</label>
-        <select id="r-plan" class="input" onchange="updatePassPreview()">
-          <option value="Etapa 1 - Pago Total ($110.000 COP)">✅ Etapa 1: Pago Total $110.000 (Hasta 16 Nov)</option>
-                    <option value="Etapa 2 - Tarifa Regular ($120.000 COP)">⚡ Etapa 2: Tarifa Regular $120.000 (17 Nov - 1 Dic)</option>
-          <option value="Etapa 3 - Tarifa Final ($140.000 COP)">🚨 Etapa 3: Última Llamada $140.000 (Desde 2 Dic)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>🎵 Canción innegociable que el DJ debe poner por ti</label>
-        <input type="text" id="r-song" class="input" placeholder="Ej. Los Caminos de la Vida / Cali Pachanguero..." oninput="updatePassPreview()" />
-      </div>
-      <div class="field">
-        <label>🏆 Nominación secreta para los K-PARI Awards (Opcional)</label>
-        <input type="text" id="r-nom" class="input" placeholder="Ej. Nomino a Julián como 'El que nunca prende cámara'" />
-      </div>
-
-      <button class="btn-main btn-orange" onclick="submitRegistration()">📲 CONFIRMAR MI CUPO POR WHATSAPP</button>
-    </div>
-
-    <!-- LIVE PREVIEW CARD FOR GUEST -->
-    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(10,3,26,0.75);border-radius:20px;padding:22px;border:none;text-align:center;">
-      <div style="font-size:0.78rem;font-weight:900;color:var(--kc-green-mid);letter-spacing:1px;margin-bottom:8px;">VISTA PREVIA DE TU SOLICITUD VIP</div>
-      <div style="width:100%;max-width:310px;border-radius:18px;border:none;background:linear-gradient(180deg,#280b66,#12052e);padding:20px;box-shadow:0 16px 40px rgba(0,0,0,0.5);">
-        <div style="font-weight:900;font-size:1.5rem;color:var(--kc-orange);">K-PARI 2026</div>
-        <div style="font-size:0.78rem;color:var(--kc-purple-soft);margin-bottom:14px;">17 DIC 2026 • 9:00 PM • LA TERRAZA CALI</div>
-        <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:12px;">
-          <div style="font-size:0.72rem;color:var(--kc-purple-soft);">ASISTENTE</div>
-          <div id="pv-name" style="font-size:1.2rem;font-weight:900;color:#fff;">TU NOMBRE AQUÍ</div>
-          <div id="pv-role" style="font-size:0.78rem;font-weight:700;color:#52ffb8;margin-top:3px;">LEYENDA DEL ROOFTOP</div>
+      <!-- Step 1: Instant Copy Payment Info -->
+      <div class="pay-strip">
+        <div>
+          <div style="font-size:0.75rem;font-weight:900;color:var(--kc-green-vivid);text-transform:uppercase;letter-spacing:1px;">Cuenta Oficial Nequi / Llave</div>
+          <div style="font-size:1.22rem;font-weight:900;color:#fff;" id="display-pay-account">304 455 2193</div>
         </div>
-        <div id="pv-plan" style="background:var(--kc-green);color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:0.82rem;margin-bottom:10px;">
-          Etapa 1 - Pago Total ($110.000 COP)
-        </div>
-        <div id="pv-song" style="font-size:0.78rem;color:var(--kc-orange-soft);">🎵 Himno DJ: Pendiente elegir</div>
+        <button type="button" class="copy-chip" onclick="copyPayNumber()">📋 Copiar Número</button>
       </div>
-      <p style="font-size:0.78rem;color:var(--kc-purple-soft);margin-top:12px;">📍 Dirección: Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Ver mapa</a></p>
-    </div>
-  </section>
 
-  <!-- ORGANIZER ADMIN PANEL (PIN: 2026) -->
-  <section id="adminPanel" class="admin-panel">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
-      <h2 style="color:var(--kc-orange);">🔐 Consola del Organizador — Emisor Oficial de Boletas QR & Control 65 Cupos</h2>
-      <span class="badge" style="background:var(--kc-green);color:#fff;">Modo Admin Activo</span>
-    </div>
-
-    <div class="hero-grid">
-      <div>
+      <div class="field-row">
         <div class="field">
-          <label>WhatsApp Receptor de Inscripciones (Código país + número, ej. 573001234567)</label>
-          <input type="text" id="adm-phone" class="input" value="573044552193" onchange="saveAdminPhone()" />
-        </div>
-        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
-        <h3 style="margin-bottom:12px;">Emitir Boleta Oficial Verificada (Cuando ya pagaron)</h3>
-        <div class="field">
-          <label>Nombre del Asistente</label>
-          <input type="text" id="tk-name" class="input" value="Oscar Ortiz" oninput="drawOfficialTicket()" />
+          <label>Nombre y Apellido *</label>
+          <input type="text" id="r-name" class="input" placeholder="Ej. Camilo Restrepo" oninput="checkFormReady()" />
         </div>
         <div class="field">
-          <label>Consecutivo Boleta (#001 a #065)</label>
-          <input type="text" id="tk-id" class="input" value="KP26-001" oninput="drawOfficialTicket()" />
+          <label>Tu Celular *</label>
+          <input type="tel" id="r-phone" class="input" placeholder="Ej. 300 123 4567" oninput="checkFormReady()" />
         </div>
+      </div>
+
+      <div class="field-row">
         <div class="field">
-          <label>Etapa & Estado Confirmado</label>
-          <select id="tk-stage" class="input" onchange="drawOfficialTicket()">
-            <option value="ETAPA 1 ($110.000)|PAGADO 100% VIP|110000|#007F4E">Etapa 1 ($110.000) — PAGADO 100% VIP</option>
-                        <option value="ETAPA 2 ($120.000)|PAGADO 100% VIP|120000|#5800CD">Etapa 2 ($120.000) — PAGADO 100% VIP</option>
-            <option value="ETAPA 3 ($140.000)|PAGADO 100% VIP|140000|#FC873D">Etapa 3 ($140.000) — PAGADO 100% VIP</option>
+          <label>Etapa Pagada (100% Full) *</label>
+          <select id="r-plan" class="input" onchange="checkFormReady()">
+            <option value="ETAPA 1|110000">Etapa 1 — $110.000 COP (Hasta 16 Nov)</option>
+            <option value="ETAPA 2|120000">Etapa 2 — $120.000 COP (17 Nov - 1 Dic)</option>
+            <option value="ETAPA 3|140000">Etapa 3 — $140.000 COP (Desde 2 Dic)</option>
           </select>
         </div>
         <div class="field">
-          <label>Rango Fiestero</label>
-          <input type="text" id="tk-role" class="input" value="LEYENDA DEL ROOFTOP" oninput="drawOfficialTicket()" />
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-          <button class="btn-main btn-orange" style="flex:1;" onclick="downloadOfficialTicket()">⬇️ Descargar Boleta PNG</button>
-          <button class="btn-main btn-green" style="flex:1;" onclick="logTicket()">➕ Guardar en Lista (65)</button>
+          <label>Tu Rango Fiestero en la Boleta *</label>
+          <select id="r-role" class="input" onchange="checkFormReady()">
+            <option value="LEYENDA DEL ROOFTOP">🔥 Leyenda del Rooftop</option>
+            <option value="REY / REINA DE LA PISTA LED">💃 Rey / Reina de la Pista LED</option>
+            <option value="SOBREVIVIENTE DEL AÑO">🛡️ Sobreviviente del Año</option>
+            <option value="MAESTRO DEL ACORDEÓN & EL CORO">🪗 Maestro del Acordeón & Coro</option>
+            <option value="TEAM CIERRE HASTA LAS 2 AM">🌙 Team Cierre 2:00 AM</option>
+          </select>
         </div>
       </div>
 
-      <div style="text-align:center;">
-        <canvas id="officialCanvas" width="720" height="1220" style="width:100%;max-width:340px;border-radius:20px;border:2px solid var(--kc-orange);"></canvas>
+      <div class="field-row">
+        <div class="field">
+          <label>🎵 Canción innegociable para el DJ</label>
+          <input type="text" id="r-song" class="input" placeholder="Ej. Cali Pachanguero / Vallenato..." oninput="checkFormReady()" />
+        </div>
+        <div class="field">
+          <label>🏆 Nominación K-PARI Awards (Opcional)</label>
+          <input type="text" id="r-nom" class="input" placeholder="Ej. Julián: 'El que nunca prende cámara'" />
+        </div>
+      </div>
+
+      <!-- Mandatory Receipt Upload -->
+      <div class="field">
+        <label>📸 Comprobante de Pago (Obligatorio para habilitar tu Boleta QR) *</label>
+        <div class="upload-zone" id="dropZone">
+          <input type="file" id="r-file" accept="image/*,application/pdf" onchange="handleReceiptUpload(event)" />
+          <div id="uploadPrompt">
+            <div style="font-size:1.7rem;margin-bottom:4px;">📤</div>
+            <div style="font-weight:900;color:var(--kc-green-vivid);">Toca aquí para subir la captura de tu transferencia</div>
+            <div style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:2px;">Acepta imagen (JPG/PNG) o PDF desde tu galería</div>
+          </div>
+          <img id="receiptPreview" class="receipt-thumb" alt="Vista previa comprobante" />
+          <div id="receiptFileName" style="font-size:0.84rem;font-weight:900;color:#fff;margin-top:4px;"></div>
+        </div>
+      </div>
+
+      <button type="button" id="submitBtn" class="btn-main btn-orange" disabled onclick="processSelfServiceRegistration()">
+        🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA
+      </button>
+      <div id="submitStatus" style="text-align:center;font-size:0.86rem;color:var(--kc-green-vivid);margin-top:10px;display:none;"></div>
+    </div>
+
+    <!-- LIVE PASS PREVIEW -->
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(10,3,26,0.58);border-radius:22px;padding:24px;text-align:center;">
+      <div style="font-size:0.76rem;font-weight:900;color:var(--kc-green-vivid);letter-spacing:1.5px;margin-bottom:10px;">ASÍ SE VERÁ TU BOLETA OFICIAL</div>
+      <div style="width:100%;max-width:305px;border-radius:20px;background:linear-gradient(180deg,#280b66,#12052e);padding:22px;box-shadow:0 16px 40px rgba(0,0,0,0.55);">
+        <div style="font-weight:900;font-size:1.55rem;color:var(--kc-orange);">K-PARI 2026</div>
+        <div style="font-size:0.78rem;color:var(--kc-purple-soft);margin-bottom:14px;">17 DIC 2026 • 9:00 PM • LA TERRAZA</div>
+        <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:12px;">
+          <div style="font-size:0.7rem;color:var(--kc-purple-soft);">ASISTENTE</div>
+          <div id="pv-name" style="font-size:1.18rem;font-weight:900;color:#fff;">TU NOMBRE AQUÍ</div>
+          <div id="pv-role" style="font-size:0.78rem;font-weight:700;color:var(--kc-green-vivid);margin-top:3px;">LEYENDA DEL ROOFTOP</div>
+        </div>
+        <div id="pv-plan" style="background:var(--kc-green);color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:0.82rem;margin-bottom:10px;">
+          ETAPA 1 • $110.000 COP
+        </div>
+        <div id="pv-receipt-badge" style="font-size:0.78rem;color:var(--kc-orange-soft);">⏳ Pendiente adjuntar comprobante</div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:14px;">📍 Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Abrir en Google Maps</a></p>
+    </div>
+  </section>
+
+  <!-- ORGANIZER ADMIN REPOSITORY (PIN: 2026) -->
+  <section id="adminPanel" class="admin-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+      <h2 style="color:var(--kc-orange);">🔐 Repositorio del Administrador — Comprobantes, Notificaciones & Boletas</h2>
+      <span class="badge" style="background:var(--kc-green);color:#fff;">PIN 2026 Activo</span>
+    </div>
+
+    <div class="field-row" style="margin-bottom:16px;">
+      <div class="field">
+        <label>URL de tu Repositorio Google Drive / Apps Script (Termina en /exec)</label>
+        <input type="url" id="adm-webhook" class="input" placeholder="https://script.google.com/macros/s/.../exec" onchange="saveAdminConfig()" />
+      </div>
+      <div class="field">
+        <label>Cuenta Nequi / Llave visible para pagos</label>
+        <input type="text" id="adm-paynum" class="input" value="304 455 2193" onchange="saveAdminConfig()" />
       </div>
     </div>
 
-    <div style="margin-top:24px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-        <h3>📋 Control de Cupos Vendidos (<span id="adm-count">0</span> / 65) — Recaudo en Caja: <span id="adm-sum" style="color:#52ffb8;">$0 COP</span></h3>
-        <button class="cta-mini" style="border:none;cursor:pointer;" onclick="exportListCSV()">📊 Descargar Excel (CSV)</button>
-      </div>
-      <div class="table-scroll"><table>
-        <thead><tr><th>Boleta</th><th>Nombre</th><th>Etapa</th><th>Recaudado</th><th>Estado</th><th></th></tr></thead>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+      <button class="btn-main btn-green" style="width:auto;" onclick="syncCloudRepository()">🔄 Sincronizar Comprobantes desde Google Drive</button>
+      <button class="btn-main btn-purple" style="width:auto;" onclick="exportListCSV()">📊 Exportar Todo a Excel (CSV)</button>
+      <a id="adm-sheet-link" href="#" target="_blank" class="btn-main btn-orange" style="width:auto;display:none;">📂 Abrir Google Sheet Maestro</a>
+    </div>
+
+    <h3>📋 Inscritos y Comprobantes Recibidos (<span id="adm-count">0</span> / 65) — Total en Caja: <span id="adm-sum" style="color:var(--kc-green-vivid);">$0 COP</span></h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Boleta</th>
+            <th>Asistente & Celular</th>
+            <th>Etapa / Valor</th>
+            <th>Canción & Nominación</th>
+            <th>Comprobante</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
         <tbody id="adm-tbody"></tbody>
-      </table></div>
+      </table>
     </div>
   </section>
 
   <footer>
-    <p><strong>K-PARI 2026</strong> • Evento independiente de amigos • Jueves 17 de Diciembre 2026, 9:00 PM • La Terraza (Calle 10 # 61-47, Cali)</p>
-    <p style="margin-top:8px;"><button onclick="unlockAdmin()" style="background:none;border:none;color:var(--kc-purple-soft);cursor:pointer;text-decoration:underline;font-size:0.8rem;">🔐 Acceso Organizador (Emitir Boletas QR)</button></p>
+    <p><strong>K-PARI 2026</strong> • Jueves 17 de Diciembre 2026, 9:00 PM • La Terraza (Calle 10 # 61-47, Cali)</p>
+    <p style="margin-top:8px;"><button onclick="unlockAdmin()" style="background:none;border:none;color:var(--kc-purple-soft);cursor:pointer;text-decoration:underline;font-size:0.82rem;">🔐 Repositorio Administrador</button></p>
   </footer>
 
 </div>
 
+<!-- INSTANT UNLOCKED TICKET MODAL -->
+<div id="ticketModal" class="modal-backdrop">
+  <div class="modal-box">
+    <span class="badge" style="background:var(--kc-green);color:#fff;">✅ COMPROBANTE RECIBIDO • BOLETA DESBLOQUEADA</span>
+    <h3 style="font-size:1.45rem;margin-bottom:6px;">¡Nos vemos en la K-PARI 2026!</h3>
+    <p style="font-size:0.86rem;color:var(--kc-purple-ice);margin-bottom:14px;">Guarda tu Boleta Electrónica QR en tu celular y preséntala en la entrada de La Terraza.</p>
+    <canvas id="unlockedCanvas" width="720" height="1220" style="width:100%;max-width:300px;border-radius:18px;margin:0 auto 14px;display:block;box-shadow:0 14px 36px rgba(0,0,0,0.65);"></canvas>
+    <button class="btn-main btn-orange" onclick="downloadUnlockedTicket()">⬇️ DESCARGAR MI BOLETA QR (PNG)</button>
+    <button class="btn-main btn-purple" style="margin-top:10px;" onclick="closeTicketModal()">Cerrar</button>
+  </div>
+</div>
+
 <script>
+  // Default Cloud Webhook URL (if configured in code or via Admin panel)
+  const DEFAULT_WEBHOOK_URL = "";
+  const DEFAULT_PAY_ACCOUNT = "304 455 2193";
+
+  function getWebhookUrl() {
+    return (localStorage.getItem('kpari_webhook_url') || DEFAULT_WEBHOOK_URL).trim();
+  }
+
   // Countdown to Nov 16, 2026 23:59:59 (-05:00)
   function tick() {
     const end = new Date('2026-11-16T23:59:59-05:00').getTime();
@@ -680,75 +773,95 @@
   setInterval(tick, 1000);
   tick();
 
-  function selectStage(label) {
-    const sel = document.getElementById('r-plan');
-    for (let i = 0; i < sel.options.length; i++) {
-      if (sel.options[i].text.includes(label.split(' ')[1])) {
-        sel.selectedIndex = i;
-        break;
-      }
+  // Initialize payment account display
+  document.getElementById('display-pay-account').textContent = localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT;
+
+  function copyPayNumber() {
+    const num = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).replace(/\s+/g, '');
+    navigator.clipboard.writeText(num);
+    alert('Número ' + num + ' copiado. Haz tu transferencia y sube la captura abajo.');
+  }
+
+  function selectStage(idx) {
+    document.getElementById('r-plan').selectedIndex = idx;
+    checkFormReady();
+  }
+
+  let uploadedReceiptBase64 = null;
+  let uploadedReceiptMime = "image/jpeg";
+
+  function handleReceiptUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('receiptFileName').textContent = "✅ " + file.name;
+    document.getElementById('dropZone').classList.add('loaded');
+    document.getElementById('uploadPrompt').style.display = 'none';
+
+    if (file.type === "application/pdf") {
+      uploadedReceiptMime = "application/pdf";
+      const reader = new FileReader();
+      reader.onload = ev => {
+        uploadedReceiptBase64 = ev.target.result;
+        document.getElementById('receiptPreview').style.display = 'none';
+        checkFormReady();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Compress image cleanly in browser (<180KB, 1100px max) for ultra-fast 1-sec upload
+      uploadedReceiptMime = "image/jpeg";
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 1100;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+            else { w = Math.round(w * maxDim / h); h = maxDim; }
+          }
+          const c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          c.getContext('2d').drawImage(img, 0, 0, w, h);
+          uploadedReceiptBase64 = c.toDataURL('image/jpeg', 0.82);
+          const prev = document.getElementById('receiptPreview');
+          prev.src = uploadedReceiptBase64;
+          prev.style.display = 'block';
+          checkFormReady();
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
     }
-    updatePassPreview();
   }
 
-  function updatePassPreview() {
-    document.getElementById('pv-name').textContent = (document.getElementById('r-name').value || 'TU NOMBRE AQUÍ').toUpperCase();
-    document.getElementById('pv-role').textContent = document.getElementById('r-role').value;
-    document.getElementById('pv-plan').textContent = document.getElementById('r-plan').value;
-    const song = document.getElementById('r-song').value;
-    document.getElementById('pv-song').textContent = song ? '🎵 Himno DJ: ' + song : '🎵 Himno DJ: Pendiente elegir';
-  }
-
-  function submitRegistration() {
+  function checkFormReady() {
     const name = document.getElementById('r-name').value.trim();
-    if (!name) {
-      alert('Por favor escribe tu nombre y apellido para generar tu reserva VIP.');
-      document.getElementById('r-name').focus();
-      return;
-    }
+    const phone = document.getElementById('r-phone').value.trim();
     const role = document.getElementById('r-role').value;
-    const plan = document.getElementById('r-plan').value;
-    const song = document.getElementById('r-song').value.trim() || 'A elección del DJ';
-    const nom = document.getElementById('r-nom').value.trim() || 'Sin nominación aún';
-    const refCode = 'KP26-' + Math.floor(100 + Math.random() * 899);
+    const planParts = document.getElementById('r-plan').value.split('|');
 
-    const msg =
-      `🎉 *¡HOLA! QUIERO MI BOLETA K-PARI 2026* 🎉\n\n` +
-      `👤 *Nombre:* ${name}\n` +
-      `🏅 *Rango:* ${role}\n` +
-      `💳 *Plan elegido:* ${plan}\n` +
-      `🎵 *Canción obligatoria:* ${song}\n` +
-      `🏆 *Nominación K-PARI Awards:* ${nom}\n` +
-      `🔖 *Código Pre-Reserva:* ${refCode}\n\n` +
-      `¿Me confirmas el Nequi / Llave para enviarte el comprobante y recibir mi Boleta QR?`;
+    document.getElementById('pv-name').textContent = (name || 'TU NOMBRE AQUÍ').toUpperCase();
+    document.getElementById('pv-role').textContent = role;
+    document.getElementById('pv-plan').textContent = `${planParts[0]} • $${Number(planParts[1]).toLocaleString('es-CO')} COP`;
+    document.getElementById('pv-receipt-badge').innerHTML = uploadedReceiptBase64
+      ? '<span style="color:#2EE69C;font-weight:900;">✅ Comprobante listo para validar</span>'
+      : '⏳ Pendiente adjuntar comprobante';
 
-    const phone = localStorage.getItem('kpari_admin_phone') || '573044552193';
-    const waUrl = phone
-      ? `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`
-      : `https://wa.me/?text=${encodeURIComponent(msg)}`;
-    window.open(waUrl, '_blank');
+    const btn = document.getElementById('submitBtn');
+    if (name.length >= 3 && phone.length >= 7 && uploadedReceiptBase64) {
+      btn.disabled = false;
+      btn.textContent = "🎟️ ENVIAR COMPROBANTE Y DESCARGAR BOLETA QR";
+    } else {
+      btn.disabled = true;
+      btn.textContent = uploadedReceiptBase64
+        ? "✍️ COMPLETA TU NOMBRE Y CELULAR ARRIBA"
+        : "🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA";
+    }
   }
 
-  // Organizer Admin & Real QR Ticket Canvas
   const bgHero = new Image();
   bgHero.src = 'assets/kpari_hero_clean.jpg';
-  bgHero.onload = () => drawOfficialTicket();
-
-  function unlockAdmin() {
-    const pin = prompt('Ingresa el PIN de organizador (por defecto: 2026):');
-    if (pin === '2026') {
-      document.getElementById('adminPanel').classList.add('open');
-      document.getElementById('adm-phone').value = localStorage.getItem('kpari_admin_phone') || '573044552193';
-      drawOfficialTicket();
-      document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
-    } else if (pin !== null) {
-      alert('PIN incorrecto.');
-    }
-  }
-
-  function saveAdminPhone() {
-    localStorage.setItem('kpari_admin_phone', document.getElementById('adm-phone').value.trim());
-  }
+  let currentIssuedTicketId = "KP26-001";
 
   function drawRealQR(ctx, text, x, y, size) {
     ctx.fillStyle = '#FFFFFF';
@@ -770,23 +883,12 @@
     }
   }
 
-  function drawOfficialTicket() {
-    const canvas = document.getElementById('officialCanvas');
-    if (!canvas) return;
+  function renderTicketOnCanvas(canvasId, ticketId, name, role, stageLabel, amount) {
+    const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
-    const name = (document.getElementById('tk-name').value || 'INVITADO VIP').toUpperCase();
-    const id = (document.getElementById('tk-id').value || 'KP26-001').toUpperCase();
-    const parts = document.getElementById('tk-stage').value.split('|');
-    const stageLbl = parts[0];
-    const statusLbl = parts[1];
-    const badgeCol = parts[3] || '#007F4E';
-    const role = (document.getElementById('tk-role').value || 'VIP').toUpperCase();
-
-    // Base dark K-C background
     ctx.fillStyle = '#12052C';
     ctx.fillRect(0, 0, 720, 1220);
 
-    // Top Pixar Banner Crop
     if (bgHero.complete && bgHero.naturalWidth > 0) {
       ctx.drawImage(bgHero, 0, 0, bgHero.naturalWidth, bgHero.naturalHeight * 0.56, 0, 0, 720, 470);
       const g = ctx.createLinearGradient(0, 300, 0, 475);
@@ -796,12 +898,10 @@
       ctx.fillRect(0, 300, 720, 180);
     }
 
-    // Outer K-C Frame
     ctx.strokeStyle = '#FC873D';
     ctx.lineWidth = 6;
     ctx.strokeRect(20, 20, 680, 1180);
 
-    // Event Info Strip
     ctx.fillStyle = '#FC873D';
     ctx.font = '900 33px Lato, sans-serif';
     ctx.textAlign = 'center';
@@ -810,104 +910,251 @@
     ctx.font = '700 22px Lato, sans-serif';
     ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 540);
 
-    // Dashed tear line
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
     ctx.lineWidth = 2;
     ctx.setLineDash([12, 10]);
-    ctx.beginPath();
-    ctx.moveTo(42, 570);
-    ctx.lineTo(678, 570);
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(42, 570); ctx.lineTo(678, 570); ctx.stroke();
     ctx.setLineDash([]);
 
-    // Guest Card
     ctx.fillStyle = 'rgba(88, 0, 205, 0.32)';
     ctx.fillRect(50, 595, 620, 250);
-    ctx.strokeStyle = '#6B48D1';
-    ctx.strokeRect(50, 595, 620, 250);
 
     ctx.fillStyle = '#B3B3E9';
     ctx.font = '700 19px Lato, sans-serif';
     ctx.fillText('PASE PERSONAL E INTRANSFERIBLE • ACCESO VERIFICADO', 360, 632);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 42px Lato, sans-serif';
-    ctx.fillText(name, 360, 684);
+    ctx.font = '900 40px Lato, sans-serif';
+    ctx.fillText(name.toUpperCase(), 360, 684);
     ctx.fillStyle = '#FC873D';
     ctx.font = '700 22px Lato, sans-serif';
-    ctx.fillText(role, 360, 722);
+    ctx.fillText(role.toUpperCase(), 360, 722);
 
-    ctx.fillStyle = badgeCol;
+    ctx.fillStyle = '#007F4E';
     ctx.fillRect(85, 752, 550, 64);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 24px Lato, sans-serif';
-    ctx.fillText(`${stageLbl}  •  ${statusLbl}`, 360, 793);
+    ctx.font = '900 23px Lato, sans-serif';
+    ctx.fillText(`${stageLabel} ($${Number(amount).toLocaleString('es-CO')}) • COMPROBANTE REGISTRADO`, 360, 793);
 
-    // Real Verifiable QR
-    drawRealQR(ctx, `KPARI2026|${id}|${name}|${stageLbl}|${statusLbl}`, 255, 880, 210);
+    const verifyUrl = `${window.location.origin}${window.location.pathname}?verify=${encodeURIComponent(ticketId)}&name=${encodeURIComponent(name)}`;
+    drawRealQR(ctx, verifyUrl, 255, 880, 210);
 
     ctx.fillStyle = '#FFFFFF';
     ctx.font = '900 32px Lato, sans-serif';
-    ctx.fillText(`BOLETA #${id}`, 360, 1142);
-    ctx.fillStyle = '#37A17C';
+    ctx.fillText(`BOLETA #${ticketId}`, 360, 1142);
+    ctx.fillStyle = '#2EE69C';
     ctx.font = '700 18px Lato, sans-serif';
     ctx.fillText('PRESENTA ESTE CÓDIGO QR EN LA ENTRADA DE LA TERRAZA', 360, 1176);
   }
 
-  function downloadOfficialTicket() {
-    const canvas = document.getElementById('officialCanvas');
-    const id = (document.getElementById('tk-id').value || 'KP26').replace(/[^a-zA-Z0-9_-]/g, '');
-    const name = (document.getElementById('tk-name').value || 'Invitado').replace(/\s+/g, '_');
+  let localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]');
+
+  async function processSelfServiceRegistration() {
+    const btn = document.getElementById('submitBtn');
+    const statusBox = document.getElementById('submitStatus');
+    const name = document.getElementById('r-name').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    const role = document.getElementById('r-role').value;
+    const planParts = document.getElementById('r-plan').value.split('|');
+    const stage = planParts[0];
+    const amount = Number(planParts[1]);
+    const song = document.getElementById('r-song').value.trim();
+    const nomination = document.getElementById('r-nom').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = "⏳ SUBIENDO COMPROBANTE Y GENERANDO QR...";
+    statusBox.style.display = 'block';
+    statusBox.textContent = "Guardando tu comprobante de pago de forma segura...";
+
+    let ticketId = "KP26-" + String(Math.floor(100 + Math.random() * 899));
+    let receiptUrl = uploadedReceiptBase64;
+    const webhook = getWebhookUrl();
+
+    if (webhook) {
+      try {
+        // Content-Type text/plain avoids CORS preflight on Google Apps Script Web Apps
+        const resp = await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            ticketId, name, phone, role, stage, amount, song, nomination,
+            receiptBase64: uploadedReceiptBase64,
+            receiptMime: uploadedReceiptMime
+          })
+        });
+        const data = await resp.json();
+        if (data && data.ok && data.ticketId) {
+          ticketId = data.ticketId;
+          receiptUrl = data.receiptUrl || uploadedReceiptBase64;
+        }
+      } catch (err) {
+        console.warn("Webhook fallback local:", err);
+      }
+    }
+
+    // Also persist locally in browser repository
+    localRecords.unshift({
+      timestamp: new Date().toLocaleString('es-CO'),
+      id: ticketId,
+      name, phone, role, stage, val: amount, song, nomination,
+      status: "VERIFICADO (AUTO)",
+      receiptUrl
+    });
+    try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
+    renderAdminTable();
+
+    currentIssuedTicketId = ticketId;
+    renderTicketOnCanvas('unlockedCanvas', ticketId, name, role, stage, amount);
+    document.getElementById('ticketModal').classList.add('open');
+    statusBox.textContent = "✅ ¡Listo! Tu boleta #" + ticketId + " fue emitida.";
+    btn.textContent = "✅ BOLETA EMITIDA (#" + ticketId + ")";
+  }
+
+  function downloadUnlockedTicket() {
+    const canvas = document.getElementById('unlockedCanvas');
+    const name = (document.getElementById('r-name').value || 'Invitado').replace(/\s+/g, '_');
     const a = document.createElement('a');
-    a.download = `Boleta_KPARI_${id}_${name}.png`;
+    a.download = `Boleta_KPARI_${currentIssuedTicketId}_${name}.png`;
     a.href = canvas.toDataURL('image/png');
     a.click();
   }
 
-  let list = JSON.parse(localStorage.getItem('kpari26_list') || '[]');
-  function renderList() {
+  function closeTicketModal() {
+    document.getElementById('ticketModal').classList.remove('open');
+  }
+
+  // Admin Repository Functions (PIN 2026)
+  function unlockAdmin() {
+    const pin = prompt('Ingresa el PIN de Administrador:');
+    if (pin === '2026') {
+      document.getElementById('adminPanel').classList.add('open');
+      document.getElementById('adm-webhook').value = getWebhookUrl();
+      document.getElementById('adm-paynum').value = localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT;
+      renderAdminTable();
+      if (getWebhookUrl()) syncCloudRepository();
+      document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+    } else if (pin !== null) {
+      alert('PIN incorrecto.');
+    }
+  }
+
+  function saveAdminConfig() {
+    localStorage.setItem('kpari_webhook_url', document.getElementById('adm-webhook').value.trim());
+    const pay = document.getElementById('adm-paynum').value.trim() || DEFAULT_PAY_ACCOUNT;
+    localStorage.setItem('kpari_pay_account', pay);
+    document.getElementById('display-pay-account').textContent = pay;
+  }
+
+  async function syncCloudRepository() {
+    const webhook = getWebhookUrl();
+    if (!webhook) {
+      alert('Pega primero la URL de tu Google Apps Script (/exec) para sincronizar con tu Google Drive.');
+      return;
+    }
+    try {
+      const resp = await fetch(`${webhook}?pin=2026`);
+      const data = await resp.json();
+      if (data && data.ok) {
+        localRecords = data.records || [];
+        if (data.sheetUrl) {
+          const sl = document.getElementById('adm-sheet-link');
+          sl.href = data.sheetUrl;
+          sl.style.display = 'inline-flex';
+        }
+        renderAdminTable();
+      }
+    } catch (err) {
+      alert('Error al conectar con el repositorio: ' + err);
+    }
+  }
+
+  async function changeTicketStatus(idx, newStatus) {
+    const item = localRecords[idx];
+    item.status = newStatus;
+    try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
+    renderAdminTable();
+
+    const webhook = getWebhookUrl();
+    if (webhook) {
+      try {
+        await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'updateStatus', pin: '2026', ticketId: item.id, newStatus })
+        });
+      } catch (e) {}
+    }
+  }
+
+  function renderAdminTable() {
     const tb = document.getElementById('adm-tbody');
     if (!tb) return;
     tb.innerHTML = '';
     let sum = 0;
-    list.forEach((item, i) => {
-      sum += Number(item.val || 0);
+    localRecords.forEach((r, idx) => {
+      if (r.status !== 'ANULADA') sum += Number(r.val || 0);
+      const isImgData = r.receiptUrl && r.receiptUrl.startsWith('data:image');
+      const receiptCell = r.receiptUrl
+        ? (isImgData
+            ? `<a href="${r.receiptUrl}" download="Comprobante_${r.id}.jpg"><img src="${r.receiptUrl}" style="height:46px;border-radius:6px;" title="Descargar comprobante"/></a>`
+            : `<a href="${r.receiptUrl}" target="_blank" style="color:var(--kc-green-vivid);font-weight:900;">📄 Ver Recibo Drive</a>`)
+        : '—';
+      const statusColor = r.status === 'ANULADA' ? '#ff4d6d' : '#2EE69C';
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td><strong>${item.id}</strong></td><td>${item.name}</td><td>${item.stage}</td><td>$${Number(item.val).toLocaleString('es-CO')}</td><td>${item.status}</td><td><button onclick="delItem(${i})" style="background:none;border:1px solid #fc873d;color:#fc873d;border-radius:6px;padding:3px 8px;cursor:pointer;">X</button></td>`;
+      tr.innerHTML = `
+        <td><strong>${r.id}</strong><br><small style="color:var(--kc-purple-soft);">${r.timestamp || ''}</small></td>
+        <td><strong>${r.name}</strong><br><small>${r.phone || ''}</small></td>
+        <td>${r.stage}<br><strong>$${Number(r.val || 0).toLocaleString('es-CO')}</strong></td>
+        <td>🎵 ${r.song || '-'}<br>🏆 ${r.nomination || '-'}</td>
+        <td>${receiptCell}</td>
+        <td style="color:${statusColor};font-weight:900;">${r.status || 'VERIFICADO'}</td>
+        <td>
+          <button onclick="changeTicketStatus(${idx}, 'APROBADO ✅')" style="background:#007F4E;color:#fff;border:none;border-radius:6px;padding:5px 8px;cursor:pointer;margin-right:4px;">✅</button>
+          <button onclick="changeTicketStatus(${idx}, 'ANULADA')" style="background:#9e1b32;color:#fff;border:none;border-radius:6px;padding:5px 8px;cursor:pointer;">❌</button>
+        </td>
+      `;
       tb.appendChild(tr);
     });
-    document.getElementById('adm-count').textContent = list.length;
+    document.getElementById('adm-count').textContent = localRecords.filter(x => x.status !== 'ANULADA').length;
     document.getElementById('adm-sum').textContent = '$' + sum.toLocaleString('es-CO') + ' COP';
-    const pct = Math.min(100, Math.max(18, Math.round((list.length / 65) * 100)));
-    document.getElementById('cupos-bar').style.width = pct + '%';
-  }
-
-  function logTicket() {
-    const name = document.getElementById('tk-name').value || 'Invitado';
-    const id = document.getElementById('tk-id').value || 'KP26-001';
-    const parts = document.getElementById('tk-stage').value.split('|');
-    list.push({ id, name, stage: parts[0], status: parts[1], val: Number(parts[2] || 110000) });
-    localStorage.setItem('kpari26_list', JSON.stringify(list));
-    renderList();
-    document.getElementById('tk-id').value = 'KP26-' + String(list.length + 1).padStart(3, '0');
-    drawOfficialTicket();
-  }
-
-  function delItem(i) {
-    list.splice(i, 1);
-    localStorage.setItem('kpari26_list', JSON.stringify(list));
-    renderList();
   }
 
   function exportListCSV() {
-    let csv = 'Boleta,Nombre,Etapa,Estado,Valor_Pagado\n';
-    list.forEach(r => { csv += `"${r.id}","${r.name}","${r.stage}","${r.status}",${r.val}\n`; });
+    let csv = 'Fecha,Boleta,Nombre,Celular,Rango,Etapa,Valor,Cancion_DJ,Nominacion,Estado,Comprobante_URL\n';
+    localRecords.forEach(r => {
+      const cleanUrl = (r.receiptUrl && !r.receiptUrl.startsWith('data:')) ? r.receiptUrl : 'Guardado_Local';
+      csv += `"${r.timestamp||''}","${r.id}","${r.name}","${r.phone||''}","${r.role||''}","${r.stage}",${r.val},"${(r.song||'').replace(/"/g,"'")}","${(r.nomination||'').replace(/"/g,"'")}","${r.status}","${cleanUrl}"\n`;
+    });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-    a.download = 'Inscritos_KPARI_2026.csv';
+    a.download = 'Repositorio_Pagos_KPARI_2026.csv';
     a.click();
   }
 
-  renderList();
+  // Check URL parameters if someone scans a ticket QR at the door (?verify=KP26-XXX)
+  (async function checkDoorVerify() {
+    const params = new URLSearchParams(window.location.search);
+    const vId = params.get('verify');
+    if (!vId) return;
+    const banner = document.getElementById('verifyBanner');
+    banner.classList.add('show');
+    const vName = params.get('name') || 'Asistente';
+    const webhook = getWebhookUrl();
+    if (webhook) {
+      try {
+        const resp = await fetch(`${webhook}?verify=${encodeURIComponent(vId)}`);
+        const d = await resp.json();
+        if (d && d.found) {
+          const ok = d.status !== 'ANULADA';
+          banner.style.background = ok ? 'rgba(0,127,78,0.45)' : 'rgba(180,20,50,0.55)';
+          banner.innerHTML = `<h2>${ok ? '✅ BOLETA VÁLIDA EN PUERTA' : '🚨 BOLETA ANULADA'}</h2><p><b>#${d.ticketId}</b> — ${d.name} (${d.stage}) • Estado: <b>${d.status}</b></p>`;
+          return;
+        }
+      } catch (e) {}
+    }
+    banner.innerHTML = `<h2>🎟️ BOLETA ESCANEADA: #${vId}</h2><p>Titular registrado en QR: <b>${vName}</b></p>`;
+  })();
+
+  renderAdminTable();
 </script>
 </body>
 </html>
