@@ -700,7 +700,7 @@
     <div class="field-row" style="margin-bottom:16px;">
       <div class="field">
         <label>URL de tu Repositorio Google Drive / Apps Script (Termina en /exec)</label>
-        <input type="url" id="adm-webhook" class="input" placeholder="https://script.google.com/macros/s/.../exec" onchange="saveAdminConfig()" />
+        <input type="url" id="adm-webhook" class="input" value="https://script.google.com/macros/s/AKfycbyl5o8lNl79t489GUWb1JHQoVBCxEZ_XfH-2TRRUHLmzizOlVKmC0OOgaMdNI5fUFqo/exec" placeholder="https://script.google.com/macros/s/.../exec" onchange="saveAdminConfig()" />
       </div>
       <div class="field">
         <label>Cuenta Nequi / Llave visible para pagos</label>
@@ -754,7 +754,7 @@
 
 <script>
   // Default Cloud Webhook URL (if configured in code or via Admin panel)
-  const DEFAULT_WEBHOOK_URL = "";
+  const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyl5o8lNl79t489GUWb1JHQoVBCxEZ_XfH-2TRRUHLmzizOlVKmC0OOgaMdNI5fUFqo/exec";
   const DEFAULT_PAY_ACCOUNT = "@oscar9052";
 
   function getWebhookUrl() {
