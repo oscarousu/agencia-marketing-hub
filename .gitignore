@@ -1,0 +1,10 @@
+# Carpetas pesadas de trabajo temporal y clips crudos (Regla qa-security-auditor AGENTS.md)
+demos/*/google_flow_clips/
+google_flow_clips/
+tmp/
+scratch/
+produccion/.venv/
+produccion/__pycache__/
+__pycache__/
+.DS_Store
+*.pyc

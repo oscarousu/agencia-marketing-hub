@@ -3,137 +3,718 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sala Exclusiva de Entregables · CUIDARTE ESTÉTICA &amp; SPA (@cuidartesteticakg · Jamundí)</title>
+  <title>Sala Exclusiva de Entregables · CuidArte Estética &amp; Micropigmentación (@cuidartesteticakg · Jamundí)</title>
   <style>
     :root {
       --bg: #110E0C;
+      --bg-elevated: #171310;
       --card: #1C1714;
       --gold: #C9A96E;
+      --gold-soft: rgba(201, 169, 110, 0.16);
+      --gold-glow: rgba(201, 169, 110, 0.38);
       --nude: #EADBC8;
       --white: #FFFFFF;
-      --muted: #B8ABA0;
-      --border: rgba(201, 169, 110, 0.25);
+      --muted: #BFB2A6;
+      --border: rgba(201, 169, 110, 0.28);
+      --serif: "Playfair Display", "Didot", "Bodoni MT", Georgia, "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at top, #261F1B 0%, var(--bg) 65%);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(201, 169, 110, 0.13) 0%, transparent 48%),
+        radial-gradient(circle at 85% 8%, rgba(234, 219, 200, 0.08) 0%, transparent 42%),
+        linear-gradient(180deg, #191411 0%, var(--bg) 45%, #0D0A09 100%);
       color: var(--white);
-      line-height: 1.5;
-      padding-bottom: 60px;
+      line-height: 1.55;
+      padding-bottom: 72px;
+      min-height: 100vh;
     }
+
+    /* HEADER STICKY EDITORIAL */
     header {
       border-bottom: 1px solid var(--border);
-      padding: 18px 32px;
+      padding: 14px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
-      background: rgba(17, 14, 12, 0.92);
+      background: rgba(17, 14, 12, 0.93);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
+
     .brand {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
+      flex-wrap: wrap;
     }
-    .brand-title {
-      font-weight: 900;
-      font-size: 1.15rem;
-      letter-spacing: 0.08em;
-      color: var(--nude);
-      border: 1px solid var(--gold);
-      padding: 6px 16px;
-      border-radius: 999px;
-      background: rgba(201, 169, 110, 0.12);
+
+    .brand-logo-floating {
+      height: 52px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85));
     }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
     .badge {
-      background: rgba(201, 169, 110, 0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-soft);
       border: 1px solid var(--gold);
-      color: var(--gold);
-      font-size: 0.75rem;
+      color: var(--nude);
+      font-size: 0.73rem;
       font-weight: 800;
-      padding: 5px 12px;
+      padding: 5px 13px;
       border-radius: 999px;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
     }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .container {
-      max-width: 1240px;
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 32px 24px;
+      padding: 30px 24px;
     }
+
+    /* SELECTOR DE SALAS DE CLIENTES */
     .client-switcher {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
-      padding: 12px 16px;
-      background: rgba(201, 169, 110, 0.1);
+      margin-bottom: 28px;
+      padding: 12px 18px;
+      background: rgba(28, 23, 20, 0.88);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       align-items: center;
     }
+
     .client-switcher span {
       font-size: 0.82rem;
-      color: var(--muted);
+      color: var(--nude);
       font-weight: 700;
       margin-right: 6px;
     }
+
     .client-tab {
       text-decoration: none;
       font-size: 0.82rem;
       font-weight: 800;
       padding: 7px 14px;
-      border-radius: 8px;
+      border-radius: 9px;
       color: var(--white);
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
     }
+
+    .client-tab:hover {
+      border-color: var(--gold);
+      color: var(--nude);
+    }
+
     .client-tab.active {
-      background: var(--gold);
+      background: linear-gradient(135deg, #D5B77E 0%, var(--gold) 100%);
       color: #110E0C;
       border-color: var(--nude);
+      box-shadow: 0 4px 15px rgba(201, 169, 110, 0.3);
     }
+
+    /* HERO EDITORIAL DE MARCA */
+    .hero-panel {
+      position: relative;
+      background: linear-gradient(135deg, rgba(28, 23, 20, 0.96) 0%, rgba(17, 14, 12, 0.98) 100%);
+      border: 1px solid var(--gold-glow);
+      border-radius: 20px;
+      padding: 28px 30px;
+      margin-bottom: 36px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--nude), var(--gold), transparent);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.75rem, 3vw, 2.35rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    h1 span {
+      color: var(--nude);
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 0.96rem;
+      max-width: 980px;
+      margin-bottom: 20px;
+    }
+
+    .sub strong {
+      color: var(--nude);
+    }
+
+    .verified-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(201, 169, 110, 0.2);
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.81rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      color: var(--nude);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    a.verified-pill:hover {
+      background: rgba(201, 169, 110, 0.15);
+      border-color: var(--gold);
+    }
+
+    .swatch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    /* ENCABEZADOS DE SECCIÓN */
+    .section-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 38px 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-hdr h2 {
+      font-family: var(--serif);
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+
+    .section-hdr p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* GRILLAS */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* TARJETAS DE ENTREGABLES */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(201, 169, 110, 0.25);
+    }
+
+    .img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #0D0A09;
+    }
+
+    .card img.post-preview {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      cursor: zoom-in;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .card:hover img.post-preview {
+      transform: scale(1.02);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(17, 14, 12, 0.82);
+      border: 1px solid rgba(201, 169, 110, 0.55);
+      color: var(--nude);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .card video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      background: #0B0908;
+      display: block;
+    }
+
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+    }
+
+    .card-kicker {
+      font-size: 0.71rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--gold);
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--nude);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .tech-specs {
+      font-size: 0.75rem;
+      color: var(--nude);
+      background: rgba(201, 169, 110, 0.08);
+      border: 1px solid rgba(201, 169, 110, 0.22);
+      border-radius: 8px;
+      padding: 7px 10px;
+      margin-top: 2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
     .btn {
+      flex: 1;
       text-align: center;
       text-decoration: none;
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 800;
-      padding: 9px 14px;
-      border-radius: 8px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
     }
-    .btn.primary { background: var(--gold); color: #110E0C; }
-    .btn.secondary { background: rgba(255, 255, 255, 0.08); color: var(--white); border: 1px solid var(--border); }
-    h1 { font-size: 1.9rem; font-weight: 900; margin-bottom: 6px; }
-    .sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #D7B980 0%, var(--gold) 100%);
+      color: #110E0C;
+      border: 1px solid var(--nude);
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.07);
+    }
+
+    .btn.secondary {
+      background: rgba(234, 219, 200, 0.07);
+      color: var(--nude);
+      border: 1px solid var(--border);
+    }
+
+    .btn.secondary:hover {
+      background: rgba(201, 169, 110, 0.16);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+
+    /* FOOTER DE IDENTIDAD */
+    footer {
+      max-width: 1260px;
+      margin: 48px auto 0;
+      padding: 22px 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* VISOR LIGHTBOX INTERACTIVO */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 7, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: rgba(28, 23, 20, 0.9);
+      border: 1px solid var(--gold);
+      color: var(--nude);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .lightbox img {
+      max-width: 94vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      border: 1px solid rgba(201, 169, 110, 0.45);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.92);
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      font-size: 0.86rem;
+      color: var(--nude);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 14px 18px; }
+      .container { padding: 20px 16px; }
+      .hero-panel { padding: 22px 18px; }
+      .brand-logo-floating { height: 42px; }
+    }
   </style>
 </head>
 <body>
+
 <header>
   <div class="brand">
-    <div class="brand-title">CUIDARTE · ESTÉTICA &amp; SPA</div>
-    <span class="badge">Sala Exclusiva Cliente · @cuidartesteticakg</span>
+    <img class="brand-logo-floating" src="./brand_assets/cuidarte_logo_darkmode.png?v=2" alt="CuidArte Estética &amp; Micropigmentación · By Katherine Gil" />
+    <div class="brand-meta">
+      <span class="badge">✨ Sala Exclusiva Cliente · @cuidartesteticakg</span>
+    </div>
   </div>
-  <div style="display:flex; gap:10px;">
-    <a href="https://www.instagram.com/cuidartesteticakg/" target="_blank" rel="noopener noreferrer" class="btn secondary">📲 Instagram @cuidartesteticakg</a>
-    <a href="../../" class="btn primary">🔐 Volver al Hub Oscar &amp; Camilo</a>
+  <div class="header-actions">
+    <a href="https://wa.me/573043723666" target="_blank" rel="noopener noreferrer" class="btn secondary" style="flex:initial; padding:8px 14px;">💬 WhatsApp 304 372 3666</a>
+    <a href="https://www.instagram.com/cuidartesteticakg/" target="_blank" rel="noopener noreferrer" class="btn secondary" style="flex:initial; padding:8px 14px;">📲 @cuidartesteticakg</a>
+    <a href="../../" class="btn primary" style="flex:initial; padding:8px 15px;">🔐 Volver al Hub Oscar &amp; Camilo</a>
   </div>
 </header>
+
 <div class="container">
+  <!-- SELECTOR DE SALAS EXCLUSIVAS POR CLIENTE -->
   <div class="client-switcher">
     <span>🏢 Espacios Exclusivos por Cliente:</span>
     <a href="../teamcano/" class="client-tab">🏋️‍♂️ Team Cano (3 Sedes)</a>
     <a href="../mollepizza/" class="client-tab">🍕 Molle Pizza (Cali &amp; Jamundí)</a>
     <a href="./" class="client-tab active">✨ CuidArte Estética &amp; Spa (Jamundí)</a>
   </div>
-  <h1>Sala Exclusiva de Demos · CuidArte Estética &amp; Micropigmentación (Jamundí)</h1>
-  <p class="sub">Dirigido por Katherine Gil · Paleta Clínica Luxury: <strong>Blanco Cálido · Nude (#EADBC8) · Dorado Champagne (#C9A96E) · Negro Profundo (#110E0C)</strong>. Espacio preparado para carga de reels y posts hiperrealistas.</p>
+
+  <!-- HERO DE IDENTIDAD VERIFICADA -->
+  <section class="hero-panel">
+    <div class="hero-eyebrow">Luxury Medical Spa &amp; Champagne Gold Edition (v2 Libre de Cajas) · Jamundí, Valle del Cauca</div>
+    <h1>CuidArte Estética &amp; Micropigmentación · <span>By Katherine Gil</span></h1>
+    <p class="sub">
+      Dirección clínica y artística liderada por <strong>Katherine Gil — Campeona Internacional PMU</strong>. Paquete completo certificado <code>5/5 QA</code> (<strong>3 Reels 9:16 en Google Flow Omni 1.2 Flash + 4 Posts 3:4</strong>) con identidad limpia <code>v2</code> sin recuadros invasivos (logotipo oficial flotante + tipografía condensada en negrilla de alto contraste), audio multicapa a <code>-14.1 LUFS</code> (cero voces alucinadas) y paleta clínica luxury: <strong>Negro Cálido (#110E0C) · Espresso (#1C1714) · Dorado Champagne (#C9A96E) · Nude Seda (#EADBC8) · Blanco (#FFFFFF)</strong>.
+    </p>
+    <div class="verified-strip">
+      <span class="verified-pill">🏆 By Katherine Gil — Campeona Internacional PMU</span>
+      <span class="verified-pill">📍 Calle 2a # 22-18 · Jamundí</span>
+      <a href="https://wa.me/573043723666" target="_blank" rel="noopener noreferrer" class="verified-pill">📲 WhatsApp 304 372 3666</a>
+      <a href="https://www.instagram.com/cuidartesteticakg/" target="_blank" rel="noopener noreferrer" class="verified-pill">📸 @cuidartesteticakg</a>
+      <span class="verified-pill">
+        <span class="swatch-dot" style="background:#110E0C;"></span>
+        <span class="swatch-dot" style="background:#C9A96E;"></span>
+        <span class="swatch-dot" style="background:#EADBC8;"></span>
+        <span class="swatch-dot" style="background:#FFFFFF;"></span>
+        Suite Completa 5/5 QA · v2 Sin Cajas
+      </span>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: 3 REELS COMERCIALES OFICIALES 9:16 (12s · EN VIVO) -->
+  <div class="section-hdr">
+    <div>
+      <h2>🎬 3 Reels Comerciales Oficiales 9:16 (12s · Google Flow Omni 1.2 Flash · Audio 4 Capas -14 LUFS)</h2>
+      <p>Animación hiperrealista en mismo eje geométrico con logo oficial flotante libre de cajas, tipografía condensada en negrilla y mezcla sonora física a -14.1 LUFS (cero voces alucinadas).</p>
+    </div>
+    <span class="badge">Certificados 5/5 QA · Dual Download</span>
+  </div>
+
+  <div class="grid-3">
+    <!-- REEL 01 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_02_rejuvenecimiento_branded.jpg?v=2" style="width:100%; aspect-ratio:9/16; display:block; background:#0B0908; object-fit:cover;">
+        <source src="./video_01_experiencia_facial_12s_branded.mp4?v=2" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 01 · 9:16 · 12.00s · v2 Sin Cajas</div>
+        <div class="card-title">Reel 01 · Experiencia Hydrafacial &amp; Glow</div>
+        <div class="card-desc">Deslizamiento clínico continuo en Google Flow Omni 1.2 Flash con manípulo hidrofacial sobre piel luminosa, logotipo oficial flotante libre de recuadros y tipografía condensada en negrilla de alto contraste.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Audio 4 capas SFX + Beat Luxury (<code>-14.1 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_01_experiencia_facial_12s_branded.mp4?v=2" download="CuidArte_Reel_01_Experiencia_Facial_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_01_experiencia_facial_12s_clean.mp4?v=2" download="CuidArte_Reel_01_Experiencia_Facial_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- REEL 02 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_01_micropigmentacion_branded.jpg?v=2" style="width:100%; aspect-ratio:9/16; display:block; background:#0B0908; object-fit:cover;">
+        <source src="./video_02_micropigmentacion_kg_12s_branded.mp4?v=2" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 02 · 9:16 · 12.00s · v2 Sin Cajas</div>
+        <div class="card-title">Reel 02 · Micropigmentación Hiperrealista By Katherine Gil</div>
+        <div class="card-desc">Precisión macro pelo a pelo con dermógrafo profesional PMU (agarre anatómico con guante de nitrilo negro, 0° giro artificial) en Google Flow Omni 1.2 Flash + gráfica limpia v2 de Campeona Internacional PMU.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Foley clínico sutil + Beat Editorial (<code>-14.1 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_02_micropigmentacion_kg_12s_branded.mp4?v=2" download="CuidArte_Reel_02_Micropigmentacion_KG_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_02_micropigmentacion_kg_12s_clean.mp4?v=2" download="CuidArte_Reel_02_Micropigmentacion_KG_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- REEL 03 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_03_laser_diodo_branded.jpg?v=2" style="width:100%; aspect-ratio:9/16; display:block; background:#0B0908; object-fit:cover;">
+        <source src="./video_03_laser_diodo_12s_branded.mp4?v=2" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 03 · 9:16 · 12.00s · v2 Sin Cajas</div>
+        <div class="card-title">Reel 03 · Tecnología Láser Diodo &amp; Contorno</div>
+        <div class="card-desc">Recorrido fluido del cabezal frío de Láser Diodo con bioseguridad ocular completa animado en Google Flow Omni 1.2 Flash, diseño tipográfico limpio sin parches pesados y CTA directo en Jamundí.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Pulso acústico clínico + Beat Luxury (<code>-14.1 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_03_laser_diodo_12s_branded.mp4?v=2" download="CuidArte_Reel_03_Laser_Diodo_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_03_laser_diodo_12s_clean.mp4?v=2" download="CuidArte_Reel_03_Laser_Diodo_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- SECCIÓN 2: 4 IMÁGENES OFICIALES PARA POST DE INSTAGRAM (3:4 · 1080x1440 · v2) -->
+  <div class="section-hdr" style="margin-top: 52px;">
+    <div>
+      <h2>📸 4 Imágenes Oficiales para Post de Instagram (Formato Vertical 3:4 · 1080×1440 · v2 Sin Cajas)</h2>
+      <p>Haz clic sobre cualquier imagen para inspeccionarla en pantalla completa (Lightbox). Diseño limpio v2 con logo oficial flotante, tipografía condensada en negrilla y visibilidad 100% despejada.</p>
+    </div>
+    <span class="badge">Certificadas 5/5 QA · Dual Download</span>
+  </div>
+
+  <div class="grid-4">
+    <!-- POST 01 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_01_micropigmentacion_branded.jpg?v=2" alt="Post 01 CuidArte · Micropigmentación PMU · Arte en tu Mirada" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 01 · Micropigmentación PMU (v2)</div>
+        <div class="card-title">Arte en tu Mirada · Cejas Hiperrealistas</div>
+        <div class="card-desc">Cejas pelo a pelo y diseño hiperrealista natural por Katherine Gil. Logo oficial flotante con sombra óptica + titular condensado en negrilla sin cajas invasivas sobre espacio negativo limpio.</div>
+        <div class="actions">
+          <a href="./post_01_micropigmentacion_branded.jpg?v=2" download="CuidArte_Post_01_Micropigmentacion_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_01_micropigmentacion_clean.jpg?v=2" download="CuidArte_Post_01_Micropigmentacion_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 02 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_02_rejuvenecimiento_branded.jpg?v=2" alt="Post 02 CuidArte · Rejuvenecimiento &amp; Hydrafacial Clínico · Piel Luminosa y Sana" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 02 · Rejuvenecimiento Facial (v2)</div>
+        <div class="card-title">Piel Luminosa y Sana · Hydrafacial Clínico</div>
+        <div class="card-desc">Limpieza profunda, hidratación celular y bioestimulación real en cabina iluminada. Composición limpia v2 libre de recuadros con contraste tipográfico nítido y logo flotante.</div>
+        <div class="actions">
+          <a href="./post_02_rejuvenecimiento_branded.jpg?v=2" download="CuidArte_Post_02_Rejuvenecimiento_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_02_rejuvenecimiento_clean.jpg?v=2" download="CuidArte_Post_02_Rejuvenecimiento_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 03 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_03_laser_diodo_branded.jpg?v=2" alt="Post 03 CuidArte · Depilación Láser Diodo de Alta Precisión · Suavidad Definitiva" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 03 · Tecnología Láser Diodo (v2)</div>
+        <div class="card-title">Suavidad Definitiva · Alta Precisión</div>
+        <div class="card-desc">Tecnología clínica segura, confortable y resultados duraderos con protocolo ocular completo. Gráfica v2 libre de cajas con tipografía pesada de alto contraste y sello @cuidartesteticakg.</div>
+        <div class="actions">
+          <a href="./post_03_laser_diodo_branded.jpg?v=2" download="CuidArte_Post_03_Laser_Diodo_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_03_laser_diodo_clean.jpg?v=2" download="CuidArte_Post_03_Laser_Diodo_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 04 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_04_experiencia_corporal_branded.jpg?v=2" alt="Post 04 CuidArte · Moldeo Corporal, Postquirúrgico &amp; Spa · Hoy Elígete a Ti" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 04 · Experiencia Corporal &amp; Spa (v2)</div>
+        <div class="card-title">Hoy Elígete a Ti · Contorno &amp; Bienestar</div>
+        <div class="card-desc">Moldeo corporal, cuidado postquirúrgico y experiencia spa cálida en manos expertas. Acabado editorial v2 sin cajas invasivas con logo oficial flotante en alta resolución.</div>
+        <div class="actions">
+          <a href="./post_04_experiencia_corporal_branded.jpg?v=2" download="CuidArte_Post_04_Experiencia_Corporal_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_04_experiencia_corporal_clean.jpg?v=2" download="CuidArte_Post_04_Experiencia_Corporal_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <footer>
+    <div>✨ <strong>CuidArte Estética &amp; Micropigmentación</strong> · By Katherine Gil · Calle 2a # 22-18, Jamundí · WhatsApp 304 372 3666</div>
+    <div>Sala Exclusiva Aislada · Producido por Agencia Marketing IA (Oscar Ortiz &amp; Camilo Cortés)</div>
+  </footer>
 </div>
+
+<!-- LIGHTBOX DE PANTALLA COMPLETA -->
+<div id="lb" class="lightbox" onclick="closeLb()">
+  <button type="button" class="lightbox-close" onclick="closeLb()">✕ Cerrar Vista Ampliada</button>
+  <img id="lb-img" src="" alt="Vista previa pantalla completa CuidArte" onclick="event.stopPropagation()" />
+  <div id="lb-caption" class="lightbox-caption"></div>
+</div>
+
+<script>
+  function openLb(src, caption) {
+    var img = document.getElementById('lb-img');
+    var cap = document.getElementById('lb-caption');
+    img.src = src;
+    cap.textContent = caption || '';
+    document.getElementById('lb').classList.add('open');
+  }
+
+  function closeLb() {
+    document.getElementById('lb').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLb();
+  });
+</script>
 </body>
 </html>

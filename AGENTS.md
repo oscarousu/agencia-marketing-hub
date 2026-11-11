@@ -17,7 +17,7 @@ Este archivo (`AGENTS.md`) se carga automáticamente al iniciar cualquier conver
 2. **Estado Actual de Espacios de Clientes en Producción:**
    - ✅ **Team Cano (`@teamcano_fit`):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` en `demos/teamcano/`).
    - ✅ **Molle Pizza (`@mollepizza`):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` en `demos/mollepizza/`).
-   - ⏳ **CuidArte Estética y Micropigmentación (`@cuidartesteticakg` — Katherine Gil, Jamundí):** Espacio base creado en `demos/cuidarte/index.html`; pendiente producción de su suite completa (`3 Reels 9:16` + `4 Posts 3:4`).
+   - ✅ **CuidArte Estética y Micropigmentación (`@cuidartesteticakg` — Katherine Gil, Jamundí):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` libres de cajas `v2` en `demos/cuidarte/`).
    - 🆕 **Cualquier Nuevo Cliente:** Crear su directorio exclusivo `demos/<nuevo-cliente>/` y su portal `demos/<nuevo-cliente>/index.html` desde el inicio.
 
 ---
