@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sala Cine 35mm ASMR — Estándar Disruptivo Anti-IA (2026) | Oscar &amp; Camilo</title>
+  <style>
+    :root {
+      --bg: #070708;
+      --surface: #111215;
+      --surface-2: #181A1F;
+      --border: rgba(255, 255, 255, 0.1);
+      --gold: #F4D38A;
+      --amber: #FFB648;
+      --orange: #F26522;
+      --emerald: #34D399;
+      --text: #F7F5F0;
+      --muted: #A1A8B3;
+      --serif: "Playfair Display", "Didot", "Bodoni MT", Georgia, "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 20% 0%, #191511 0%, var(--bg) 48%);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.55;
+      padding-bottom: 80px;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(7, 7, 8, 0.88);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    }
+    .badge-live {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 13px; border-radius: 999px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      color: var(--emerald); font-size: 12px; font-weight: 800; letter-spacing: 0.04em;
+    }
+    .btn-hub {
+      text-decoration: none;
+      font-size: 13px; font-weight: 800;
+      padding: 9px 16px; border-radius: 9px;
+      background: linear-gradient(135deg, #F6DC9F 0%, var(--gold) 100%);
+      color: #09090B; border: 1px solid #FFF2D2;
+      transition: filter 0.18s ease;
+    }
+    .btn-hub:hover { filter: brightness(1.06); }
+
+    .container { max-width: 1320px; margin: 0 auto; padding: 28px 24px 0; }
+
+    .client-switcher {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 26px; padding: 12px 18px;
+      background: rgba(17, 18, 21, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 14px; align-items: center;
+    }
+    .client-switcher span {
+      font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-right: 6px;
+    }
+    .client-tab {
+      text-decoration: none; font-size: 0.82rem; font-weight: 800;
+      padding: 7px 14px; border-radius: 9px;
+      color: var(--text); background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+    .client-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .client-tab.active {
+      background: var(--gold); color: #09090B; border-color: #FFF2D2;
+    }
+
+    .hero { padding: 32px 0 40px; border-bottom: 1px solid var(--border); }
+    .eyebrow {
+      color: var(--gold); text-transform: uppercase; letter-spacing: 0.16em;
+      font-size: 12px; font-weight: 800; margin-bottom: 12px;
+    }
+    h1 {
+      font-family: var(--serif); font-weight: 700;
+      font-size: clamp(36px, 5vw, 64px); line-height: 1.05; margin-bottom: 16px;
+    }
+    h1 em { color: var(--gold); font-style: italic; font-weight: 400; }
+    .lead { max-width: 880px; color: var(--muted); font-size: 16.5px; }
+    .lead strong { color: var(--text); }
+
+    .pillars {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px; margin-top: 30px;
+    }
+    .pillar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 18px;
+    }
+    .pillar strong { display: block; font-size: 15px; margin-bottom: 6px; color: var(--gold); }
+    .pillar p { font-size: 13px; color: var(--muted); }
+
+    .lab-section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+    .lab-header {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;
+      gap: 16px; margin-bottom: 26px;
+    }
+    .lab-tag {
+      display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.13em;
+      text-transform: uppercase; padding: 5px 10px; border-radius: 6px; margin-bottom: 8px;
+    }
+    .lab-title { font-size: 27px; font-weight: 900; letter-spacing: -0.02em; }
+    .lab-sub { color: var(--muted); font-size: 14px; max-width: 700px; margin-top: 4px; }
+
+    .mode-tabs {
+      display: inline-flex; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 4px; gap: 4px; flex-wrap: wrap;
+    }
+    .mode-btn {
+      background: transparent; border: none; color: var(--muted);
+      padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 800;
+      cursor: pointer; transition: all 0.18s ease;
+    }
+    .mode-btn.active { background: var(--gold); color: #09090B; }
+
+    .compare-grid {
+      display: grid; grid-template-columns: 330px 1fr; gap: 26px; align-items: start;
+    }
+    @media (max-width: 980px) { .compare-grid { grid-template-columns: 1fr; } }
+
+    .card-video {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 16px; position: relative;
+    }
+    .card-video.disruptive {
+      background: linear-gradient(180deg, rgba(244, 211, 138, 0.09) 0%, var(--surface) 38%);
+      border-color: rgba(244, 211, 138, 0.42);
+      display: grid; grid-template-columns: 350px 1fr; gap: 24px; align-items: center;
+    }
+    @media (max-width: 860px) { .card-video.disruptive { grid-template-columns: 1fr; } }
+
+    .v-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; font-weight: 800; margin-bottom: 10px; color: var(--muted);
+    }
+    .v-label.gold { color: var(--gold); }
+    video {
+      width: 100%; aspect-ratio: 9 / 16; border-radius: 14px;
+      background: #000; display: block; object-fit: cover;
+    }
+    .spec-list { list-style: none; display: grid; gap: 11px; }
+    .spec-list li {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px; font-size: 13.5px; color: var(--muted);
+    }
+    .spec-list li span { display: block; font-weight: 800; color: #fff; margin-bottom: 3px; }
+    .dl-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .dl-link {
+      text-decoration: none; font-size: 12.5px; font-weight: 800;
+      padding: 9px 14px; border-radius: 9px;
+      background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid var(--border);
+      transition: all 0.18s ease;
+    }
+    .dl-link.primary {
+      background: var(--gold); color: #09090B; border-color: #FFF2D2;
+    }
+    .dl-link:hover { opacity: 0.92; transform: translateY(-1px); }
+
+    .niche-matrix {
+      margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;
+    }
+    .niche-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+    }
+    .niche-card h3 { font-size: 16.5px; font-weight: 800; margin-bottom: 8px; color: var(--gold); }
+    .niche-card p { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .niche-card p strong { color: var(--text); }
+
+    footer {
+      margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      font-size: 13px; color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <div style="font-weight:900; letter-spacing:0.04em; font-size:14px;">AGENCIA MARKETING IA · <span style="color:var(--gold)">SALA CINE 35MM ASMR</span></div>
+      <div class="badge-live">✅ VERSIÓN OFICIAL APROBADA · ASMR PURO (-14.0 LUFS · 0% VOCES · 5/5 QA)</div>
+    </div>
+    <a href="../../" class="btn-hub">🔐 Volver al Hub Oscar &amp; Camilo</a>
+  </header>
+
+  <main class="container">
+    <div class="client-switcher">
+      <span>🏢 Salas Exclusivas &amp; Estándar 35mm:</span>
+      <a href="./" class="client-tab active">🎬 Sala Cine 35mm ASMR (3 Marcas)</a>
+      <a href="../cuidarte/" class="client-tab">✨ CuidArte Estética &amp; Spa</a>
+      <a href="../mollepizza/" class="client-tab">🍕 Molle Pizza</a>
+      <a href="../teamcano/" class="client-tab">🏋️‍♂️ Team Cano</a>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">Nuevo Estándar Audiovisual Oficial · Cali &amp; Jamundí</div>
+      <h1>Puesta en escena <em>Cine 35mm ASMR.</em><br>Cero apariencia de IA.</h1>
+      <p class="lead">
+        Compara lado a lado el formato anterior de 2 tomas lineales (<code>6s + 6s</code>) frente a las <strong>versiones oficiales ASMR Puro en Celuloide 35mm</strong>:
+        <strong>5 cortes polirrítmicos en 13.00s</strong>, match-cuts geométricos, óptica cinematográfica (Laowa 24mm Probe, 90° cenital, 100mm macro, 35mm cámara en mano),
+        <strong>pila fotoquímica Kodak Vision3 35mm</strong> y mezcla sonora física multicapa calibrada a <strong>-14.0 LUFS con 0% voces</strong>.
+      </p>
+
+      <div class="pillars">
+        <div class="pillar">
+          <strong>01 · Gancho 0–1.5s Pattern-Interrupt</strong>
+          <p>Choque físico inmediato (corona líquida de sérum, onda expansiva de harina, maletín cayendo a las 6:00 PM) diseñado para superar el 40% de retención a 3s.</p>
+        </div>
+        <div class="pillar">
+          <strong>02 · Montaje Polirrítmico (5 Cortes / 13s)</strong>
+          <p>Cortes duros sincronizados al transiente acústico combinando macro 100mm, lente sonda 24mm en fuego real, cenital 90° y seguimiento 35mm documental.</p>
+        </div>
+        <div class="pillar">
+          <strong>03 · Pila Celuloide Kodak 35mm Anti-IA</strong>
+          <p>Suavizado óptico orgánico, curva S Kodak 2383, halación cálida en altas luces y grano temporal vivo de haluro de plata que elimina cualquier rastro plástico.</p>
+        </div>
+        <div class="pillar">
+          <strong>04 · ASMR Sensorial Puro (-14.0 LUFS)</strong>
+          <p>Diseño sonoro visceral sin locución: impacto de gotas, fuego de leña + crujido de cuchilla mezzaluna, y caída dramática al silencio con latido cardíaco real.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REEL 04 CUIDARTE: ESTETICA 35MM ASMR -->
+    <section class="lab-section">
+      <div class="lab-header">
+        <div>
+          <span class="lab-tag" style="background:rgba(244,211,138,0.15); color:var(--gold);">Edición Cine 35mm ASMR · Estética &amp; MedSpa (@cuidartesteticakg)</span>
+          <h2 class="lab-title">“LA PIEL NO MIENTE” — CuidArte Jamundí</h2>
+          <p class="lab-sub">Match-cut geométrico entre corona dorada de ácido hialurónico y apertura del iris miel al atardecer, crioterapia cenital 90° y cámara en mano 35mm en galería de travertino.</p>
+        </div>
+        <div class="mode-tabs">
+          <button type="button" class="mode-btn active" onclick="switchMode('vid-cuidarte', '../cuidarte/video_04_piel_viva_35mm_asmr_branded.mp4', this)">🎧 Branded 35mm ASMR</button>
+          <button type="button" class="mode-btn" onclick="switchMode('vid-cuidarte', '../cuidarte/video_04_piel_viva_35mm_asmr_clean.mp4', this)">🎞️ Clean 35mm ASMR</button>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="card-video">
+          <div class="v-label"><span>ANTES (Versión Lineal 2 Tomas)</span><span>6s + 6s</span></div>
+          <video controls preload="metadata" playsinline poster="../cuidarte/post_02_rejuvenecimiento_branded.jpg?v=2" src="../cuidarte/video_01_experiencia_facial_12s_branded.mp4?v=2"></video>
+        </div>
+
+        <div class="card-video disruptive">
+          <div>
+            <div class="v-label gold"><span>🔥 NUEVO ESTÁNDAR 35MM ASMR</span><span>5 Cortes · 13.00s</span></div>
+            <video id="vid-cuidarte" controls preload="metadata" playsinline poster="../cuidarte/video_04_piel_viva_35mm_asmr_poster.jpg" src="../cuidarte/video_04_piel_viva_35mm_asmr_branded.mp4"></video>
+          </div>
+          <div>
+            <ul class="spec-list">
+              <li><span>Corte 1 (0.0s–1.4s) · Choque Táctil Macro 100mm</span>Gota dorada de sérum estalla en corona circular sobre piedra volcánica húmeda con resonancia ASMR cristalina.</li>
+              <li><span>Corte 2 (1.4s–3.3s) · Match-Cut Geométrico</span>El círculo líquido corta al parpadeo macro de un iris miel bañado por rayos de sol entre persianas.</li>
+              <li><span>Corte 3–4 (3.3s–8.0s) · Intercut + Cenital 90°</span>Ondas concéntricas doradas → simetría cenital de cryo-globes escarchados deslizándose con guantes clínicos negros.</li>
+              <li><span>Corte 5 (8.0s–13.0s) · 35mm Golden Hour</span>Seguimiento cámara en mano en patio cálido de piedra travertino + identidad limpia flotante @cuidartesteticakg.</li>
+            </ul>
+            <div class="dl-row">
+              <a class="dl-link primary" href="../cuidarte/video_04_piel_viva_35mm_asmr_branded.mp4" download="CuidArte_Reel_04_Piel_Viva_35mm_ASMR_Branded.mp4">⬇ Descargar Branded ASMR</a>
+              <a class="dl-link" href="../cuidarte/video_04_piel_viva_35mm_asmr_clean.mp4" download="CuidArte_Reel_04_Piel_Viva_35mm_ASMR_Clean.mp4">⬇ Descargar Clean 35mm ASMR</a>
+              <a class="dl-link" href="../cuidarte/">✨ Ir a Sala CuidArte ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REEL 04 MOLLE PIZZA: GASTRO 35MM ASMR -->
+    <section class="lab-section">
+      <div class="lab-header">
+        <div>
+          <span class="lab-tag" style="background:rgba(255,182,72,0.15); color:var(--amber);">Edición Cine 35mm ASMR · Gastronomía &amp; Gastrobares (@mollepizza)</span>
+          <h2 class="lab-title">“SI NO CRUJE ASÍ…” — Molle Pizza</h2>
+          <p class="lab-sub">Onda expansiva de harina artesanal, lente sonda Laowa 24mm dentro del horno de leña a 400°C, corte crujiente con cuchilla mezzaluna de acero sólido y noche real de gastrobar.</p>
+        </div>
+        <div class="mode-tabs">
+          <button type="button" class="mode-btn active" onclick="switchMode('vid-molle', '../mollepizza/video_04_si_no_cruje_35mm_asmr_branded.mp4', this)">🎧 Branded 35mm ASMR</button>
+          <button type="button" class="mode-btn" onclick="switchMode('vid-molle', '../mollepizza/video_04_si_no_cruje_35mm_asmr_clean.mp4', this)">🎞️ Clean 35mm ASMR</button>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="card-video">
+          <div class="v-label"><span>ANTES (Versión Lineal 2 Tomas)</span><span>6s + 6s</span></div>
+          <video controls preload="metadata" playsinline poster="../mollepizza/post_01_estofada_branded.jpg?v=5" src="../mollepizza/video_01_estofada_12s_branded.mp4?v=5"></video>
+        </div>
+
+        <div class="card-video disruptive">
+          <div>
+            <div class="v-label gold"><span>🔥 NUEVO ESTÁNDAR 35MM ASMR</span><span>5 Cortes · 13.00s</span></div>
+            <video id="vid-molle" controls preload="metadata" playsinline poster="../mollepizza/video_04_si_no_cruje_35mm_asmr_poster.jpg" src="../mollepizza/video_04_si_no_cruje_35mm_asmr_branded.mp4"></video>
+          </div>
+          <div>
+            <ul class="spec-list">
+              <li><span>Corte 1 (0.0s–2.0s) · Impacto de Masa Madre</span>Golpe de manos enharinadas levantando una nube explosiva de harina bajo luz cálida de taller.</li>
+              <li><span>Corte 2 (2.0s–4.9s) · Lente Sonda 24mm en Fuego Real</span>Recorrido rasante sobre el borde trenzado burbujeante frente a las llamas vivas del horno de leña.</li>
+              <li><span>Corte 3–4 (4.9s–8.4s) · El Crujido Físico como Gancho</span>Cuchilla mezzaluna de acero sólido parte la corteza liberando mozzarella fundida con ASMR visceral (-14.0 LUFS).</li>
+              <li><span>Corte 5 (8.4s–13.0s) · Noche Real de Gastrobar ISO 1600</span>Estiramiento real de queso a dos manos, risa espontánea y soda fría con hielo sin obstruir el producto.</li>
+            </ul>
+            <div class="dl-row">
+              <a class="dl-link primary" href="../mollepizza/video_04_si_no_cruje_35mm_asmr_branded.mp4" download="MollePizza_Reel_04_Si_No_Cruje_35mm_ASMR_Branded.mp4">⬇ Descargar Branded ASMR</a>
+              <a class="dl-link" href="../mollepizza/video_04_si_no_cruje_35mm_asmr_clean.mp4" download="MollePizza_Reel_04_Si_No_Cruje_35mm_ASMR_Clean.mp4">⬇ Descargar Clean 35mm ASMR</a>
+              <a class="dl-link" href="../mollepizza/">🍕 Ir a Sala Molle Pizza ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REEL 04 TEAM CANO: FITNESS 35MM ASMR -->
+    <section class="lab-section">
+      <div class="lab-header">
+        <div>
+          <span class="lab-tag" style="background:rgba(242,101,34,0.16); color:var(--orange);">Edición Cine 35mm ASMR · Fitness &amp; Alto Rendimiento (@teamcano_fit)</span>
+          <h2 class="lab-title">“LAS 6:00 DE LA TARDE” — Team Cano</h2>
+          <p class="lab-sub">Tensión psicológica post-jornada: maletín de cuero cayendo sobre el turf negro, smash-cut a explosión de magnesio, empuje pesado de trineo Prowler y caída dramática al silencio.</p>
+        </div>
+        <div class="mode-tabs">
+          <button type="button" class="mode-btn active" onclick="switchMode('vid-teamcano', '../teamcano/video_04_6pm_grit_35mm_asmr_branded.mp4', this)">🎧 Branded 35mm ASMR</button>
+          <button type="button" class="mode-btn" onclick="switchMode('vid-teamcano', '../teamcano/video_04_6pm_grit_35mm_asmr_clean.mp4', this)">🎞️ Clean 35mm ASMR</button>
+        </div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="card-video">
+          <div class="v-label"><span>ANTES (Versión Lineal 2 Tomas)</span><span>6s + 6s</span></div>
+          <video controls preload="metadata" playsinline poster="../teamcano/post_02_hyrox_branded.jpg" src="../teamcano/video_02_hyrox_12s_branded.mp4"></video>
+        </div>
+
+        <div class="card-video disruptive">
+          <div>
+            <div class="v-label gold"><span>🔥 NUEVO ESTÁNDAR 35MM ASMR</span><span>5 Cortes · 13.00s</span></div>
+            <video id="vid-teamcano" controls preload="metadata" playsinline poster="../teamcano/video_04_6pm_grit_35mm_asmr_poster.jpg" src="../teamcano/video_04_6pm_grit_35mm_asmr_branded.mp4"></video>
+          </div>
+          <div>
+            <ul class="spec-list">
+              <li><span>Corte 1 (0.0s–2.2s) · El Ritual de las 6:00 PM</span>Puño de camisa remangada suelta el maletín de oficina sobre el césped negro del box con golpe seco real.</li>
+              <li><span>Corte 2–3 (2.2s–5.45s) · Smash-Cut de Magnesio</span>Aplauso explosivo de tiza blanca a contraluz ámbar + intercut dejando atrás el cansancio del día.</li>
+              <li><span>Corte 4 (5.45s–9.0s) · Trineo Prowler a Ras de Suelo</span>Tracking 24mm retrocediendo frente al empuje biomecánico con fricción metálica real sobre el turf.</li>
+              <li><span>Corte 5 (9.0s–13.0s) · Counter-Audio Silence Drop</span>La percusión cae un 80%: solo se escucha el latido cardíaco y la respiración pesada bajo foco cenital.</li>
+            </ul>
+            <div class="dl-row">
+              <a class="dl-link primary" href="../teamcano/video_04_6pm_grit_35mm_asmr_branded.mp4" download="TeamCano_Reel_04_6PM_Grit_35mm_ASMR_Branded.mp4">⬇ Descargar Branded ASMR</a>
+              <a class="dl-link" href="../teamcano/video_04_6pm_grit_35mm_asmr_clean.mp4" download="TeamCano_Reel_04_6PM_Grit_35mm_ASMR_Clean.mp4">⬇ Descargar Clean 35mm ASMR</a>
+              <a class="dl-link" href="../teamcano/">🏋️‍♂️ Ir a Sala Team Cano ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLAYBOOK DE EXPANSION 6 NICHOS -->
+    <section class="lab-section" style="border-bottom:none;">
+      <div class="eyebrow">Playbook de Expansión Comercial 2026</div>
+      <h2 class="lab-title" style="margin-bottom:8px;">Fórmulas Cine 35mm ASMR Listas para Nuevos Prospectos</h2>
+      <p class="lab-sub">Arquitectura lista para replicar en cada nuevo cliente de Cali y Jamundí:</p>
+
+      <div class="niche-matrix">
+        <div class="niche-card">
+          <h3>01 · Estética, Dermatología &amp; MedSpa</h3>
+          <p><strong>Fórmula:</strong> Macro sensorial táctil (gotas densas, hielo escarchado, luz dorada sobre piel real) + match-cut ocular + galería cálida estilo editorial 35mm.</p>
+          <p><strong>Anti-Cliché:</strong> Cero batas frías de banco de imagen; vender luminosidad biológica viva.</p>
+        </div>
+        <div class="niche-card">
+          <h3>02 · Gastronomía, Cafés &amp; Gastrobares</h3>
+          <p><strong>Fórmula:</strong> Lente sonda Laowa 24mm atravesando fuego real + ASMR visceral del corte crujiente + reacción espontánea nocturna ISO 1600.</p>
+          <p><strong>Anti-Cliché:</strong> Prohibidos los paneos lentos sobre platos estáticos; el sonido del primer corte es el gancho.</p>
+        </div>
+        <div class="niche-card">
+          <h3>03 · Fitness, Box &amp; Alto Rendimiento</h3>
+          <p><strong>Fórmula:</strong> Tensión cotidiana ("Las 6:00 PM") + smash-cut de magnesio + caída abrupta al silencio con respiración y latido real.</p>
+          <p><strong>Anti-Cliché:</strong> Cero electrónica genérica constante; emociona la disciplina física real.</p>
+        </div>
+        <div class="niche-card">
+          <h3>04 · Odontología Estética &amp; Salud</h3>
+          <p><strong>Fórmula:</strong> Macro cristalino de cerámica dental y agua a 120fps → transición luminosa → risa espontánea en una cena nocturna cálida.</p>
+          <p><strong>Anti-Cliché:</strong> Cero sillones clínicos intimidantes; vender confianza real en público.</p>
+        </div>
+        <div class="niche-card">
+          <h3>05 · Inmobiliaria, Arquitectura &amp; Lujo</h3>
+          <p><strong>Fórmula:</strong> Match-cut acústico del espresso al amanecer en terraza → brisa en cortinas de lino → copas encendidas al atardecer en el mismo eje.</p>
+          <p><strong>Anti-Cliché:</strong> Cero recorridos mudos de pasillos vacíos; vender cómo se siente habitar la luz.</p>
+        </div>
+        <div class="niche-card">
+          <h3>06 · Automotriz, Detailing &amp; Motos</h3>
+          <p><strong>Fórmula:</strong> Macro 120fps de gotas repelidas sobre cerámica hidrofóbica → reflejo de neones corriendo por la carrocería → ignición mecánica real.</p>
+          <p><strong>Anti-Cliché:</strong> Cortes duros sobre el sonido mecánico y textura anamórfica nocturna.</p>
+        </div>
+      </div>
+
+      <footer>
+        <div>🎬 <strong>Sala Cine 35mm ASMR</strong> · Estándar Oficial Auditado 5/5 QA (<code>-14.0 LUFS · 0% Voces · Kodak 35mm Stack</code>)</div>
+        <div>Agencia Marketing IA · Espacio Compartido Oscar Ortiz &amp; Camilo Cortés</div>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    function switchMode(videoId, newSrc, btn) {
+      var vid = document.getElementById(videoId);
+      var wasPlaying = !vid.paused;
+      var t = vid.currentTime || 0;
+      vid.src = newSrc;
+      vid.currentTime = Math.min(t, 12.5);
+      if (wasPlaying) vid.play();
+      var parent = btn.parentElement;
+      parent.querySelectorAll('.mode-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

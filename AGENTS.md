@@ -15,10 +15,11 @@ Este archivo (`AGENTS.md`) se carga automáticamente al iniciar cualquier conver
      - Además, se enlaza en la barra de navegación y directorio general de `index.html` (`https://oscarousu.github.io/agencia-marketing-hub/`).
 
 2. **Estado Actual de Espacios de Clientes en Producción:**
-   - ✅ **Team Cano (`@teamcano_fit`):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` en `demos/teamcano/`).
-   - ✅ **Molle Pizza (`@mollepizza`):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` en `demos/mollepizza/`).
-   - ✅ **CuidArte Estética y Micropigmentación (`@cuidartesteticakg` — Katherine Gil, Jamundí):** Completado y certificado `5/5` (`3 Reels 9:16` + `4 Posts 3:4` libres de cajas `v2` en `demos/cuidarte/`).
-   - 🆕 **Cualquier Nuevo Cliente:** Crear su directorio exclusivo `demos/<nuevo-cliente>/` y su portal `demos/<nuevo-cliente>/index.html` desde el inicio.
+   - ✅ **Team Cano (`@teamcano_fit`):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` en `demos/teamcano/`).
+   - ✅ **Molle Pizza (`@mollepizza`):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` en `demos/mollepizza/`).
+   - ✅ **CuidArte Estética y Micropigmentación (`@cuidartesteticakg` — Katherine Gil, Jamundí):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` libres de cajas `v2` en `demos/cuidarte/`).
+   - ✅ **Sala Cine 35mm ASMR (`demos/laboratorio-35mm/`):** Comparador interactivo *Antes (`6s+6s`) vs. Estándar Cine 35mm ASMR (`5 cortes / 13s`)* + Playbook de 6 nichos publicado en vivo.
+   - 🆕 **Cualquier Nuevo Cliente:** Crear su directorio exclusivo `demos/<nuevo-cliente>/` y su portal `demos/<nuevo-cliente>/index.html` desde el inicio aplicando el **Estándar Cine 35mm ASMR**.
 
 ---
 
@@ -60,7 +61,10 @@ En cada nueva conversación, orquesta estos agentes especializados (definiendo c
    - En los Posts `3:4` (`1080x1440`) y Reels `9:16` (`1080x1920`), las cajas de texto inferiores (`lower-thirds`) **jamás deben tapar ni cortar el producto principal**. Dejar siempre el producto por encima de `y = 1105px` en Posts `3:4` (desplazando el encuadre hacia arriba si hace falta) y ubicar el bloque tipográfico sobre superficie limpia en `y = 1130px–1390px`.
 8. **Regla Técnica FFmpeg `-loop 1` y `pix_fmt=yuv420p`:**
    - En `ffmpeg`, todo overlay PNG estático que lleve filtros `fade` debe cargarse con **`-loop 1 -t 12 -i overlay.png`** y `:shortest=1` en el `overlay` base. Exportar siempre tanto `_branded.mp4` como `_clean.mp4` con **`-pix_fmt yuv420p`** y `-movflags +faststart`.
-9. **Diseño Sonoro Multicapa a `-14 LUFS` (Política de Cero Voces Alucinadas):**
-   - En Reels promocionales sin locución hablada, eliminar al 100% el audio crudo del generador de video y construir una mezcla maestra de **4 capas** (`Beat musical` + `Foley continuo` + `Whoosh de transición` + `Impacto/Crunch/Clink` generados con ElevenLabs Sound Effects) normalizada con `loudnorm=I=-14:TP=-1.5:LRA=7`.
-10. **Filtro Final Innegociable (`media-qa-reviewer` 5/5):**
+9. **Diseño Sonoro Multicapa ASMR Puro a `-14.0 LUFS` (Preferencia Oficial: Cero Locución / 100% ASMR Físico):**
+   - Por directriz aprobada, priorizar versiones **Pure Sensory ASMR (`_asmr`, `0%` voces)**: eliminar al 100% el audio crudo del generador de video y construir una mezcla maestra física (`Score cinemático` + `ASMR táctil primer plano: gotas/corte/fuego/magnesio` + `Counter-Audio Silence Drop` con respiración/latido cuando aplique) calibrada iterativamente con `ebur128` + `alimiter=limit=0.72` para lograr `-14.0` a `-14.5 LUFS` exactos y `True Peak <= -1.5 dBTP` tras codificación AAC.
+10. **Estándar Disruptivo Cine 35mm Anti-IA (`5 Cortes Polirrítmicos en 13s + Pila Kodak Vision3 35mm`):**
+    - Prohibidos los videos planos de 2 tomas estáticas (`6s + 6s`). Todo Reel de alto impacto debe estructurarse en **4–5 planos independientes montados al golpe sonoro (`1.1s–4.5s` por corte en `12–13s`)** combinando escalas ópticas contrastadas (`100mm Macro 120fps` para gancho `0–1.5s`, `Laowa 24mm Probe` rasante, `90° Cenital` geométrico y `35mm Handheld` documental humano).
+    - Aplicar en postproducción la **Pila Fotoquímica Kodak Vision3 35mm** (suavizado óptico ligero anti-bordes digitales, curva S Kodak 2383, halación cálida en altas luces y grano temporal orgánico de haluro de plata) + tipografía editorial cinética sincronizada al corte sin recuadros y sin tapar jamás el producto héroe.
+11. **Filtro Final Innegociable (`media-qa-reviewer` 5/5):**
     - Ninguna imagen ni video se da por terminado hasta que `media-qa-reviewer` emita su tabla de auditoría con las **5 compuertas aprobadas (`5/5`)**.
