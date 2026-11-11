@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K-PARI 2026 | 17 de Diciembre • La Terraza Cali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <style>
+    :root {
+      /* Exact K-C Palette */
+      --kc-purple: #5800CD;
+      --kc-purple-mid: #6B48D1;
+      --kc-purple-soft: #B3B3E9;
+      --kc-purple-ice: #DDDFF5;
+      --kc-orange: #FC873D;
+      --kc-orange-soft: #FCC294;
+      --kc-orange-ice: #FBEFE3;
+      --kc-green: #007F4E;
+      --kc-green-mid: #37A17C;
+      --kc-green-ice: #DDECE5;
+      --bg-deep: #0E0524;
+      --card-bg: rgba(28, 10, 68, 0.86);
+      --border: rgba(179, 179, 233, 0.22);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(88, 0, 205, 0.45), transparent 38%),
+        radial-gradient(circle at 88% 18%, rgba(252, 135, 61, 0.22), transparent 36%),
+        radial-gradient(circle at 50% 85%, rgba(0, 127, 78, 0.25), transparent 42%),
+        var(--bg-deep);
+      color: #FFFFFF;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14, 5, 36, 0.90);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: 0.5px;
+      color: var(--kc-orange);
+    }
+    .logo-tag {
+      background: var(--kc-green);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 900;
+      letter-spacing: 0.6px;
+    }
+    .cta-mini {
+      background: linear-gradient(135deg, var(--kc-orange), #ff6a00);
+      color: #190538;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 0.86rem;
+      padding: 9px 16px;
+      border-radius: 99px;
+      box-shadow: 0 4px 18px rgba(252, 135, 61, 0.4);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 18px 80px;
+    }
+
+    /* HERO SPLIT */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 42px;
+    }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+    .eyebrow {
+      display: inline-block;
+      background: rgba(88, 0, 205, 0.45);
+      border: 1px solid var(--kc-orange);
+      color: var(--kc-orange-soft);
+      font-weight: 900;
+      font-size: 0.78rem;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.04;
+      margin-bottom: 14px;
+    }
+    .hero-title span {
+      color: var(--kc-orange);
+      text-shadow: 0 4px 24px rgba(252, 135, 61, 0.45);
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--kc-purple-ice);
+      margin-bottom: 20px;
+    }
+    .event-meta-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .meta-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--kc-orange);
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    .meta-pill small {
+      display: block;
+      color: var(--kc-purple-soft);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .meta-pill strong { font-size: 1rem; color: #fff; }
+
+    /* FOMO BAR & COUNTDOWN */
+    .fomo-box {
+      background: rgba(0, 127, 78, 0.22);
+      border: 1px solid var(--kc-green-mid);
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    .progress-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 38%;
+      background: linear-gradient(90deg, var(--kc-green-mid), var(--kc-orange));
+      border-radius: 99px;
+    }
+    .countdown {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .cd-cell {
+      flex: 1;
+      background: rgba(14, 5, 36, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .cd-val {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--kc-orange);
+      line-height: 1;
+    }
+    .cd-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      color: var(--kc-purple-soft);
+      margin-top: 4px;
+    }
+
+    .poster-frame {
+      border-radius: 26px;
+      overflow: hidden;
+      border: 3px solid var(--kc-orange);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.65);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .poster-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    /* SECTION HEADINGS */
+    .sec-head {
+      text-align: center;
+      margin: 46px 0 24px;
+    }
+    .sec-head h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 900;
+    }
+    .sec-head p {
+      color: var(--kc-purple-soft);
+      max-width: 660px;
+      margin: 6px auto 0;
+    }
+
+    /* PRICING STAGES */
+    .stages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+    .stage-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      position: relative;
+    }
+    .stage-card.active-stage {
+      border: 2px solid var(--kc-green-mid);
+      box-shadow: 0 0 34px rgba(0, 127, 78, 0.35);
+      transform: translateY(-4px);
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .price-num {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 8px 0;
+    }
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 14px;
+      border: none;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+    .btn-main:hover { transform: translateY(-2px); }
+    .btn-green { background: var(--kc-green); color: #fff; border: 1px solid var(--kc-green-mid); }
+    .btn-orange { background: var(--kc-orange); color: #190538; }
+    .btn-purple { background: var(--kc-purple); color: #fff; border: 1px solid var(--kc-purple-soft); }
+
+    /* DISRUPTIVE EXPERIENCES */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+    .exp-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+    }
+    .exp-card h3 { color: var(--kc-orange); margin-bottom: 8px; font-size: 1.15rem; }
+    .exp-card p { font-size: 0.93rem; color: var(--kc-purple-ice); }
+
+    /* REGISTRATION FORM */
+    .reg-container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      background: linear-gradient(145deg, rgba(88,0,205,0.28), rgba(20,7,50,0.92));
+      border: 2px solid var(--kc-purple-mid);
+      border-radius: 26px;
+      padding: 28px;
+      margin-top: 24px;
+    }
+    @media (max-width: 860px) {
+      .reg-container { grid-template-columns: 1fr; padding: 20px; }
+    }
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.86rem;
+      color: var(--kc-orange-soft);
+      margin-bottom: 5px;
+    }
+    .input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(10, 4, 28, 0.78);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.96rem;
+    }
+    .input:focus { outline: none; border-color: var(--kc-orange); }
+
+    /* ADMIN DRAWER */
+    .admin-panel {
+      display: none;
+      margin-top: 48px;
+      padding: 28px;
+      border-radius: 26px;
+      background: rgba(12, 4, 32, 0.96);
+      border: 2px dashed var(--kc-orange);
+    }
+    .admin-panel.open { display: block; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.9rem; }
+    th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { color: var(--kc-orange); font-size: 0.78rem; text-transform: uppercase; }
+    footer {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--kc-purple-soft);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="logo-pill">
+    <span>🎉 K-PARI 2026</span>
+    <span class="logo-tag">17 DIC • CALI</span>
+  </div>
+  <a href="#registro" class="cta-mini">Separar Cupo $110k →</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero-grid">
+    <div>
+      <span class="eyebrow">🚫 Cero Corporativo • 100% Parche de Amigos</span>
+      <h1 class="hero-title">VUELVE LA <span>K-PARI 2026</span> EN LA TERRAZA</h1>
+      <p class="hero-sub">Cerramos el año como se debe: sin corbatas, sin reuniones de seguimiento, con vista panorámica a toda Cali, pista LED con humo, DJ, premios épicos en pantalla gigante y rumba corrida.</p>
+
+      <div class="event-meta-cards">
+        <div class="meta-pill">
+          <small>📅 Fecha Confirmada</small>
+          <strong>Jueves 17 Dic 2026</strong>
+        </div>
+        <div class="meta-pill">
+          <small>🕘 Hora de Inicio</small>
+          <strong>Desde las 9:00 PM</strong>
+        </div>
+        <div class="meta-pill">
+          <small>📍 Rooftop Exclusivo</small>
+          <strong>La Terraza (Calle 10 # 61-47)</strong>
+        </div>
+      </div>
+
+      <div class="fomo-box">
+        <div style="display:flex;justify-content:space-between;font-size:0.88rem;font-weight:900;">
+          <span>🔥 PREVENTA ETAPA 1 ACTIVA ($110.000 COP)</span>
+          <span style="color:var(--kc-orange);">Reserva con pago 100% de la etapa</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="cupos-bar"></div></div>
+        <div style="font-size:0.8rem;color:var(--kc-green-ice);">⏳ Tiempo restante antes de que suba a $120.000 el 17 de noviembre:</div>
+        <div class="countdown">
+          <div class="cd-cell"><div class="cd-val" id="d">06</div><div class="cd-lbl">Días</div></div>
+          <div class="cd-cell"><div class="cd-val" id="h">03</div><div class="cd-lbl">Horas</div></div>
+          <div class="cd-cell"><div class="cd-val" id="m">45</div><div class="cd-lbl">Min</div></div>
+          <div class="cd-cell"><div class="cd-val" id="s">12</div><div class="cd-lbl">Seg</div></div>
+        </div>
+      </div>
+
+      <a href="#registro" class="btn-main btn-orange">🎟️ INSCRIBIRME EN PREVENTA $110.000</a>
+    </div>
+
+    <div class="poster-frame">
+      <img src="assets/kpari_hero_clean.jpg" alt="K-PARI 2026 Poster Pixar" />
+    </div>
+  </section>
+
+  <!-- 3 PRICING STAGES -->
+  <div class="sec-head">
+    <h2>Escalonamiento de Boletas (El que madruga, rumbea más barato)</h2>
+    <p>La reserva de estadía y emisión de tu Boleta QR se garantiza únicamente con el <strong>pago 100% full</strong> del valor de la etapa vigente.</p>
+  </div>
+
+  <section class="stages-grid">
+    <div class="stage-card active-stage">
+      <span class="badge" style="background:var(--kc-green);color:#fff;">🔥 Etapa 1 • Activa hasta el 16 Nov</span>
+      <h3>Madrugadores VIP</h3>
+      <div class="price-num" style="color:#52ffb8;">$110.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
+      <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
+        ✅ <strong>Ahorras $30.000</strong> sobre el precio final.<br>
+        ✅ Reserva garantizada con <strong>pago full ($110.000)</strong> antes del 16 de nov.<br>
+        ✅ Recibes Boleta Electrónica QR personalizada.
+      </p>
+      <a href="#registro" class="btn-main btn-green" onclick="selectStage('Etapa 1 ($110.000 - Pago Total)', 110000)">Elegir Etapa 1 ($110k)</a>
+    </div>
+
+    <div class="stage-card">
+      <span class="badge" style="background:var(--kc-purple);color:#fff;">⚡ Etapa 2 • 17 Nov al 1 Dic</span>
+      <h3>Sobrevivientes</h3>
+      <div class="price-num" style="color:var(--kc-orange);">$120.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
+      <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
+        ✅ <strong>Ahorras $20.000</strong> antes de diciembre.<br>
+        ✅ Disponible hasta el 1 de diciembre a medianoche.<br>
+        ⚠️ Sujeto a los cupos que deje la Etapa 1.
+      </p>
+      <a href="#registro" class="btn-main btn-purple" onclick="selectStage('Etapa 2 ($120.000)', 120000)">Separar en Etapa 2</a>
+    </div>
+
+    <div class="stage-card">
+      <span class="badge" style="background:rgba(252,135,61,0.2);color:var(--kc-orange);">🚨 Etapa 3 • Desde el 2 Dic</span>
+      <h3>Última Llamada (FOMO)</h3>
+      <div class="price-num" style="color:var(--kc-orange-soft);">$140.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
+      <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
+        ⚠️ Tarifa plena sin descuento para rezagados.<br>
+        ⚠️ Pago único 100% de contado únicamente si quedan boletas disponibles.
+      </p>
+      <a href="#registro" class="btn-main btn-purple" onclick="selectStage('Etapa 3 ($140.000)', 140000)">Últimos Cupos</a>
+    </div>
+  </section>
+
+  <!-- DISRUPTIVE SCENARIO -->
+  <div class="sec-head">
+    <h2>¿Por qué la K-PARI 2026 va a romper todos los récords?</h2>
+    <p>Tu inscripción en esta página activa de inmediato la experiencia interactiva de la noche en <strong>La Terraza Cali</strong>.</p>
+  </div>
+
+  <section class="exp-grid">
+    <div class="exp-card">
+      <h3>🏆 1. Los "K-PARI Awards" en Pantalla Gigante</h3>
+      <p>Al inscribirte abajo postulas en secreto a tus amigos en categorías épicas. Los ganadores se proyectarán en el <strong>Video Beam HD</strong> del rooftop.</p>
+    </div>
+    <div class="exp-card">
+      <h3>🎵 2. DJ Jukebox Democrático</h3>
+      <p>Nada de playlists aburridas: cada boleta QR emitida tiene derecho a exigir <strong>1 himno bailable innegociable</strong> que sonará en la pista LED con máquina de humo.</p>
+    </div>
+    <div class="exp-card">
+      <h3>🪗 3. Rooftop LED + Show & Rumba</h3>
+      <p>2 ambientes (terraza panorámica + salón neón), cubos y barras LED, sonido profesional, meseros y parqueadero vigilado en la Calle 10 # 61-47.</p>
+    </div>
+    <div class="exp-card">
+      <h3>🎟️ 4. Check-In con Boleta QR Pixar</h3>
+      <p>Cuando confirmas tu pago recibes tu <strong>Pase VIP Digital con código QR único</strong> y tu rango fiestero oficial para entrar directo a La Terraza.</p>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE REGISTRATION -->
+  <section id="registro" class="reg-container">
+    <div>
+      <span class="badge" style="background:var(--kc-orange);color:#190538;">PASO 1 DE 2 • REGISTRO RÁPIDO QR</span>
+      <h2 style="font-size:1.85rem;margin-bottom:8px;">Inscríbete y Genera tu Pre-Reserva VIP</h2>
+      <p style="color:var(--kc-purple-ice);font-size:0.93rem;margin-bottom:18px;">Completa tus datos en 15 segundos. Al enviar, se generará tu código de reserva y se abrirá WhatsApp para enviar tu comprobante y recibir tu <strong>Boleta Electrónica QR oficial</strong>.</p>
+
+      <div class="field">
+        <label>Tu Nombre y Apellido *</label>
+        <input type="text" id="r-name" class="input" placeholder="Ej. Camilo Restrepo" oninput="updatePassPreview()" />
+      </div>
+      <div class="field">
+        <label>Elige tu Apodo / Rango Fiestero en la Boleta *</label>
+        <select id="r-role" class="input" onchange="updatePassPreview()">
+          <option value="LEYENDA DEL ROOFTOP">🔥 Leyenda del Rooftop</option>
+          <option value="REY / REINA DE LA PISTA LED">💃 Rey / Reina de la Pista LED</option>
+          <option value="SOBREVIVIENTE DEL AÑO">🛡️ Sobreviviente del Año</option>
+          <option value="MAESTRO DEL ACORDEÓN & EL CORO">🪗 Maestro del Acordeón & el Coro</option>
+          <option value="TEAM CIERRE HASTA LAS 2 AM">🌙 Team Cierre hasta las 2:00 AM</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Modalidad de Pago que vas a realizar hoy *</label>
+        <select id="r-plan" class="input" onchange="updatePassPreview()">
+          <option value="Etapa 1 - Pago Total ($110.000 COP)">✅ Etapa 1: Pago Total $110.000 (Hasta 16 Nov)</option>
+                    <option value="Etapa 2 - Tarifa Regular ($120.000 COP)">⚡ Etapa 2: Tarifa Regular $120.000 (17 Nov - 1 Dic)</option>
+          <option value="Etapa 3 - Tarifa Final ($140.000 COP)">🚨 Etapa 3: Última Llamada $140.000 (Desde 2 Dic)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>🎵 Canción innegociable que el DJ debe poner por ti</label>
+        <input type="text" id="r-song" class="input" placeholder="Ej. Los Caminos de la Vida / Cali Pachanguero..." oninput="updatePassPreview()" />
+      </div>
+      <div class="field">
+        <label>🏆 Nominación secreta para los K-PARI Awards (Opcional)</label>
+        <input type="text" id="r-nom" class="input" placeholder="Ej. Nomino a Julián como 'El que nunca prende cámara'" />
+      </div>
+
+      <button class="btn-main btn-orange" onclick="submitRegistration()">📲 CONFIRMAR MI CUPO POR WHATSAPP</button>
+    </div>
+
+    <!-- LIVE PREVIEW CARD FOR GUEST -->
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;background:rgba(10,3,26,0.75);border-radius:20px;padding:22px;border:1px solid var(--border);text-align:center;">
+      <div style="font-size:0.78rem;font-weight:900;color:var(--kc-green-mid);letter-spacing:1px;margin-bottom:8px;">VISTA PREVIA DE TU SOLICITUD VIP</div>
+      <div style="width:100%;max-width:310px;border-radius:18px;border:2px solid var(--kc-orange);background:linear-gradient(180deg,#230958,#100428);padding:20px;box-shadow:0 16px 40px rgba(0,0,0,0.5);">
+        <div style="font-weight:900;font-size:1.5rem;color:var(--kc-orange);">K-PARI 2026</div>
+        <div style="font-size:0.78rem;color:var(--kc-purple-soft);margin-bottom:14px;">17 DIC 2026 • 9:00 PM • LA TERRAZA CALI</div>
+        <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:12px;">
+          <div style="font-size:0.72rem;color:var(--kc-purple-soft);">ASISTENTE</div>
+          <div id="pv-name" style="font-size:1.2rem;font-weight:900;color:#fff;">TU NOMBRE AQUÍ</div>
+          <div id="pv-role" style="font-size:0.78rem;font-weight:700;color:#52ffb8;margin-top:3px;">LEYENDA DEL ROOFTOP</div>
+        </div>
+        <div id="pv-plan" style="background:var(--kc-green);color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:0.82rem;margin-bottom:10px;">
+          Etapa 1 - Pago Total ($110.000 COP)
+        </div>
+        <div id="pv-song" style="font-size:0.78rem;color:var(--kc-orange-soft);">🎵 Himno DJ: Pendiente elegir</div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--kc-purple-soft);margin-top:12px;">📍 Dirección: Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Ver mapa</a></p>
+    </div>
+  </section>
+
+  <!-- ORGANIZER ADMIN PANEL (PIN: 2026) -->
+  <section id="adminPanel" class="admin-panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;">
+      <h2 style="color:var(--kc-orange);">🔐 Consola del Organizador — Emisor Oficial de Boletas QR & Control 65 Cupos</h2>
+      <span class="badge" style="background:var(--kc-green);color:#fff;">Modo Admin Activo</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <div class="field">
+          <label>WhatsApp Receptor de Inscripciones (Código país + número, ej. 573001234567)</label>
+          <input type="text" id="adm-phone" class="input" value="573044552193" onchange="saveAdminPhone()" />
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:16px 0;">
+        <h3 style="margin-bottom:12px;">Emitir Boleta Oficial Verificada (Cuando ya pagaron)</h3>
+        <div class="field">
+          <label>Nombre del Asistente</label>
+          <input type="text" id="tk-name" class="input" value="Oscar Ortiz" oninput="drawOfficialTicket()" />
+        </div>
+        <div class="field">
+          <label>Consecutivo Boleta (#001 a #065)</label>
+          <input type="text" id="tk-id" class="input" value="KP26-001" oninput="drawOfficialTicket()" />
+        </div>
+        <div class="field">
+          <label>Etapa & Estado Confirmado</label>
+          <select id="tk-stage" class="input" onchange="drawOfficialTicket()">
+            <option value="ETAPA 1 ($110.000)|PAGADO 100% VIP|110000|#007F4E">Etapa 1 ($110.000) — PAGADO 100% VIP</option>
+                        <option value="ETAPA 2 ($120.000)|PAGADO 100% VIP|120000|#5800CD">Etapa 2 ($120.000) — PAGADO 100% VIP</option>
+            <option value="ETAPA 3 ($140.000)|PAGADO 100% VIP|140000|#FC873D">Etapa 3 ($140.000) — PAGADO 100% VIP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Rango Fiestero</label>
+          <input type="text" id="tk-role" class="input" value="LEYENDA DEL ROOFTOP" oninput="drawOfficialTicket()" />
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button class="btn-main btn-orange" style="flex:1;" onclick="downloadOfficialTicket()">⬇️ Descargar Boleta PNG</button>
+          <button class="btn-main btn-green" style="flex:1;" onclick="logTicket()">➕ Guardar en Lista (65)</button>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <canvas id="officialCanvas" width="720" height="1220" style="width:100%;max-width:340px;border-radius:20px;border:2px solid var(--kc-orange);"></canvas>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <h3>📋 Control de Cupos Vendidos (<span id="adm-count">0</span> / 65) — Recaudo en Caja: <span id="adm-sum" style="color:#52ffb8;">$0 COP</span></h3>
+        <button class="cta-mini" style="border:none;cursor:pointer;" onclick="exportListCSV()">📊 Descargar Excel (CSV)</button>
+      </div>
+      <table>
+        <thead><tr><th>Boleta</th><th>Nombre</th><th>Etapa</th><th>Recaudado</th><th>Estado</th><th></th></tr></thead>
+        <tbody id="adm-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>K-PARI 2026</strong> • Evento independiente de amigos • Jueves 17 de Diciembre 2026, 9:00 PM • La Terraza (Calle 10 # 61-47, Cali)</p>
+    <p style="margin-top:8px;"><button onclick="unlockAdmin()" style="background:none;border:none;color:var(--kc-purple-soft);cursor:pointer;text-decoration:underline;font-size:0.8rem;">🔐 Acceso Organizador (Emitir Boletas QR)</button></p>
+  </footer>
+
+</div>
+
+<script>
+  // Countdown to Nov 16, 2026 23:59:59 (-05:00)
+  function tick() {
+    const end = new Date('2026-11-16T23:59:59-05:00').getTime();
+    const diff = Math.max(0, end - Date.now());
+    document.getElementById('d').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+    document.getElementById('h').textContent = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
+    document.getElementById('m').textContent = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
+    document.getElementById('s').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+  }
+  setInterval(tick, 1000);
+  tick();
+
+  function selectStage(label) {
+    const sel = document.getElementById('r-plan');
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text.includes(label.split(' ')[1])) {
+        sel.selectedIndex = i;
+        break;
+      }
+    }
+    updatePassPreview();
+  }
+
+  function updatePassPreview() {
+    document.getElementById('pv-name').textContent = (document.getElementById('r-name').value || 'TU NOMBRE AQUÍ').toUpperCase();
+    document.getElementById('pv-role').textContent = document.getElementById('r-role').value;
+    document.getElementById('pv-plan').textContent = document.getElementById('r-plan').value;
+    const song = document.getElementById('r-song').value;
+    document.getElementById('pv-song').textContent = song ? '🎵 Himno DJ: ' + song : '🎵 Himno DJ: Pendiente elegir';
+  }
+
+  function submitRegistration() {
+    const name = document.getElementById('r-name').value.trim();
+    if (!name) {
+      alert('Por favor escribe tu nombre y apellido para generar tu reserva VIP.');
+      document.getElementById('r-name').focus();
+      return;
+    }
+    const role = document.getElementById('r-role').value;
+    const plan = document.getElementById('r-plan').value;
+    const song = document.getElementById('r-song').value.trim() || 'A elección del DJ';
+    const nom = document.getElementById('r-nom').value.trim() || 'Sin nominación aún';
+    const refCode = 'KP26-' + Math.floor(100 + Math.random() * 899);
+
+    const msg =
+      `🎉 *¡HOLA! QUIERO MI BOLETA K-PARI 2026* 🎉\n\n` +
+      `👤 *Nombre:* ${name}\n` +
+      `🏅 *Rango:* ${role}\n` +
+      `💳 *Plan elegido:* ${plan}\n` +
+      `🎵 *Canción obligatoria:* ${song}\n` +
+      `🏆 *Nominación K-PARI Awards:* ${nom}\n` +
+      `🔖 *Código Pre-Reserva:* ${refCode}\n\n` +
+      `¿Me confirmas el Nequi / Llave para enviarte el comprobante y recibir mi Boleta QR?`;
+
+    const phone = localStorage.getItem('kpari_admin_phone') || '573044552193';
+    const waUrl = phone
+      ? `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`
+      : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+  }
+
+  // Organizer Admin & Real QR Ticket Canvas
+  const bgHero = new Image();
+  bgHero.src = 'assets/kpari_hero_clean.jpg';
+  bgHero.onload = () => drawOfficialTicket();
+
+  function unlockAdmin() {
+    const pin = prompt('Ingresa el PIN de organizador (por defecto: 2026):');
+    if (pin === '2026') {
+      document.getElementById('adminPanel').classList.add('open');
+      document.getElementById('adm-phone').value = localStorage.getItem('kpari_admin_phone') || '573044552193';
+      drawOfficialTicket();
+      document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+    } else if (pin !== null) {
+      alert('PIN incorrecto.');
+    }
+  }
+
+  function saveAdminPhone() {
+    localStorage.setItem('kpari_admin_phone', document.getElementById('adm-phone').value.trim());
+  }
+
+  function drawRealQR(ctx, text, x, y, size) {
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(x - 10, y - 10, size + 20, size + 20);
+    if (typeof qrcode !== 'undefined') {
+      const qr = qrcode(0, 'M');
+      qr.addData(text);
+      qr.make();
+      const count = qr.getModuleCount();
+      const cell = size / count;
+      ctx.fillStyle = '#14052E';
+      for (let r = 0; r < count; r++) {
+        for (let c = 0; c < count; c++) {
+          if (qr.isDark(r, c)) {
+            ctx.fillRect(x + c * cell, y + r * cell, Math.ceil(cell), Math.ceil(cell));
+          }
+        }
+      }
+    }
+  }
+
+  function drawOfficialTicket() {
+    const canvas = document.getElementById('officialCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const name = (document.getElementById('tk-name').value || 'INVITADO VIP').toUpperCase();
+    const id = (document.getElementById('tk-id').value || 'KP26-001').toUpperCase();
+    const parts = document.getElementById('tk-stage').value.split('|');
+    const stageLbl = parts[0];
+    const statusLbl = parts[1];
+    const badgeCol = parts[3] || '#007F4E';
+    const role = (document.getElementById('tk-role').value || 'VIP').toUpperCase();
+
+    // Base dark K-C background
+    ctx.fillStyle = '#12052C';
+    ctx.fillRect(0, 0, 720, 1220);
+
+    // Top Pixar Banner Crop
+    if (bgHero.complete && bgHero.naturalWidth > 0) {
+      ctx.drawImage(bgHero, 0, 0, bgHero.naturalWidth, bgHero.naturalHeight * 0.56, 0, 0, 720, 470);
+      const g = ctx.createLinearGradient(0, 300, 0, 475);
+      g.addColorStop(0, 'rgba(18,5,44,0)');
+      g.addColorStop(1, '#12052C');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 300, 720, 180);
+    }
+
+    // Outer K-C Frame
+    ctx.strokeStyle = '#FC873D';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(20, 20, 680, 1180);
+
+    // Event Info Strip
+    ctx.fillStyle = '#FC873D';
+    ctx.font = '900 33px Lato, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('17 DE DICIEMBRE 2026 • 9:00 PM', 360, 505);
+    ctx.fillStyle = '#DDDFF5';
+    ctx.font = '700 22px Lato, sans-serif';
+    ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 540);
+
+    // Dashed tear line
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([12, 10]);
+    ctx.beginPath();
+    ctx.moveTo(42, 570);
+    ctx.lineTo(678, 570);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Guest Card
+    ctx.fillStyle = 'rgba(88, 0, 205, 0.32)';
+    ctx.fillRect(50, 595, 620, 250);
+    ctx.strokeStyle = '#6B48D1';
+    ctx.strokeRect(50, 595, 620, 250);
+
+    ctx.fillStyle = '#B3B3E9';
+    ctx.font = '700 19px Lato, sans-serif';
+    ctx.fillText('PASE PERSONAL E INTRANSFERIBLE • ACCESO VERIFICADO', 360, 632);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 42px Lato, sans-serif';
+    ctx.fillText(name, 360, 684);
+    ctx.fillStyle = '#FC873D';
+    ctx.font = '700 22px Lato, sans-serif';
+    ctx.fillText(role, 360, 722);
+
+    ctx.fillStyle = badgeCol;
+    ctx.fillRect(85, 752, 550, 64);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 24px Lato, sans-serif';
+    ctx.fillText(`${stageLbl}  •  ${statusLbl}`, 360, 793);
+
+    // Real Verifiable QR
+    drawRealQR(ctx, `KPARI2026|${id}|${name}|${stageLbl}|${statusLbl}`, 255, 880, 210);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 32px Lato, sans-serif';
+    ctx.fillText(`BOLETA #${id}`, 360, 1142);
+    ctx.fillStyle = '#37A17C';
+    ctx.font = '700 18px Lato, sans-serif';
+    ctx.fillText('PRESENTA ESTE CÓDIGO QR EN LA ENTRADA DE LA TERRAZA', 360, 1176);
+  }
+
+  function downloadOfficialTicket() {
+    const canvas = document.getElementById('officialCanvas');
+    const id = (document.getElementById('tk-id').value || 'KP26').replace(/[^a-zA-Z0-9_-]/g, '');
+    const name = (document.getElementById('tk-name').value || 'Invitado').replace(/\s+/g, '_');
+    const a = document.createElement('a');
+    a.download = `Boleta_KPARI_${id}_${name}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }
+
+  let list = JSON.parse(localStorage.getItem('kpari26_list') || '[]');
+  function renderList() {
+    const tb = document.getElementById('adm-tbody');
+    if (!tb) return;
+    tb.innerHTML = '';
+    let sum = 0;
+    list.forEach((item, i) => {
+      sum += Number(item.val || 0);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><strong>${item.id}</strong></td><td>${item.name}</td><td>${item.stage}</td><td>$${Number(item.val).toLocaleString('es-CO')}</td><td>${item.status}</td><td><button onclick="delItem(${i})" style="background:none;border:1px solid #fc873d;color:#fc873d;border-radius:6px;padding:3px 8px;cursor:pointer;">X</button></td>`;
+      tb.appendChild(tr);
+    });
+    document.getElementById('adm-count').textContent = list.length;
+    document.getElementById('adm-sum').textContent = '$' + sum.toLocaleString('es-CO') + ' COP';
+    const pct = Math.min(100, Math.max(18, Math.round((list.length / 65) * 100)));
+    document.getElementById('cupos-bar').style.width = pct + '%';
+  }
+
+  function logTicket() {
+    const name = document.getElementById('tk-name').value || 'Invitado';
+    const id = document.getElementById('tk-id').value || 'KP26-001';
+    const parts = document.getElementById('tk-stage').value.split('|');
+    list.push({ id, name, stage: parts[0], status: parts[1], val: Number(parts[2] || 110000) });
+    localStorage.setItem('kpari26_list', JSON.stringify(list));
+    renderList();
+    document.getElementById('tk-id').value = 'KP26-' + String(list.length + 1).padStart(3, '0');
+    drawOfficialTicket();
+  }
+
+  function delItem(i) {
+    list.splice(i, 1);
+    localStorage.setItem('kpari26_list', JSON.stringify(list));
+    renderList();
+  }
+
+  function exportListCSV() {
+    let csv = 'Boleta,Nombre,Etapa,Estado,Valor_Pagado\n';
+    list.forEach(r => { csv += `"${r.id}","${r.name}","${r.stage}","${r.status}",${r.val}\n`; });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    a.download = 'Inscritos_KPARI_2026.csv';
+    a.click();
+  }
+
+  renderList();
+</script>
+</body>
+</html>
