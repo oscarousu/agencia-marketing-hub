@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     :root {
       --kc-purple: #5800CD;
@@ -379,6 +381,54 @@
       border-color: var(--kc-green-vivid);
       background: rgba(0, 127, 78, 0.24);
     }
+    .upload-zone.rejected {
+      border-style: solid;
+      border-color: #ff4d6d;
+      background: rgba(158, 27, 50, 0.22);
+    }
+    .upload-zone.scanning {
+      border-style: solid;
+      border-color: var(--kc-orange);
+      background: rgba(252, 135, 61, 0.14);
+    }
+    .verify-audit-box {
+      display: none;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: -4px 0 16px;
+      background: rgba(10, 4, 28, 0.82);
+      font-size: 0.85rem;
+    }
+    .verify-audit-box.show { display: block; }
+    .scan-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 8px 0 10px;
+    }
+    .scan-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--kc-orange), var(--kc-green-vivid));
+      transition: width 0.25s ease;
+    }
+    .audit-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .audit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--kc-purple-ice);
+    }
+    .audit-item.ok { color: var(--kc-green-vivid); }
+    .audit-item.fail { color: #ff6b86; }
     .upload-zone input[type="file"] {
       position: absolute;
       inset: 0;
@@ -620,7 +670,7 @@
       <div class="field-row">
         <div class="field">
           <label>Etapa Pagada (100% Full) *</label>
-          <select id="r-plan" class="input" onchange="checkFormReady()">
+          <select id="r-plan" class="input" onchange="if (lastExtractedReceiptText !== null) { evaluateReceiptCriteria(lastExtractedReceiptText); } else { checkFormReady(); }">
             <option value="ETAPA 1|110000">Etapa 1 — $110.000 COP (Hasta 16 Nov)</option>
             <option value="ETAPA 2|120000">Etapa 2 — $120.000 COP (17 Nov - 1 Dic)</option>
             <option value="ETAPA 3|140000">Etapa 3 — $140.000 COP (Desde 2 Dic)</option>
@@ -649,18 +699,29 @@
         </div>
       </div>
 
-      <!-- Mandatory Receipt Upload -->
+      <!-- Mandatory Receipt Upload + Visual Verification -->
       <div class="field">
-        <label>📸 Comprobante de Pago (Obligatorio para habilitar tu Boleta QR) *</label>
+        <label>📸 Comprobante de Pago (Verificación Visual Automática: Llave + Valor Etapa) *</label>
         <div class="upload-zone" id="dropZone">
-          <input type="file" id="r-file" accept="image/*,application/pdf" onchange="handleReceiptUpload(event)" />
+          <input type="file" id="r-file" accept="image/*,application/pdf" onclick="this.value=null" onchange="handleReceiptUpload(event)" />
           <div id="uploadPrompt">
             <div style="font-size:1.7rem;margin-bottom:4px;">📤</div>
-            <div style="font-weight:900;color:var(--kc-green-vivid);">Toca aquí para subir la captura de tu transferencia</div>
-            <div style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:2px;">Acepta imagen (JPG/PNG) o PDF desde tu galería</div>
+            <div style="font-weight:900;color:var(--kc-green-vivid);">Toca aquí para subir la captura o PDF de tu transferencia</div>
+            <div style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:2px;">El escáner validará automáticamente la llave <b>@oscar9052</b> y el valor exacto de la etapa</div>
           </div>
           <img id="receiptPreview" class="receipt-thumb" alt="Vista previa comprobante" />
           <div id="receiptFileName" style="font-size:0.84rem;font-weight:900;color:#fff;margin-top:4px;"></div>
+        </div>
+
+        <div id="verifyAuditBox" class="verify-audit-box">
+          <div id="verifyHeadline" style="font-weight:900;color:var(--kc-orange);">🔍 Escaneando visualmente el comprobante...</div>
+          <div class="scan-bar-wrap" id="scanBarWrap"><div class="scan-bar-fill" id="scanBarFill"></div></div>
+          <div class="audit-checks">
+            <div class="audit-item" id="chk-doc">⏳ 1. Verificando que sea un comprobante bancario real...</div>
+            <div class="audit-item" id="chk-key">⏳ 2. Verificando pago a la llave oficial <b>@oscar9052</b>...</div>
+            <div class="audit-item" id="chk-amt">⏳ 3. Verificando valor exacto de la etapa seleccionada...</div>
+          </div>
+          <div id="verifyReason" style="margin-top:8px;font-size:0.81rem;color:var(--kc-purple-soft);"></div>
         </div>
       </div>
 
@@ -784,53 +845,343 @@
 
   function selectStage(idx) {
     document.getElementById('r-plan').selectedIndex = idx;
-    checkFormReady();
+    if (lastExtractedReceiptText !== null) {
+      evaluateReceiptCriteria(lastExtractedReceiptText);
+    } else {
+      checkFormReady();
+    }
+  }
+
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
   let uploadedReceiptBase64 = null;
   let uploadedReceiptMime = "image/jpeg";
+  let receiptVerifiedOk = false;
+  let isScanningReceipt = false;
+  let lastExtractedReceiptText = null;
+  let currentReceiptHash = null;
 
-  function handleReceiptUpload(e) {
+  async function computeSha256Hex(buffer) {
+    if (!window.crypto || !window.crypto.subtle) return null;
+    const hashBuf = await window.crypto.subtle.digest('SHA-256', buffer);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function buildPreprocessedCanvas(sourceImgOrCanvas, maxDim, invertDark) {
+    let w = sourceImgOrCanvas.width, h = sourceImgOrCanvas.height;
+    if (w > maxDim || h > maxDim) {
+      if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+      else { w = Math.round(w * maxDim / h); h = maxDim; }
+    }
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(sourceImgOrCanvas, 0, 0, w, h);
+
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const d = imgData.data;
+    let sumLum = 0;
+    const totalPx = w * h;
+    for (let i = 0; i < d.length; i += 4) {
+      const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      sumLum += lum;
+    }
+    const avgLum = sumLum / Math.max(1, totalPx);
+    const shouldInvert = invertDark === 'auto' ? (avgLum < 118) : Boolean(invertDark);
+
+    for (let i = 0; i < d.length; i += 4) {
+      let g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      if (shouldInvert) g = 255 - g;
+      // Gentle contrast boost so grey banking labels become crisp black-on-white
+      g = Math.max(0, Math.min(255, (g - 128) * 1.38 + 128));
+      d[i] = d[i + 1] = d[i + 2] = g;
+    }
+    ctx.putImageData(imgData, 0, 0);
+    return { canvas: c, invertedUsed: shouldInvert };
+  }
+
+  function matchCopStageAmount(normText, amountCop) {
+    const thousands = String(Math.floor(amountCop / 1000)); // "110", "120", "140"
+    // Matches $110.000, $ 110.000,00, 110,000, 110 000, 110000 (tolerating OCR 0/O confusion), while blocking $1.110.000 or random reference numbers
+    const re = new RegExp('(?:^|[^0-9.,])' + thousands + '(?:\\s*[.,]\\s*[0o]{3}|\\s+[0o]{3}|[0o]{3})(?:\\s*[.,]\\s*[0o]{2})?(?![.,]?[0-9])', 'i');
+    return re.test(normText);
+  }
+
+  function evaluateReceiptCriteria(rawText) {
+    const norm = (rawText || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const planParts = document.getElementById('r-plan').value.split('|');
+    const stageName = planParts[0];
+    const reqAmount = Number(planParts[1]);
+    const reqFormatted = '$' + reqAmount.toLocaleString('es-CO') + ' COP';
+
+    const targetAccount = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).trim();
+    const cleanKey = targetAccount.replace(/^@/, '').replace(/\s+/g, '').toLowerCase();
+
+    // 1. Check authentic banking receipt structure & keywords
+    const bankKeywords = [
+      'comprobante', 'transferencia', 'transaccion', 'exitos', 'enviast', 'envio', 'enviad',
+      'pago', 'aprobad', 'realizad', 'referencia', 'cus', 'llave', 'bre-b', 'breb', 'redeban',
+      'nequi', 'bancolombia', 'daviplata', 'davivienda', 'nubank', 'nu ', 'lulo', 'bbva',
+      'bogota', 'occidente', 'av villas', 'scotiabank', 'colpatria', 'popular', 'caja social',
+      'itau', 'banco', 'destino', 'destinatario', 'valor', 'monto', 'origen', 'movimiento',
+      'cuenta', 'producto', 'fecha'
+    ];
+    let matchedTerms = 0;
+    for (const kw of bankKeywords) {
+      if (norm.includes(kw)) matchedTerms++;
+    }
+    const alphaNumCount = norm.replace(/[^a-z0-9]/g, '').length;
+    const okBankDoc = matchedTerms >= 2 && alphaNumCount >= 24;
+
+    // 2. Check destination Llave (@oscar9052)
+    const compactNorm = norm.replace(/\s+/g, '');
+    let okKey = compactNorm.includes(cleanKey);
+    if (!okKey && cleanKey === 'oscar9052') {
+      okKey = /[o0]scar\s*9[o0][5s][2z]/i.test(norm);
+    }
+
+    // 3. Check exact stage amount ($110.000, $120.000, or $140.000)
+    const okAmount = matchCopStageAmount(norm, reqAmount);
+
+    // 4. Anti-duplicate receipt check on local/synced records
+    const duplicateRec = currentReceiptHash && localRecords.find(r => r.receiptHash && r.receiptHash === currentReceiptHash && r.status !== 'ANULADA');
+
+    // Update UI Checkpoints
+    const chkDoc = document.getElementById('chk-doc');
+    const chkKey = document.getElementById('chk-key');
+    const chkAmt = document.getElementById('chk-amt');
+    const headline = document.getElementById('verifyHeadline');
+    const reason = document.getElementById('verifyReason');
+    const dropZone = document.getElementById('dropZone');
+
+    chkDoc.className = 'audit-item ' + (okBankDoc ? 'ok' : 'fail');
+    chkDoc.innerHTML = okBankDoc
+      ? '✅ 1. Comprobante bancario auténtico detectado'
+      : '❌ 1. No se reconoce como comprobante de pago bancario (no subas fotos o archivos cualquiera)';
+
+    chkKey.className = 'audit-item ' + (okKey ? 'ok' : 'fail');
+    chkKey.innerHTML = okKey
+      ? `✅ 2. Destino verificado a la llave oficial <b>${targetAccount}</b>`
+      : `❌ 2. No aparece el pago hacia la llave <b>${targetAccount}</b>`;
+
+    chkAmt.className = 'audit-item ' + (okAmount ? 'ok' : 'fail');
+    chkAmt.innerHTML = okAmount
+      ? `✅ 3. Valor exacto verificado: <b>${reqFormatted}</b> (${stageName})`
+      : `❌ 3. No coincide el valor requerido de <b>${reqFormatted}</b> para ${stageName}`;
+
+    document.getElementById('scanBarWrap').style.display = 'none';
+
+    if (duplicateRec) {
+      receiptVerifiedOk = false;
+      dropZone.classList.remove('loaded', 'scanning');
+      dropZone.classList.add('rejected');
+      headline.style.color = '#ff6b86';
+      headline.innerHTML = '🚫 Este comprobante ya fue utilizado';
+      reason.style.color = '#ff9ebb';
+      reason.innerHTML = `Este mismo archivo ya fue registrado previamente en la boleta <b>#${duplicateRec.id}</b>.`;
+    } else if (okBankDoc && okKey && okAmount) {
+      receiptVerifiedOk = true;
+      dropZone.classList.remove('rejected', 'scanning');
+      dropZone.classList.add('loaded');
+      headline.style.color = '#2EE69C';
+      headline.innerHTML = '🛡️ Comprobante Verificado con Éxito (3/3 Criterios Aprobados)';
+      reason.style.color = '#DDECE5';
+      reason.innerHTML = `Pago completo confirmado a <b>${targetAccount}</b> por <b>${reqFormatted}</b>.`;
+    } else {
+      receiptVerifiedOk = false;
+      dropZone.classList.remove('loaded', 'scanning');
+      dropZone.classList.add('rejected');
+      headline.style.color = '#ff6b86';
+      headline.innerHTML = '⚠️ Comprobante Rechazado — Verifica los criterios abajo';
+
+      // Helpful diagnostic if user paid another stage's amount or partial deposit
+      let extraHint = 'Sube una captura nítida o PDF original donde se vean claramente la llave <b>' + targetAccount + '</b> y el monto pagado.';
+      if (okBankDoc && !okAmount) {
+        const otherStages = [110000, 120000, 140000].filter(a => a !== reqAmount);
+        const detectedOther = otherStages.find(a => matchCopStageAmount(norm, a));
+        if (detectedOther) {
+          extraHint = `Detectamos un pago de <b>$${detectedOther.toLocaleString('es-CO')} COP</b> en el recibo, pero arriba elegiste <b>${stageName} (${reqFormatted})</b>. Selecciona la etapa correcta arriba.`;
+        } else {
+          extraHint = `El recibo debe ser por el <b>100% del valor de ${stageName} (${reqFormatted})</b>. No se aceptan abonos parciales ni valores distintos.`;
+        }
+      }
+      reason.style.color = '#ffb3c4';
+      reason.innerHTML = extraHint;
+    }
+
+    checkFormReady();
+    return receiptVerifiedOk;
+  }
+
+  async function runOcrOnCanvas(canvasEl, onProgress) {
+    if (typeof Tesseract === 'undefined') {
+      throw new Error('Motor de verificación visual cargando, intenta en 2 segundos.');
+    }
+    const result = await Tesseract.recognize(canvasEl, 'spa+eng', {
+      logger: m => {
+        if (m.status === 'recognizing text' && typeof m.progress === 'number' && onProgress) {
+          onProgress(m.progress);
+        }
+      }
+    });
+    return (result && result.data && result.data.text) ? result.data.text : '';
+  }
+
+  async function handleReceiptUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
-    document.getElementById('receiptFileName').textContent = "✅ " + file.name;
-    document.getElementById('dropZone').classList.add('loaded');
-    document.getElementById('uploadPrompt').style.display = 'none';
 
-    if (file.type === "application/pdf") {
-      uploadedReceiptMime = "application/pdf";
-      const reader = new FileReader();
-      reader.onload = ev => {
-        uploadedReceiptBase64 = ev.target.result;
-        document.getElementById('receiptPreview').style.display = 'none';
-        checkFormReady();
-      };
-      reader.readAsDataURL(file);
-    } else {
-      // Compress image cleanly in browser (<180KB, 1100px max) for ultra-fast 1-sec upload
-      uploadedReceiptMime = "image/jpeg";
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const img = new Image();
-        img.onload = () => {
-          const maxDim = 1100;
-          let w = img.width, h = img.height;
-          if (w > maxDim || h > maxDim) {
-            if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
-            else { w = Math.round(w * maxDim / h); h = maxDim; }
+    receiptVerifiedOk = false;
+    isScanningReceipt = true;
+    lastExtractedReceiptText = null;
+    uploadedReceiptBase64 = null;
+
+    const dropZone = document.getElementById('dropZone');
+    const auditBox = document.getElementById('verifyAuditBox');
+    const scanBarWrap = document.getElementById('scanBarWrap');
+    const scanBarFill = document.getElementById('scanBarFill');
+    const headline = document.getElementById('verifyHeadline');
+    const reason = document.getElementById('verifyReason');
+
+    dropZone.classList.remove('loaded', 'rejected');
+    dropZone.classList.add('scanning');
+    document.getElementById('uploadPrompt').style.display = 'none';
+    document.getElementById('receiptFileName').textContent = "📄 " + file.name;
+
+    auditBox.classList.add('show');
+    scanBarWrap.style.display = 'block';
+    scanBarFill.style.width = '12%';
+    headline.style.color = 'var(--kc-orange)';
+    headline.textContent = '🔍 Escaneando visualmente el comprobante...';
+    reason.textContent = 'Validando autenticidad bancaria, llave @oscar9052 y valor de la etapa...';
+    ['chk-doc', 'chk-key', 'chk-amt'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      el.className = 'audit-item';
+      if (i === 0) el.innerHTML = '⏳ 1. Analizando estructura de comprobante bancario...';
+      if (i === 1) el.innerHTML = '⏳ 2. Buscando llave destino <b>@oscar9052</b>...';
+      if (i === 2) el.innerHTML = '⏳ 3. Comprobando valor exacto de la etapa...';
+    });
+    checkFormReady();
+
+    try {
+      const arrayBuf = await file.arrayBuffer();
+      currentReceiptHash = await computeSha256Hex(arrayBuf);
+
+      if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
+        uploadedReceiptMime = "application/pdf";
+        uploadedReceiptBase64 = await new Promise(res => {
+          const r = new FileReader();
+          r.onload = ev => res(ev.target.result);
+          r.readAsDataURL(file);
+        });
+
+        let extractedText = '';
+        if (typeof pdfjsLib !== 'undefined') {
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuf }).promise;
+          const maxPages = Math.min(pdf.numPages, 2);
+          for (let p = 1; p <= maxPages; p++) {
+            const page = await pdf.getPage(p);
+            const tc = await page.getTextContent();
+            extractedText += ' ' + tc.items.map(it => it.str).join(' ');
+
+            if (p === 1) {
+              const vp = page.getViewport({ scale: 2.0 });
+              const pdfCanvas = document.createElement('canvas');
+              pdfCanvas.width = vp.width;
+              pdfCanvas.height = vp.height;
+              await page.render({ canvasContext: pdfCanvas.getContext('2d'), viewport: vp }).promise;
+              const prev = document.getElementById('receiptPreview');
+              prev.src = pdfCanvas.toDataURL('image/jpeg', 0.8);
+              prev.style.display = 'block';
+              scanBarFill.style.width = '55%';
+
+              // If scanned image-only PDF, run visual OCR on rendered page 1
+              if (extractedText.replace(/\s+/g, '').length < 30) {
+                const prep = buildPreprocessedCanvas(pdfCanvas, 1600, 'auto');
+                extractedText += ' ' + await runOcrOnCanvas(prep.canvas, pr => {
+                  scanBarFill.style.width = Math.round(55 + pr * 42) + '%';
+                });
+              }
+            }
           }
-          const c = document.createElement('canvas');
-          c.width = w; c.height = h;
-          c.getContext('2d').drawImage(img, 0, 0, w, h);
-          uploadedReceiptBase64 = c.toDataURL('image/jpeg', 0.82);
-          const prev = document.getElementById('receiptPreview');
-          prev.src = uploadedReceiptBase64;
-          prev.style.display = 'block';
-          checkFormReady();
-        };
-        img.src = ev.target.result;
-      };
-      reader.readAsDataURL(file);
+        }
+        scanBarFill.style.width = '100%';
+        isScanningReceipt = false;
+        lastExtractedReceiptText = extractedText;
+        evaluateReceiptCriteria(extractedText);
+
+      } else {
+        // Image visual upload + Dual-Pass OCR (Light & Dark Mode Banking Apps)
+        uploadedReceiptMime = "image/jpeg";
+        const dataUrl = await new Promise((res, rej) => {
+          const r = new FileReader();
+          r.onload = ev => res(ev.target.result);
+          r.onerror = rej;
+          r.readAsDataURL(file);
+        });
+
+        const img = await new Promise((res, rej) => {
+          const im = new Image();
+          im.onload = () => res(im);
+          im.onerror = rej;
+          im.src = dataUrl;
+        });
+
+        // 1. Save clean compressed JPEG (<180KB) for fast Drive storage
+        const maxStore = 1100;
+        let sw = img.width, sh = img.height;
+        if (sw > maxStore || sh > maxStore) {
+          if (sw > sh) { sh = Math.round(sh * maxStore / sw); sw = maxStore; }
+          else { sw = Math.round(sw * maxStore / sh); sh = maxStore; }
+        }
+        const storeCanvas = document.createElement('canvas');
+        storeCanvas.width = sw; storeCanvas.height = sh;
+        storeCanvas.getContext('2d').drawImage(img, 0, 0, sw, sh);
+        uploadedReceiptBase64 = storeCanvas.toDataURL('image/jpeg', 0.84);
+
+        const prev = document.getElementById('receiptPreview');
+        prev.src = uploadedReceiptBase64;
+        prev.style.display = 'block';
+
+        // 2. Visual OCR Pass 1 (Auto luminance polarity for Dark/Light banking apps)
+        const pass1 = buildPreprocessedCanvas(img, 1600, 'auto');
+        let combinedText = await runOcrOnCanvas(pass1.canvas, pr => {
+          scanBarFill.style.width = Math.round(15 + pr * 65) + '%';
+        });
+
+        // 3. Quick Fallback Pass 2 (opposite polarity) ONLY if Pass 1 missed key or amount due to colored pills
+        const planAmount = Number(document.getElementById('r-plan').value.split('|')[1]);
+        const norm1 = combinedText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        const quickKeyOk = norm1.replace(/\s+/g, '').includes('oscar9052') || /[o0]scar\s*9[o0][5s][2z]/i.test(norm1);
+        const quickAmtOk = matchCopStageAmount(norm1, planAmount);
+
+        if (!quickKeyOk || !quickAmtOk) {
+          const pass2 = buildPreprocessedCanvas(img, 1600, !pass1.invertedUsed);
+          const text2 = await runOcrOnCanvas(pass2.canvas, pr => {
+            scanBarFill.style.width = Math.round(80 + pr * 18) + '%';
+          });
+          combinedText += '\n' + text2;
+        }
+
+        scanBarFill.style.width = '100%';
+        isScanningReceipt = false;
+        lastExtractedReceiptText = combinedText;
+        evaluateReceiptCriteria(combinedText);
+      }
+    } catch (err) {
+      console.error('Receipt scan error:', err);
+      isScanningReceipt = false;
+      receiptVerifiedOk = false;
+      dropZone.classList.remove('loaded', 'scanning');
+      dropZone.classList.add('rejected');
+      headline.style.color = '#ff6b86';
+      headline.textContent = '⚠️ No se pudo leer el archivo subido';
+      reason.textContent = 'Por favor sube una captura de pantalla (JPG/PNG) o PDF válido de tu banco.';
+      checkFormReady();
     }
   }
 
@@ -843,19 +1194,34 @@
     document.getElementById('pv-name').textContent = (name || 'TU NOMBRE AQUÍ').toUpperCase();
     document.getElementById('pv-role').textContent = role;
     document.getElementById('pv-plan').textContent = `${planParts[0]} • $${Number(planParts[1]).toLocaleString('es-CO')} COP`;
-    document.getElementById('pv-receipt-badge').innerHTML = uploadedReceiptBase64
-      ? '<span style="color:#2EE69C;font-weight:900;">✅ Comprobante listo para validar</span>'
-      : '⏳ Pendiente adjuntar comprobante';
+
+    const badgeEl = document.getElementById('pv-receipt-badge');
+    if (isScanningReceipt) {
+      badgeEl.innerHTML = '<span style="color:var(--kc-orange);font-weight:900;">🔍 Verificando llave y valor...</span>';
+    } else if (receiptVerifiedOk && uploadedReceiptBase64) {
+      badgeEl.innerHTML = '<span style="color:#2EE69C;font-weight:900;">✅ Comprobante verificado (@oscar9052)</span>';
+    } else if (lastExtractedReceiptText !== null && !receiptVerifiedOk) {
+      badgeEl.innerHTML = '<span style="color:#ff6b86;font-weight:900;">❌ Comprobante rechazado</span>';
+    } else {
+      badgeEl.textContent = '⏳ Pendiente adjuntar comprobante';
+    }
 
     const btn = document.getElementById('submitBtn');
-    if (name.length >= 3 && phone.length >= 7 && uploadedReceiptBase64) {
+    if (isScanningReceipt) {
+      btn.disabled = true;
+      btn.textContent = "🔍 VERIFICANDO COMPROBANTE DE PAGO...";
+    } else if (name.length >= 3 && phone.length >= 7 && uploadedReceiptBase64 && receiptVerifiedOk) {
       btn.disabled = false;
-      btn.textContent = "🎟️ ENVIAR COMPROBANTE Y DESCARGAR BOLETA QR";
+      btn.textContent = "🎟️ ENVIAR COMPROBANTE VERIFICADO Y DESCARGAR BOLETA QR";
+    } else if (lastExtractedReceiptText !== null && !receiptVerifiedOk) {
+      btn.disabled = true;
+      btn.textContent = "🚫 SUBE UN COMPROBANTE VÁLIDO A @oscar9052 POR EL VALOR EXACTO";
+    } else if (receiptVerifiedOk && uploadedReceiptBase64) {
+      btn.disabled = true;
+      btn.textContent = "✍️ COMPLETA TU NOMBRE Y CELULAR ARRIBA";
     } else {
       btn.disabled = true;
-      btn.textContent = uploadedReceiptBase64
-        ? "✍️ COMPLETA TU NOMBRE Y CELULAR ARRIBA"
-        : "🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA";
+      btn.textContent = "🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA";
     }
   }
 
@@ -949,6 +1315,7 @@
   let localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]');
 
   async function processSelfServiceRegistration() {
+    if (!receiptVerifiedOk || !uploadedReceiptBase64) return;
     const btn = document.getElementById('submitBtn');
     const statusBox = document.getElementById('submitStatus');
     const name = document.getElementById('r-name').value.trim();
@@ -997,7 +1364,8 @@
       id: ticketId,
       name, phone, role, stage, val: amount, song, nomination,
       status: "VERIFICADO (AUTO)",
-      receiptUrl
+      receiptUrl,
+      receiptHash: currentReceiptHash
     });
     try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
     renderAdminTable();
