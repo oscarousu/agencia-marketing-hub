@@ -427,8 +427,34 @@
       font-weight: 700;
       color: var(--kc-purple-ice);
     }
-    .audit-item.ok { color: var(--kc-green-vivid); }
-    .audit-item.fail { color: #ff6b86; }
+      .audit-item.ok { color: var(--kc-green-vivid); }
+      .audit-item.fail { color: #ff6b86; }
+    .invite-gate {
+      background: rgba(10, 4, 28, 0.78);
+      border-radius: 20px;
+      padding: 22px 20px;
+      margin-bottom: 16px;
+    }
+    .invite-unlocked-pill {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: rgba(0, 127, 78, 0.28);
+      color: var(--kc-green-vivid);
+      font-weight: 900;
+      font-size: 0.84rem;
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .admission-note {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: var(--kc-orange-soft);
+    }
     .upload-zone input[type="file"] {
       position: absolute;
       inset: 0;
@@ -541,14 +567,18 @@
           <strong>Jueves 17 Dic 2026</strong>
         </div>
         <div class="meta-item">
-          <small>Hora</small>
-          <strong>Desde las 9:00 PM</strong>
+          <small>Llegada</small>
+          <strong>Desde las 7:00 PM</strong>
         </div>
         <div class="meta-item">
           <small>Lugar</small>
           <strong>La Terraza • Calle 10 # 61-47</strong>
         </div>
       </div>
+
+      <p class="admission-note" style="margin: -10px 0 22px; text-transform: uppercase;">
+        🔒 Evento privado por invitación • Nos reservamos el derecho de admisión
+      </p>
 
       <div class="fomo-open">
         <div class="fomo-headline">
@@ -640,95 +670,123 @@
     </div>
   </section>
 
-  <!-- ZERO-FRICTION SELF-SERVICE REGISTRATION + RECEIPT UPLOAD -->
+  <!-- ZERO-FRICTION SELF-SERVICE REGISTRATION + PRIVATE GATE + RECEIPT UPLOAD -->
   <section id="registro" class="reg-container">
     <div>
-      <span class="badge" style="background:var(--kc-orange);color:#190538;">AUTOSERVICIO EN 30 SEGUNDOS • SIN ESCRIBIR POR WHATSAPP</span>
-      <h2 style="font-size:clamp(1.5rem,3vw,1.95rem);margin-bottom:6px;">Sube tu Comprobante y Descarga tu Boleta QR</h2>
-      <p style="color:var(--kc-purple-ice);font-size:0.93rem;margin-bottom:16px;">1. Transfiere el valor full de la etapa • 2. Adjunta la captura del pago • 3. Tu Boleta QR se desbloquea al instante.</p>
+      <span class="badge" style="background:var(--kc-orange);color:#190538;">EVENTO PRIVADO • NOS RESERVAMOS EL DERECHO DE ADMISIÓN</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,1.95rem);margin-bottom:6px;">Valida tu Invitación, Paga y Descarga tu Boleta QR</h2>
+      <p style="color:var(--kc-purple-ice);font-size:0.93rem;margin-bottom:16px;">Fiesta exclusiva para invitados autorizados (cupo personal e intransferible). Ingresa el código del grupo para revelar la llave de pago.</p>
 
-      <!-- Step 1: Instant Copy Payment Info -->
-      <div class="pay-strip">
-        <div>
-          <div style="font-size:0.75rem;font-weight:900;color:var(--kc-green-vivid);text-transform:uppercase;letter-spacing:1px;">Llave Oficial (Cualquier Banco / Nequi / Nu / DaviPlata)</div>
-          <div style="font-size:1.22rem;font-weight:900;color:#fff;" id="display-pay-account">@oscar9052</div>
+      <!-- PRIVATE INVITATION GATE (Hides @oscar9052 from uninvited outsiders) -->
+      <div id="inviteGateBox" class="invite-gate">
+        <div style="font-weight:900;font-size:1.02rem;color:var(--kc-orange);margin-bottom:6px;">🔐 Filtro de Admisión — Acceso Solo con Invitación</div>
+        <p style="font-size:0.86rem;color:var(--kc-purple-ice);margin-bottom:14px;">Ingresa el <b>Código de Invitación</b> enviado al grupo privado para habilitar los datos de transferencia y el registro:</p>
+        <div class="field-row" style="align-items:center;">
+          <input type="text" id="invite-code-input" class="input" placeholder="Código del grupo (Ej. KPARI...)" onkeydown="if(event.key==='Enter')unlockInviteGate()" style="text-transform:uppercase;font-weight:900;letter-spacing:1.5px;" />
+          <button type="button" class="btn-main btn-green" onclick="unlockInviteGate()">🔓 Desbloquear Acceso</button>
         </div>
-        <button type="button" class="copy-chip" onclick="copyPayNumber()">📋 Copiar Llave @oscar9052</button>
+        <div id="inviteGateError" style="display:none;margin-top:10px;font-size:0.83rem;font-weight:700;color:#ff6b86;"></div>
+        <div style="margin-top:10px;font-size:0.77rem;color:var(--kc-purple-soft);">* Nos reservamos el derecho de admisión. Esta fiesta no está abierta al público general.</div>
       </div>
 
-      <div class="field-row">
-        <div class="field">
-          <label>Nombre y Apellido *</label>
-          <input type="text" id="r-name" class="input" placeholder="Ej. Camilo Restrepo" oninput="checkFormReady()" />
-        </div>
-        <div class="field">
-          <label>Tu Celular *</label>
-          <input type="tel" id="r-phone" class="input" placeholder="Ej. 300 123 4567" oninput="checkFormReady()" />
-        </div>
+      <div id="inviteUnlockedBadge" class="invite-unlocked-pill">
+        <span>🔓 Invitación verificada • Pase personal e intransferible</span>
+        <span style="font-size:0.75rem;color:var(--kc-orange-soft);">Derecho de admisión reservado</span>
       </div>
 
-      <div class="field-row">
-        <div class="field">
-          <label>Etapa Pagada (100% Full) *</label>
-          <select id="r-plan" class="input" onchange="if (lastExtractedReceiptText !== null) { evaluateReceiptCriteria(lastExtractedReceiptText); } else { checkFormReady(); }">
-            <option value="ETAPA 1|110000">Etapa 1 — $110.000 COP (Hasta 16 Nov)</option>
-            <option value="ETAPA 2|120000">Etapa 2 — $120.000 COP (17 Nov - 1 Dic)</option>
-            <option value="ETAPA 3|140000">Etapa 3 — $140.000 COP (Desde 2 Dic)</option>
-          </select>
+      <!-- PROTECTED PAYMENT & UPLOAD FORM (Hidden until invite gate passes) -->
+      <div id="privateRegForm" style="display:none;">
+        <!-- Step 1: Instant Copy Payment Info -->
+        <div class="pay-strip">
+          <div>
+            <div style="font-size:0.75rem;font-weight:900;color:var(--kc-green-vivid);text-transform:uppercase;letter-spacing:1px;">Llave Oficial (Solo Invitados Autorizados — 1 Cupo por Persona)</div>
+            <div style="font-size:1.22rem;font-weight:900;color:#fff;" id="display-pay-account">@oscar9052</div>
+          </div>
+          <button type="button" class="copy-chip" onclick="copyPayNumber()">📋 Copiar Llave @oscar9052</button>
         </div>
-        <div class="field">
-          <label>Tu Rango Fiestero en la Boleta *</label>
-          <select id="r-role" class="input" onchange="checkFormReady()">
-            <option value="LEYENDA DEL ROOFTOP">🔥 Leyenda del Rooftop</option>
-            <option value="REY / REINA DE LA PISTA LED">💃 Rey / Reina de la Pista LED</option>
-            <option value="SOBREVIVIENTE DEL AÑO">🛡️ Sobreviviente del Año</option>
-            <option value="MAESTRO DEL ACORDEÓN & EL CORO">🪗 Maestro del Acordeón & Coro</option>
-            <option value="TEAM CIERRE HASTA LAS 2 AM">🌙 Team Cierre 2:00 AM</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="field-row">
-        <div class="field">
-          <label>🎵 Canción innegociable para el DJ</label>
-          <input type="text" id="r-song" class="input" placeholder="Ej. Cali Pachanguero / Vallenato..." oninput="checkFormReady()" />
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre y Apellido del Invitado *</label>
+            <input type="text" id="r-name" class="input" placeholder="Ej. Camilo Restrepo" oninput="checkFormReady()" />
+          </div>
+          <div class="field">
+            <label>Cédula / Documento (Intransferible) *</label>
+            <input type="text" id="r-doc" class="input" placeholder="Ej. 1144098765" oninput="checkFormReady()" />
+          </div>
         </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Tu Celular *</label>
+            <input type="tel" id="r-phone" class="input" placeholder="Ej. 300 123 4567" oninput="checkFormReady()" />
+          </div>
+          <div class="field">
+            <label>Etapa Pagada (100% Full) *</label>
+            <select id="r-plan" class="input" onchange="if (lastExtractedReceiptText !== null) { evaluateReceiptCriteria(lastExtractedReceiptText); } else { checkFormReady(); }">
+              <option value="ETAPA 1|110000">Etapa 1 — $110.000 COP (Hasta 16 Nov)</option>
+              <option value="ETAPA 2|120000">Etapa 2 — $120.000 COP (17 Nov - 1 Dic)</option>
+              <option value="ETAPA 3|140000">Etapa 3 — $140.000 COP (Desde 2 Dic)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Tu Rango Fiestero en la Boleta *</label>
+            <select id="r-role" class="input" onchange="checkFormReady()">
+              <option value="LEYENDA DEL ROOFTOP">🔥 Leyenda del Rooftop</option>
+              <option value="REY / REINA DE LA PISTA LED">💃 Rey / Reina de la Pista LED</option>
+              <option value="SOBREVIVIENTE DEL AÑO">🛡️ Sobreviviente del Año</option>
+              <option value="MAESTRO DEL ACORDEÓN & EL CORO">🪗 Maestro del Acordeón & Coro</option>
+              <option value="TEAM CIERRE HASTA LAS 2 AM">🌙 Team Cierre 2:00 AM</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>🎵 Canción innegociable para el DJ</label>
+            <input type="text" id="r-song" class="input" placeholder="Ej. Cali Pachanguero / Vallenato..." oninput="checkFormReady()" />
+          </div>
+        </div>
+
         <div class="field">
           <label>🏆 Nominación K-PARI Awards (Opcional)</label>
           <input type="text" id="r-nom" class="input" placeholder="Ej. Julián: 'El que nunca prende cámara'" />
         </div>
-      </div>
 
-      <!-- Mandatory Receipt Upload + Visual Verification -->
-      <div class="field">
-        <label>📸 Comprobante de Pago (Verificación Visual Automática: Llave + Valor Etapa) *</label>
-        <div class="upload-zone" id="dropZone">
-          <input type="file" id="r-file" accept="image/*,application/pdf" onclick="this.value=null" onchange="handleReceiptUpload(event)" />
-          <div id="uploadPrompt">
-            <div style="font-size:1.7rem;margin-bottom:4px;">📤</div>
-            <div style="font-weight:900;color:var(--kc-green-vivid);">Toca aquí para subir la captura o PDF de tu transferencia</div>
-            <div style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:2px;">El escáner validará automáticamente la llave <b>@oscar9052</b> y el valor exacto de la etapa</div>
+        <!-- Mandatory Receipt Upload + Visual Verification -->
+        <div class="field">
+          <label>📸 Comprobante de Pago (Verificación Visual Automática: Llave + Valor Etapa) *</label>
+          <div class="upload-zone" id="dropZone">
+            <input type="file" id="r-file" accept="image/*,application/pdf" onclick="this.value=null" onchange="handleReceiptUpload(event)" />
+            <div id="uploadPrompt">
+              <div style="font-size:1.7rem;margin-bottom:4px;">📤</div>
+              <div style="font-weight:900;color:var(--kc-green-vivid);">Toca aquí para subir la captura o PDF de tu transferencia</div>
+              <div style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:2px;">El escáner validará automáticamente la llave <b>@oscar9052</b> y el valor exacto de la etapa</div>
+            </div>
+            <img id="receiptPreview" class="receipt-thumb" alt="Vista previa comprobante" />
+            <div id="receiptFileName" style="font-size:0.84rem;font-weight:900;color:#fff;margin-top:4px;"></div>
           </div>
-          <img id="receiptPreview" class="receipt-thumb" alt="Vista previa comprobante" />
-          <div id="receiptFileName" style="font-size:0.84rem;font-weight:900;color:#fff;margin-top:4px;"></div>
+
+          <div id="verifyAuditBox" class="verify-audit-box">
+            <div id="verifyHeadline" style="font-weight:900;color:var(--kc-orange);">🔍 Escaneando visualmente el comprobante...</div>
+            <div class="scan-bar-wrap" id="scanBarWrap"><div class="scan-bar-fill" id="scanBarFill"></div></div>
+            <div class="audit-checks">
+              <div class="audit-item" id="chk-doc">⏳ 1. Verificando que sea un comprobante bancario real...</div>
+              <div class="audit-item" id="chk-key">⏳ 2. Verificando pago a la llave oficial <b>@oscar9052</b>...</div>
+              <div class="audit-item" id="chk-amt">⏳ 3. Verificando valor exacto de la etapa seleccionada...</div>
+            </div>
+            <div id="verifyReason" style="margin-top:8px;font-size:0.81rem;color:var(--kc-purple-soft);"></div>
+          </div>
         </div>
 
-        <div id="verifyAuditBox" class="verify-audit-box">
-          <div id="verifyHeadline" style="font-weight:900;color:var(--kc-orange);">🔍 Escaneando visualmente el comprobante...</div>
-          <div class="scan-bar-wrap" id="scanBarWrap"><div class="scan-bar-fill" id="scanBarFill"></div></div>
-          <div class="audit-checks">
-            <div class="audit-item" id="chk-doc">⏳ 1. Verificando que sea un comprobante bancario real...</div>
-            <div class="audit-item" id="chk-key">⏳ 2. Verificando pago a la llave oficial <b>@oscar9052</b>...</div>
-            <div class="audit-item" id="chk-amt">⏳ 3. Verificando valor exacto de la etapa seleccionada...</div>
-          </div>
-          <div id="verifyReason" style="margin-top:8px;font-size:0.81rem;color:var(--kc-purple-soft);"></div>
-        </div>
+        <button type="button" id="submitBtn" class="btn-main btn-orange" disabled onclick="processSelfServiceRegistration()">
+          🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA
+        </button>
+        <div id="submitStatus" style="text-align:center;font-size:0.86rem;color:var(--kc-green-vivid);margin-top:10px;display:none;"></div>
+        <p style="font-size:0.76rem;color:var(--kc-purple-soft);margin-top:10px;text-align:center;">
+          ⚠️ Nos reservamos el derecho de admisión. Pagos de personas no invitadas o sin autorización previa de los organizadores no generan ingreso.
+        </p>
       </div>
-
-      <button type="button" id="submitBtn" class="btn-main btn-orange" disabled onclick="processSelfServiceRegistration()">
-        🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA
-      </button>
-      <div id="submitStatus" style="text-align:center;font-size:0.86rem;color:var(--kc-green-vivid);margin-top:10px;display:none;"></div>
     </div>
 
     <!-- LIVE PASS PREVIEW -->
@@ -736,10 +794,11 @@
       <div style="font-size:0.76rem;font-weight:900;color:var(--kc-green-vivid);letter-spacing:1.5px;margin-bottom:10px;">ASÍ SE VERÁ TU BOLETA OFICIAL</div>
       <div style="width:100%;max-width:305px;border-radius:20px;background:linear-gradient(180deg,#280b66,#12052e);padding:22px;box-shadow:0 16px 40px rgba(0,0,0,0.55);">
         <div style="font-weight:900;font-size:1.55rem;color:var(--kc-orange);">K-PARI 2026</div>
-        <div style="font-size:0.78rem;color:var(--kc-purple-soft);margin-bottom:14px;">17 DIC 2026 • 9:00 PM • LA TERRAZA</div>
+        <div style="font-size:0.78rem;color:var(--kc-purple-soft);margin-bottom:14px;">17 DIC 2026 • 7:00 PM • LA TERRAZA</div>
         <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:12px;">
-          <div style="font-size:0.7rem;color:var(--kc-purple-soft);">ASISTENTE</div>
+          <div style="font-size:0.7rem;color:var(--kc-purple-soft);">ASISTENTE AUTORIZADO</div>
           <div id="pv-name" style="font-size:1.18rem;font-weight:900;color:#fff;">TU NOMBRE AQUÍ</div>
+          <div id="pv-doc" style="font-size:0.75rem;color:var(--kc-purple-ice);margin-top:2px;">CC: —</div>
           <div id="pv-role" style="font-size:0.78rem;font-weight:700;color:var(--kc-green-vivid);margin-top:3px;">LEYENDA DEL ROOFTOP</div>
         </div>
         <div id="pv-plan" style="background:var(--kc-green);color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:0.82rem;margin-bottom:10px;">
@@ -747,7 +806,8 @@
         </div>
         <div id="pv-receipt-badge" style="font-size:0.78rem;color:var(--kc-orange-soft);">⏳ Pendiente adjuntar comprobante</div>
       </div>
-      <p style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:14px;">📍 Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Abrir en Google Maps</a></p>
+      <p style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:14px;">📍 Llegada 7:00 PM • Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Google Maps</a></p>
+      <p style="font-size:0.75rem;font-weight:700;color:var(--kc-orange-soft);margin-top:6px;">🔒 Nos reservamos el derecho de admisión</p>
     </div>
   </section>
 
@@ -795,7 +855,8 @@
   </section>
 
   <footer>
-    <p><strong>K-PARI 2026</strong> • Jueves 17 de Diciembre 2026, 9:00 PM • La Terraza (Calle 10 # 61-47, Cali)</p>
+    <p><strong>K-PARI 2026</strong> • Jueves 17 de Diciembre 2026, Llegada desde las 7:00 PM • La Terraza (Calle 10 # 61-47, Cali)</p>
+    <p style="margin-top:5px;color:var(--kc-orange-soft);font-weight:700;">🔒 Evento privado exclusivo para invitados autorizados • Nos reservamos el derecho de admisión.</p>
     <p style="margin-top:8px;"><button onclick="unlockAdmin()" style="background:none;border:none;color:var(--kc-purple-soft);cursor:pointer;text-decoration:underline;font-size:0.82rem;">🔐 Repositorio Administrador</button></p>
   </footer>
 
@@ -817,6 +878,44 @@
   // Default Cloud Webhook URL (if configured in code or via Admin panel)
   const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyl5o8lNl79t489GUWb1JHQoVBCxEZ_XfH-2TRRUHLmzizOlVKmC0OOgaMdNI5fUFqo/exec";
   const DEFAULT_PAY_ACCOUNT = "@oscar9052";
+  const DEFAULT_INVITE_CODE = "KPARI26";
+  let inviteUnlocked = false;
+
+  function applyUnlockedGateUI() {
+    inviteUnlocked = true;
+    try { sessionStorage.setItem('kpari26_inv_ok', '1'); } catch (e) {}
+    const gate = document.getElementById('inviteGateBox');
+    const badge = document.getElementById('inviteUnlockedBadge');
+    const form = document.getElementById('privateRegForm');
+    if (gate) gate.style.display = 'none';
+    if (badge) badge.style.display = 'flex';
+    if (form) form.style.display = 'block';
+  }
+
+  function unlockInviteGate() {
+    const inp = document.getElementById('invite-code-input');
+    const err = document.getElementById('inviteGateError');
+    const entered = (inp ? inp.value : '').replace(/\s+/g, '').toUpperCase();
+    const expected = (localStorage.getItem('kpari_invite_code') || DEFAULT_INVITE_CODE).replace(/\s+/g, '').toUpperCase();
+    if (entered && entered === expected) {
+      if (err) err.style.display = 'none';
+      applyUnlockedGateUI();
+    } else if (err) {
+      err.style.display = 'block';
+      err.textContent = '❌ Código de invitación inválido. Solicítalo en el grupo privado de invitados (Nos reservamos el derecho de admisión).';
+    }
+  }
+
+  (function checkAutoInviteUnlock() {
+    const p = new URLSearchParams(window.location.search);
+    const vipParam = (p.get('vip') || '').replace(/\s+/g, '').toUpperCase();
+    const expected = (localStorage.getItem('kpari_invite_code') || DEFAULT_INVITE_CODE).replace(/\s+/g, '').toUpperCase();
+    let savedSession = false;
+    try { savedSession = sessionStorage.getItem('kpari26_inv_ok') === '1'; } catch (e) {}
+    if ((vipParam && vipParam === expected) || savedSession) {
+      applyUnlockedGateUI();
+    }
+  })();
 
   function getWebhookUrl() {
     return (localStorage.getItem('kpari_webhook_url') || DEFAULT_WEBHOOK_URL).trim();
@@ -1187,16 +1286,30 @@
 
   function checkFormReady() {
     const name = document.getElementById('r-name').value.trim();
+    const docId = document.getElementById('r-doc').value.trim();
     const phone = document.getElementById('r-phone').value.trim();
     const role = document.getElementById('r-role').value;
     const planParts = document.getElementById('r-plan').value.split('|');
 
     document.getElementById('pv-name').textContent = (name || 'TU NOMBRE AQUÍ').toUpperCase();
+    const pvDoc = document.getElementById('pv-doc');
+    if (pvDoc) pvDoc.textContent = docId ? `CC: ${docId}` : 'CC: —';
     document.getElementById('pv-role').textContent = role;
     document.getElementById('pv-plan').textContent = `${planParts[0]} • $${Number(planParts[1]).toLocaleString('es-CO')} COP`;
 
+    const cleanDoc = docId.replace(/\D+/g, '');
+    const cleanPhone = phone.replace(/\D+/g, '');
+    const alreadyRegisteredPerson = (cleanDoc.length >= 5 || cleanPhone.length >= 7) && localRecords.find(r =>
+      r.status !== 'ANULADA' && (
+        (cleanDoc.length >= 5 && r.docId && r.docId.replace(/\D+/g, '') === cleanDoc) ||
+        (cleanPhone.length >= 7 && r.phone && r.phone.replace(/\D+/g, '') === cleanPhone)
+      )
+    );
+
     const badgeEl = document.getElementById('pv-receipt-badge');
-    if (isScanningReceipt) {
+    if (alreadyRegisteredPerson) {
+      badgeEl.innerHTML = `<span style="color:#ff6b86;font-weight:900;">⚠️ Ya existe boleta (#${alreadyRegisteredPerson.id}) para este invitado</span>`;
+    } else if (isScanningReceipt) {
       badgeEl.innerHTML = '<span style="color:var(--kc-orange);font-weight:900;">🔍 Verificando llave y valor...</span>';
     } else if (receiptVerifiedOk && uploadedReceiptBase64) {
       badgeEl.innerHTML = '<span style="color:#2EE69C;font-weight:900;">✅ Comprobante verificado (@oscar9052)</span>';
@@ -1207,10 +1320,13 @@
     }
 
     const btn = document.getElementById('submitBtn');
-    if (isScanningReceipt) {
+    if (alreadyRegisteredPerson) {
+      btn.disabled = true;
+      btn.textContent = `🚫 CUPO PERSONAL YA EMITIDO (#${alreadyRegisteredPerson.id}) — 1 BOLETA POR INVITADO`;
+    } else if (isScanningReceipt) {
       btn.disabled = true;
       btn.textContent = "🔍 VERIFICANDO COMPROBANTE DE PAGO...";
-    } else if (name.length >= 3 && phone.length >= 7 && uploadedReceiptBase64 && receiptVerifiedOk) {
+    } else if (name.length >= 3 && cleanDoc.length >= 5 && cleanPhone.length >= 7 && uploadedReceiptBase64 && receiptVerifiedOk && inviteUnlocked) {
       btn.disabled = false;
       btn.textContent = "🎟️ ENVIAR COMPROBANTE VERIFICADO Y DESCARGAR BOLETA QR";
     } else if (lastExtractedReceiptText !== null && !receiptVerifiedOk) {
@@ -1218,7 +1334,7 @@
       btn.textContent = "🚫 SUBE UN COMPROBANTE VÁLIDO A @oscar9052 POR EL VALOR EXACTO";
     } else if (receiptVerifiedOk && uploadedReceiptBase64) {
       btn.disabled = true;
-      btn.textContent = "✍️ COMPLETA TU NOMBRE Y CELULAR ARRIBA";
+      btn.textContent = "✍️ COMPLETA TU NOMBRE, CÉDULA Y CELULAR ARRIBA";
     } else {
       btn.disabled = true;
       btn.textContent = "🔒 SUBE EL COMPROBANTE PARA HABILITAR TU BOLETA";
@@ -1249,19 +1365,19 @@
     }
   }
 
-  function renderTicketOnCanvas(canvasId, ticketId, name, role, stageLabel, amount) {
+  function renderTicketOnCanvas(canvasId, ticketId, name, docId, role, stageLabel, amount) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#12052C';
     ctx.fillRect(0, 0, 720, 1220);
 
     if (bgHero.complete && bgHero.naturalWidth > 0) {
-      ctx.drawImage(bgHero, 0, 0, bgHero.naturalWidth, bgHero.naturalHeight * 0.56, 0, 0, 720, 470);
-      const g = ctx.createLinearGradient(0, 300, 0, 475);
+      ctx.drawImage(bgHero, 0, 0, bgHero.naturalWidth, bgHero.naturalHeight * 0.56, 0, 0, 720, 465);
+      const g = ctx.createLinearGradient(0, 295, 0, 470);
       g.addColorStop(0, 'rgba(18,5,44,0)');
       g.addColorStop(1, '#12052C');
       ctx.fillStyle = g;
-      ctx.fillRect(0, 300, 720, 180);
+      ctx.fillRect(0, 295, 720, 180);
     }
 
     ctx.strokeStyle = '#FC873D';
@@ -1271,54 +1387,58 @@
     ctx.fillStyle = '#FC873D';
     ctx.font = '900 33px Lato, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('17 DE DICIEMBRE 2026 • 9:00 PM', 360, 505);
+    ctx.fillText('17 DE DICIEMBRE 2026 • 7:00 PM', 360, 502);
     ctx.fillStyle = '#DDDFF5';
     ctx.font = '700 22px Lato, sans-serif';
-    ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 540);
+    ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 536);
 
     ctx.strokeStyle = 'rgba(255,255,255,0.22)';
     ctx.lineWidth = 2;
     ctx.setLineDash([12, 10]);
-    ctx.beginPath(); ctx.moveTo(42, 570); ctx.lineTo(678, 570); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(42, 564); ctx.lineTo(678, 564); ctx.stroke();
     ctx.setLineDash([]);
 
     ctx.fillStyle = 'rgba(88, 0, 205, 0.32)';
-    ctx.fillRect(50, 595, 620, 250);
+    ctx.fillRect(50, 588, 620, 254);
 
     ctx.fillStyle = '#B3B3E9';
-    ctx.font = '700 19px Lato, sans-serif';
-    ctx.fillText('PASE PERSONAL E INTRANSFERIBLE • ACCESO VERIFICADO', 360, 632);
+    ctx.font = '700 18px Lato, sans-serif';
+    ctx.fillText(`PASE PERSONAL E INTRANSFERIBLE • CC ${docId || 'VERIFICADO'}`, 360, 624);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 40px Lato, sans-serif';
-    ctx.fillText(name.toUpperCase(), 360, 684);
+    ctx.font = '900 38px Lato, sans-serif';
+    ctx.fillText(name.toUpperCase(), 360, 676);
     ctx.fillStyle = '#FC873D';
-    ctx.font = '700 22px Lato, sans-serif';
-    ctx.fillText(role.toUpperCase(), 360, 722);
+    ctx.font = '700 21px Lato, sans-serif';
+    ctx.fillText(role.toUpperCase(), 360, 714);
 
     ctx.fillStyle = '#007F4E';
-    ctx.fillRect(85, 752, 550, 64);
+    ctx.fillRect(85, 744, 550, 64);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 23px Lato, sans-serif';
-    ctx.fillText(`${stageLabel} ($${Number(amount).toLocaleString('es-CO')}) • COMPROBANTE REGISTRADO`, 360, 793);
+    ctx.font = '900 22px Lato, sans-serif';
+    ctx.fillText(`${stageLabel} ($${Number(amount).toLocaleString('es-CO')}) • COMPROBANTE REGISTRADO`, 360, 784);
 
     const verifyUrl = `${window.location.origin}${window.location.pathname}?verify=${encodeURIComponent(ticketId)}&name=${encodeURIComponent(name)}`;
-    drawRealQR(ctx, verifyUrl, 255, 880, 210);
+    drawRealQR(ctx, verifyUrl, 255, 868, 205);
 
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 32px Lato, sans-serif';
-    ctx.fillText(`BOLETA #${ticketId}`, 360, 1142);
+    ctx.font = '900 31px Lato, sans-serif';
+    ctx.fillText(`BOLETA #${ticketId}`, 360, 1126);
     ctx.fillStyle = '#2EE69C';
-    ctx.font = '700 18px Lato, sans-serif';
-    ctx.fillText('PRESENTA ESTE CÓDIGO QR EN LA ENTRADA DE LA TERRAZA', 360, 1176);
+    ctx.font = '700 17px Lato, sans-serif';
+    ctx.fillText('PRESENTA ESTE QR CON TU CÉDULA EN LA ENTRADA (7:00 PM)', 360, 1156);
+    ctx.fillStyle = '#FCC294';
+    ctx.font = '700 15px Lato, sans-serif';
+    ctx.fillText('EVENTO PRIVADO • NOS RESERVAMOS EL DERECHO DE ADMISIÓN', 360, 1182);
   }
 
   let localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]');
 
   async function processSelfServiceRegistration() {
-    if (!receiptVerifiedOk || !uploadedReceiptBase64) return;
+    if (!receiptVerifiedOk || !uploadedReceiptBase64 || !inviteUnlocked) return;
     const btn = document.getElementById('submitBtn');
     const statusBox = document.getElementById('submitStatus');
     const name = document.getElementById('r-name').value.trim();
+    const docId = document.getElementById('r-doc').value.trim();
     const phone = document.getElementById('r-phone').value.trim();
     const role = document.getElementById('r-role').value;
     const planParts = document.getElementById('r-plan').value.split('|');
@@ -1326,6 +1446,7 @@
     const amount = Number(planParts[1]);
     const song = document.getElementById('r-song').value.trim();
     const nomination = document.getElementById('r-nom').value.trim();
+    const fullNameWithDoc = `${name} (CC ${docId})`;
 
     btn.disabled = true;
     btn.textContent = "⏳ SUBIENDO COMPROBANTE Y GENERANDO QR...";
@@ -1343,7 +1464,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
-            ticketId, name, phone, role, stage, amount, song, nomination,
+            ticketId, name: fullNameWithDoc, phone, role, stage, amount, song, nomination,
             receiptBase64: uploadedReceiptBase64,
             receiptMime: uploadedReceiptMime
           })
@@ -1362,7 +1483,9 @@
     localRecords.unshift({
       timestamp: new Date().toLocaleString('es-CO'),
       id: ticketId,
-      name, phone, role, stage, val: amount, song, nomination,
+      name: fullNameWithDoc,
+      docId,
+      phone, role, stage, val: amount, song, nomination,
       status: "VERIFICADO (AUTO)",
       receiptUrl,
       receiptHash: currentReceiptHash
@@ -1371,7 +1494,7 @@
     renderAdminTable();
 
     currentIssuedTicketId = ticketId;
-    renderTicketOnCanvas('unlockedCanvas', ticketId, name, role, stage, amount);
+    renderTicketOnCanvas('unlockedCanvas', ticketId, name, docId, role, stage, amount);
     document.getElementById('ticketModal').classList.add('open');
     statusBox.textContent = "✅ ¡Listo! Tu boleta #" + ticketId + " fue emitida.";
     btn.textContent = "✅ BOLETA EMITIDA (#" + ticketId + ")";
@@ -1513,8 +1636,8 @@
         const d = await resp.json();
         if (d && d.found) {
           const ok = d.status !== 'ANULADA';
-          banner.style.background = ok ? 'rgba(0,127,78,0.45)' : 'rgba(180,20,50,0.55)';
-          banner.innerHTML = `<h2>${ok ? '✅ BOLETA VÁLIDA EN PUERTA' : '🚨 BOLETA ANULADA'}</h2><p><b>#${d.ticketId}</b> — ${d.name} (${d.stage}) • Estado: <b>${d.status}</b></p>`;
+          banner.style.background = ok ? 'rgba(0,127,78,0.45)' : 'rgba(180,20,50,0.75)';
+          banner.innerHTML = `<h2>${ok ? '✅ BOLETA VÁLIDA EN PUERTA (VERIFICAR CÉDULA)' : '🚨 ACCESO DENEGADO — DERECHO DE ADMISIÓN APLICADO'}</h2><p><b>#${d.ticketId}</b> — ${d.name} (${d.stage}) • Estado: <b>${d.status}</b></p>`;
           return;
         }
       } catch (e) {}
