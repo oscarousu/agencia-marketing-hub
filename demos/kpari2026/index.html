@@ -248,6 +248,14 @@
       background: linear-gradient(160deg, rgba(0, 127, 78, 0.38), rgba(28, 10, 68, 0.74));
       box-shadow: 0 18px 44px rgba(0, 127, 78, 0.28);
     }
+    .stage-card.expired-stage {
+      opacity: 0.52;
+      filter: grayscale(0.35);
+    }
+    .stage-card.expired-stage .price-num {
+      text-decoration: line-through;
+      opacity: 0.72;
+    }
     .badge {
       display: inline-block;
       padding: 5px 12px;
@@ -582,8 +590,8 @@
 
       <div class="fomo-open">
         <div class="fomo-headline">
-          <span>PREVENTA ETAPA 1: $110.000 COP</span>
-          <span style="color:var(--kc-orange-soft);font-weight:700;font-size:0.84rem;">Sube a $120.000 el 17 de nov</span>
+          <span id="hero-stage-title">PREVENTA ETAPA 1: $110.000 COP</span>
+          <span id="hero-stage-sub" style="color:var(--kc-orange-soft);font-weight:700;font-size:0.84rem;">Sube a $120.000 el 17 de nov</span>
         </div>
         <div class="progress-track"><div class="progress-fill" id="cupos-bar"></div></div>
         <div class="countdown">
@@ -609,8 +617,8 @@
   </div>
 
   <section class="stages-grid">
-    <div class="stage-card active-stage">
-      <span class="badge" style="background:var(--kc-green);color:#fff;">🔥 Etapa 1 • Activa hasta el 16 Nov</span>
+    <div id="stage-card-0" class="stage-card active-stage">
+      <span id="stage-badge-0" class="badge" style="background:var(--kc-green);color:#fff;">🔥 Etapa 1 • Activa hasta el 16 Nov</span>
       <h3>Madrugadores VIP</h3>
       <div class="price-num" style="color:var(--kc-green-vivid);">$110.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
@@ -618,11 +626,11 @@
         ✅ Pago 100% full ($110.000) antes del 16 de nov.<br>
         ✅ Sube tu comprobante y descarga tu Boleta QR al instante.
       </p>
-      <a href="#registro" class="btn-main btn-green" onclick="selectStage(0)">Elegir Etapa 1 ($110k)</a>
+      <button type="button" id="stage-btn-0" class="btn-main btn-green" onclick="chooseStageAndScroll(0)">Elegir Etapa 1 ($110k)</button>
     </div>
 
-    <div class="stage-card">
-      <span class="badge" style="background:var(--kc-purple);color:#fff;">⚡ Etapa 2 • 17 Nov al 1 Dic</span>
+    <div id="stage-card-1" class="stage-card">
+      <span id="stage-badge-1" class="badge" style="background:var(--kc-purple);color:#fff;">⚡ Etapa 2 • 17 Nov al 1 Dic</span>
       <h3>Sobrevivientes</h3>
       <div class="price-num" style="color:var(--kc-orange);">$120.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
@@ -630,18 +638,18 @@
         ✅ Pago 100% full ($120.000) del 17 nov al 1 dic.<br>
         ⚠️ Sujeto a disponibilidad.
       </p>
-      <a href="#registro" class="btn-main btn-purple" onclick="selectStage(1)">Elegir Etapa 2 ($120k)</a>
+      <button type="button" id="stage-btn-1" class="btn-main btn-purple" onclick="chooseStageAndScroll(1)">Elegir Etapa 2 ($120k)</button>
     </div>
 
-    <div class="stage-card">
-      <span class="badge" style="background:rgba(252,135,61,0.2);color:var(--kc-orange);">🚨 Etapa 3 • Desde el 2 Dic</span>
+    <div id="stage-card-2" class="stage-card">
+      <span id="stage-badge-2" class="badge" style="background:rgba(252,135,61,0.2);color:var(--kc-orange);">🚨 Etapa 3 • Desde el 2 Dic</span>
       <h3>Última Llamada</h3>
       <div class="price-num" style="color:var(--kc-orange-soft);">$140.000 <small style="font-size:0.95rem;color:var(--kc-purple-soft);">COP</small></div>
       <p style="font-size:0.92rem;color:var(--kc-purple-ice);margin-bottom:16px;">
         ⚠️ Tarifa plena sin descuento para rezagados.<br>
         ⚠️ Pago único 100% full ($140.000) desde el 2 de diciembre.
       </p>
-      <a href="#registro" class="btn-main btn-purple" onclick="selectStage(2)">Elegir Etapa 3 ($140k)</a>
+      <button type="button" id="stage-btn-2" class="btn-main btn-purple" onclick="chooseStageAndScroll(2)">Elegir Etapa 3 ($140k)</button>
     </div>
   </section>
 
@@ -921,17 +929,233 @@
     return (localStorage.getItem('kpari_webhook_url') || DEFAULT_WEBHOOK_URL).trim();
   }
 
-  // Countdown to Nov 16, 2026 23:59:59 (-05:00)
+  const STAGE_DEFS = [
+    {
+      idx: 0,
+      code: 'ETAPA 1',
+      value: 'ETAPA 1|110000',
+      amount: 110000,
+      cutoffMs: new Date('2026-11-16T23:59:59-05:00').getTime(),
+      countdownTargetMs: new Date('2026-11-16T23:59:59-05:00').getTime(),
+      optionOpenText: 'Etapa 1 — $110.000 COP (Hasta 16 Nov)',
+      optionClosedText: '🔒 Etapa 1 — CERRADA (Venció 16 Nov)',
+      activeBadgeText: '🔥 Etapa 1 • Activa hasta el 16 Nov',
+      upcomingBadgeText: '🔥 Etapa 1 • Hasta el 16 Nov',
+      upcomingBadgeBg: 'var(--kc-green)',
+      upcomingBadgeColor: '#fff',
+      closedBadgeText: '🔒 Etapa 1 Cerrada • Venció 16 Nov',
+      closedBtnText: '🔒 Etapa 1 Cerrada (Venció 16 Nov)',
+      openBtnText: 'Elegir Etapa 1 ($110k)',
+      heroTitle: 'PREVENTA ETAPA 1: $110.000 COP',
+      heroSub: 'Sube a $120.000 el 17 de nov',
+      barWidth: '38%'
+    },
+    {
+      idx: 1,
+      code: 'ETAPA 2',
+      value: 'ETAPA 2|120000',
+      amount: 120000,
+      cutoffMs: new Date('2026-12-01T23:59:59-05:00').getTime(),
+      countdownTargetMs: new Date('2026-12-01T23:59:59-05:00').getTime(),
+      optionOpenText: 'Etapa 2 — $120.000 COP (17 Nov - 1 Dic)',
+      optionClosedText: '🔒 Etapa 2 — CERRADA (Venció 1 Dic)',
+      activeBadgeText: '🔥 Etapa 2 Activa • Hasta el 1 Dic',
+      upcomingBadgeText: '⚡ Etapa 2 • 17 Nov al 1 Dic',
+      upcomingBadgeBg: 'var(--kc-purple)',
+      upcomingBadgeColor: '#fff',
+      closedBadgeText: '🔒 Etapa 2 Cerrada • Venció 1 Dic',
+      closedBtnText: '🔒 Etapa 2 Cerrada (Venció 1 Dic)',
+      openBtnText: 'Elegir Etapa 2 ($120k)',
+      heroTitle: 'ETAPA 2 ACTIVA: $120.000 COP',
+      heroSub: '🔒 Etapa 1 cerrada • Sube a $140.000 el 2 de dic',
+      barWidth: '68%'
+    },
+    {
+      idx: 2,
+      code: 'ETAPA 3',
+      value: 'ETAPA 3|140000',
+      amount: 140000,
+      cutoffMs: new Date('2026-12-18T02:00:00-05:00').getTime(),
+      countdownTargetMs: new Date('2026-12-17T19:00:00-05:00').getTime(),
+      optionOpenText: 'Etapa 3 — $140.000 COP (Desde 2 Dic)',
+      optionClosedText: '🔒 Etapa 3 — CERRADA (Evento finalizado)',
+      activeBadgeText: '🔥 Etapa 3 Activa • Tarifa Vigente',
+      upcomingBadgeText: '🚨 Etapa 3 • Desde el 2 Dic',
+      upcomingBadgeBg: 'rgba(252,135,61,0.2)',
+      upcomingBadgeColor: 'var(--kc-orange)',
+      closedBadgeText: '🔒 Etapa 3 Cerrada • Evento Finalizado',
+      closedBtnText: '🔒 Venta Cerrada',
+      openBtnText: 'Elegir Etapa 3 ($140k)',
+      heroTitle: 'ÚLTIMA ETAPA (ETAPA 3): $140.000 COP',
+      heroSub: '🔒 Etapas 1 y 2 cerradas • Cuenta regresiva al 17 dic (7:00 PM)',
+      barWidth: '92%'
+    }
+  ];
+
+  let trustedServerOffsetMs = 0;
+  let lastVerifiedNetMs = 0;
+  let lastAppliedStageIdx = -1;
+  try {
+    const savedNetTs = Number(localStorage.getItem('kpari26_net_ts') || '0');
+    if (Number.isFinite(savedNetTs) && savedNetTs > 1700000000000) {
+      lastVerifiedNetMs = savedNetTs;
+    }
+  } catch (e) {}
+
+  function getTrustedNowMs() {
+    if (typeof window.__KPARI_MOCK_NOW_MS === 'number') {
+      return window.__KPARI_MOCK_NOW_MS;
+    }
+    return Math.max(Date.now() + trustedServerOffsetMs, lastVerifiedNetMs);
+  }
+
+  function getActiveStageIndex(nowMs = getTrustedNowMs()) {
+    for (let i = 0; i < STAGE_DEFS.length; i++) {
+      if (nowMs <= STAGE_DEFS[i].cutoffMs) return i;
+    }
+    return STAGE_DEFS.length;
+  }
+
+  async function syncTrustedNetworkTime() {
+    let serverMs = null;
+    if (window.location.protocol.startsWith('http')) {
+      try {
+        const resp = await fetch(window.location.pathname + '?_t=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
+        const dateHdr = resp.headers.get('date');
+        if (dateHdr) {
+          const parsed = Date.parse(dateHdr);
+          if (Number.isFinite(parsed) && parsed > 1700000000000) serverMs = parsed;
+        }
+      } catch (e) {}
+    }
+    if (serverMs === null) {
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 3500);
+        const resp = await fetch('https://timeapi.io/api/time/current/zone?timeZone=America/Bogota', { cache: 'no-store', signal: ctrl.signal });
+        clearTimeout(timer);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && data.dateTime) {
+            const cleanIso = String(data.dateTime).replace(/([+-]\d{2}:\d{2}|Z)$/i, '') + '-05:00';
+            const parsed = Date.parse(cleanIso);
+            if (Number.isFinite(parsed) && parsed > 1700000000000) serverMs = parsed;
+          }
+        }
+      } catch (e) {}
+    }
+    if (serverMs !== null) {
+      trustedServerOffsetMs = serverMs - Date.now();
+      lastVerifiedNetMs = Math.max(lastVerifiedNetMs, serverMs);
+      try { localStorage.setItem('kpari26_net_ts', String(lastVerifiedNetMs)); } catch (e) {}
+      if (typeof window.__KPARI_MOCK_NOW_MS !== 'number') {
+        syncStageAvailability(true);
+        tick();
+      }
+    }
+  }
+
+  function syncStageAvailability(forceReeval = false) {
+    const nowMs = getTrustedNowMs();
+    const activeIdx = getActiveStageIndex(nowMs);
+    const planSelect = document.getElementById('r-plan');
+    const fileInput = document.getElementById('r-file');
+    if (!planSelect) return;
+
+    const prevStageIdx = lastAppliedStageIdx;
+    const stageChanged = (activeIdx !== lastAppliedStageIdx);
+    let selectionChanged = false;
+
+    if (stageChanged || forceReeval) {
+      lastAppliedStageIdx = activeIdx;
+      STAGE_DEFS.forEach((def, i) => {
+        const opt = planSelect.options[i];
+        const isExpired = (i < activeIdx || activeIdx >= STAGE_DEFS.length);
+        if (opt) {
+          opt.disabled = isExpired;
+          opt.textContent = isExpired ? def.optionClosedText : def.optionOpenText;
+        }
+
+        const card = document.getElementById('stage-card-' + i);
+        const badge = document.getElementById('stage-badge-' + i);
+        const btn = document.getElementById('stage-btn-' + i);
+        if (card && badge && btn) {
+          if (isExpired) {
+            card.className = 'stage-card expired-stage';
+            badge.textContent = def.closedBadgeText;
+            badge.style.background = 'rgba(255,77,109,0.22)';
+            badge.style.color = '#ff8fa3';
+            btn.disabled = true;
+            btn.className = 'btn-main';
+            btn.textContent = def.closedBtnText;
+          } else if (i === activeIdx) {
+            card.className = 'stage-card active-stage';
+            badge.textContent = def.activeBadgeText;
+            badge.style.background = 'var(--kc-green)';
+            badge.style.color = '#fff';
+            btn.disabled = false;
+            btn.className = 'btn-main btn-green';
+            btn.textContent = def.openBtnText;
+          } else {
+            card.className = 'stage-card';
+            badge.textContent = def.upcomingBadgeText;
+            badge.style.background = def.upcomingBadgeBg;
+            badge.style.color = def.upcomingBadgeColor;
+            btn.disabled = false;
+            btn.className = 'btn-main btn-purple';
+            btn.textContent = def.openBtnText;
+          }
+        }
+      });
+
+      const heroTitle = document.getElementById('hero-stage-title');
+      const heroSub = document.getElementById('hero-stage-sub');
+      const cuposBar = document.getElementById('cupos-bar');
+      if (activeIdx < STAGE_DEFS.length) {
+        const activeDef = STAGE_DEFS[activeIdx];
+        if (heroTitle) heroTitle.textContent = activeDef.heroTitle;
+        if (heroSub) {
+          heroSub.textContent = (activeIdx === 2 && nowMs >= activeDef.countdownTargetMs)
+            ? '🎉 ¡HOY ES LA K-PARI EN LA TERRAZA (7:00 PM)!'
+            : activeDef.heroSub;
+        }
+        if (cuposBar) cuposBar.style.width = activeDef.barWidth;
+        planSelect.disabled = false;
+        if (fileInput) fileInput.disabled = false;
+        if (planSelect.selectedIndex < activeIdx || (stageChanged && prevStageIdx > activeIdx)) {
+          planSelect.selectedIndex = activeIdx;
+          selectionChanged = true;
+        }
+      } else {
+        if (heroTitle) heroTitle.textContent = '🔒 VENTA DE BOLETAS CERRADA';
+        if (heroSub) heroSub.textContent = 'K-PARI 2026 finalizada';
+        if (cuposBar) cuposBar.style.width = '100%';
+        planSelect.disabled = true;
+        if (fileInput) fileInput.disabled = true;
+      }
+    }
+
+    if (selectionChanged || forceReeval || stageChanged) {
+      if (lastExtractedReceiptText !== null) {
+        evaluateReceiptCriteria(lastExtractedReceiptText);
+      } else {
+        checkFormReady();
+      }
+    }
+  }
+
+  // Dynamic Countdown & Stage Cutoff Enforcement (Colombia UTC-5)
   function tick() {
-    const end = new Date('2026-11-16T23:59:59-05:00').getTime();
-    const diff = Math.max(0, end - Date.now());
+    syncStageAvailability(false);
+    const nowMs = getTrustedNowMs();
+    const activeIdx = getActiveStageIndex(nowMs);
+    const end = activeIdx < STAGE_DEFS.length ? STAGE_DEFS[activeIdx].countdownTargetMs : 0;
+    const diff = end ? Math.max(0, end - nowMs) : 0;
     document.getElementById('d').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
     document.getElementById('h').textContent = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
     document.getElementById('m').textContent = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
     document.getElementById('s').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
   }
-  setInterval(tick, 1000);
-  tick();
 
   // Initialize payment account display
   document.getElementById('display-pay-account').textContent = localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT;
@@ -943,12 +1167,21 @@
   }
 
   function selectStage(idx) {
-    document.getElementById('r-plan').selectedIndex = idx;
+    const activeIdx = getActiveStageIndex();
+    if (activeIdx >= STAGE_DEFS.length) return;
+    const safeIdx = Math.max(idx, activeIdx);
+    document.getElementById('r-plan').selectedIndex = safeIdx;
     if (lastExtractedReceiptText !== null) {
       evaluateReceiptCriteria(lastExtractedReceiptText);
     } else {
       checkFormReady();
     }
+  }
+
+  function chooseStageAndScroll(idx) {
+    selectStage(idx);
+    const regEl = document.getElementById('registro');
+    if (regEl) regEl.scrollIntoView({ behavior: 'smooth' });
   }
 
   if (typeof pdfjsLib !== 'undefined') {
@@ -1055,7 +1288,24 @@
   }
 
   function evaluateReceiptCriteria(rawText) {
-    const planParts = document.getElementById('r-plan').value.split('|');
+    const planSelect = document.getElementById('r-plan');
+    const activeIdx = getActiveStageIndex();
+    if (activeIdx >= STAGE_DEFS.length) {
+      receiptVerifiedOk = false;
+      const headline = document.getElementById('verifyHeadline');
+      const reason = document.getElementById('verifyReason');
+      const dropZone = document.getElementById('dropZone');
+      if (dropZone) { dropZone.classList.remove('loaded', 'scanning'); dropZone.classList.add('rejected'); }
+      if (headline) { headline.style.color = '#ff6b86'; headline.innerHTML = '🔒 Venta de boletas cerrada'; }
+      if (reason) { reason.style.color = '#ffb3c4'; reason.innerHTML = 'El evento K-PARI 2026 ya finalizó y las etapas de pago están cerradas.'; }
+      checkFormReady();
+      return false;
+    }
+    if (planSelect.selectedIndex < activeIdx) {
+      planSelect.selectedIndex = activeIdx;
+    }
+
+    const planParts = planSelect.value.split('|');
     const stageName = planParts[0];
     const reqAmount = Number(planParts[1]);
     const reqFormatted = '$' + reqAmount.toLocaleString('es-CO') + ' COP';
@@ -1117,10 +1367,11 @@
       // Helpful diagnostic if user paid another stage's amount or partial deposit
       let extraHint = 'Sube una captura nítida o PDF original donde se vean claramente la llave <b>' + targetAccount + '</b> y el monto pagado.';
       if (okBankDoc && !okAmount) {
-        const otherStages = [110000, 120000, 140000].filter(a => a !== reqAmount);
-        const detectedOther = otherStages.find(a => matchCopStageAmount(norm, a));
-        if (detectedOther) {
-          extraHint = `Detectamos un pago de <b>$${detectedOther.toLocaleString('es-CO')} COP</b> en el recibo, pero arriba elegiste <b>${stageName} (${reqFormatted})</b>. Selecciona la etapa correcta arriba.`;
+        const detectedDef = STAGE_DEFS.find(s => s.amount !== reqAmount && matchCopStageAmount(norm, s.amount));
+        if (detectedDef && detectedDef.idx < activeIdx) {
+          extraHint = `Detectamos un pago de <b>$${detectedDef.amount.toLocaleString('es-CO')} COP</b>, pero la <b>${detectedDef.code} ya cerró</b>. El valor vigente obligatorio hoy es <b>${reqFormatted} (${stageName})</b>.`;
+        } else if (detectedDef) {
+          extraHint = `Detectamos un pago de <b>$${detectedDef.amount.toLocaleString('es-CO')} COP</b> en el recibo, pero arriba elegiste <b>${stageName} (${reqFormatted})</b>. Selecciona la etapa correcta arriba.`;
         } else {
           extraHint = `El recibo debe ser por el <b>100% del valor de ${stageName} (${reqFormatted})</b>. No se aceptan abonos parciales ni valores distintos.`;
         }
@@ -1356,8 +1607,12 @@
       badgeEl.textContent = '⏳ Pendiente adjuntar comprobante';
     }
 
+    const activeStageIdx = getActiveStageIndex();
     const btn = document.getElementById('submitBtn');
-    if (alreadyRegisteredPerson) {
+    if (activeStageIdx >= STAGE_DEFS.length) {
+      btn.disabled = true;
+      btn.textContent = "🔒 REGISTRO CERRADO — EVENTO FINALIZADO";
+    } else if (alreadyRegisteredPerson) {
       btn.disabled = true;
       btn.textContent = `🚫 CUPO PERSONAL YA EMITIDO (#${alreadyRegisteredPerson.id}) — 1 BOLETA POR INVITADO`;
     } else if (isScanningReceipt) {
@@ -1472,6 +1727,11 @@
 
   async function processSelfServiceRegistration() {
     if (!receiptVerifiedOk || !uploadedReceiptBase64 || !inviteUnlocked) return;
+    const activeStageIdx = getActiveStageIndex();
+    if (activeStageIdx >= STAGE_DEFS.length || document.getElementById('r-plan').selectedIndex < activeStageIdx) {
+      syncStageAvailability(true);
+      return;
+    }
     const btn = document.getElementById('submitBtn');
     const statusBox = document.getElementById('submitStatus');
     const name = document.getElementById('r-name').value.trim();
@@ -1683,6 +1943,11 @@
   })();
 
   renderAdminTable();
+  syncStageAvailability(true);
+  tick();
+  setInterval(tick, 1000);
+  syncTrustedNetworkTime();
+  setInterval(syncTrustedNetworkTime, 300000);
 </script>
 </body>
 </html>
