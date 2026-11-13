@@ -968,7 +968,7 @@
     return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  function buildPreprocessedCanvas(sourceImgOrCanvas, maxDim, invertDark) {
+  function buildPreprocessedCanvas(sourceImgOrCanvas, maxDim, invertDark, binarize = false) {
     let w = sourceImgOrCanvas.width, h = sourceImgOrCanvas.height;
     if (w > maxDim || h > maxDim) {
       if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
@@ -995,8 +995,12 @@
     for (let i = 0; i < d.length; i += 4) {
       let g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
       if (shouldInvert) g = 255 - g;
-      // Gentle contrast boost so grey banking labels become crisp black-on-white
-      g = Math.max(0, Math.min(255, (g - 128) * 1.38 + 128));
+      if (binarize) {
+        g = g < 155 ? 0 : 255;
+      } else {
+        // Gentle contrast boost so grey banking labels become crisp black-on-white
+        g = Math.max(0, Math.min(255, (g - 128) * 1.38 + 128));
+      }
       d[i] = d[i + 1] = d[i + 2] = g;
     }
     ctx.putImageData(imgData, 0, 0);
@@ -1005,32 +1009,28 @@
 
   function matchCopStageAmount(normText, amountCop) {
     const thousands = String(Math.floor(amountCop / 1000)); // "110", "120", "140"
-    // Matches $110.000, $ 110.000,00, 110,000, 110 000, 110000 (tolerating OCR 0/O confusion), while blocking $1.110.000 or random reference numbers
-    const re = new RegExp('(?:^|[^0-9.,])' + thousands + '(?:\\s*[.,]\\s*[0o]{3}|\\s+[0o]{3}|[0o]{3})(?:\\s*[.,]\\s*[0o]{2})?(?![.,]?[0-9])', 'i');
+    const thousandsPat = thousands.slice(0, -1) + '[0o]';
+    // Matches $110.000, $ 110.000,00, 110,000, 110 000, 110000 (tolerating OCR 0/O and separator glyphs), while blocking $1.110.000 or random reference numbers
+    const re = new RegExp('(?:^|[^0-9.,])' + thousandsPat + '(?:\\s*[.,·•\':]\\s*[0o]{3}|\\s+[0o]{3}|[0o]{3})(?:\\s*[.,]\\s*[0o]{2})?(?![.,]?[0-9])', 'i');
     return re.test(normText);
   }
 
-  function evaluateReceiptCriteria(rawText) {
-    const norm = (rawText || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-    const planParts = document.getElementById('r-plan').value.split('|');
-    const stageName = planParts[0];
-    const reqAmount = Number(planParts[1]);
-    const reqFormatted = '$' + reqAmount.toLocaleString('es-CO') + ' COP';
+  const RECEIPT_BANK_KEYWORDS = [
+    'comprobante', 'transferencia', 'transaccion', 'exitos', 'enviast', 'envio', 'enviad',
+    'pago', 'aprobad', 'realizad', 'referencia', 'cus', 'llave', 'bre-b', 'breb', 'redeban',
+    'nequi', 'bancolombia', 'daviplata', 'davivienda', 'nubank', 'nu ', 'lulo', 'bbva',
+    'bogota', 'occidente', 'av villas', 'scotiabank', 'colpatria', 'popular', 'caja social',
+    'itau', 'banco', 'destino', 'destinatario', 'valor', 'monto', 'origen', 'movimiento',
+    'cuenta', 'producto', 'fecha', 'alfanumerica', 'llego la plata', 'costo de la transferencia'
+  ];
 
-    const targetAccount = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).trim();
+  function analyzeReceiptText(rawText, reqAmount, targetAccount) {
+    const norm = (rawText || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const cleanKey = targetAccount.replace(/^@/, '').replace(/\s+/g, '').toLowerCase();
 
     // 1. Check authentic banking receipt structure & keywords
-    const bankKeywords = [
-      'comprobante', 'transferencia', 'transaccion', 'exitos', 'enviast', 'envio', 'enviad',
-      'pago', 'aprobad', 'realizad', 'referencia', 'cus', 'llave', 'bre-b', 'breb', 'redeban',
-      'nequi', 'bancolombia', 'daviplata', 'davivienda', 'nubank', 'nu ', 'lulo', 'bbva',
-      'bogota', 'occidente', 'av villas', 'scotiabank', 'colpatria', 'popular', 'caja social',
-      'itau', 'banco', 'destino', 'destinatario', 'valor', 'monto', 'origen', 'movimiento',
-      'cuenta', 'producto', 'fecha'
-    ];
     let matchedTerms = 0;
-    for (const kw of bankKeywords) {
+    for (const kw of RECEIPT_BANK_KEYWORDS) {
       if (norm.includes(kw)) matchedTerms++;
     }
     const alphaNumCount = norm.replace(/[^a-z0-9]/g, '').length;
@@ -1045,6 +1045,23 @@
 
     // 3. Check exact stage amount ($110.000, $120.000, or $140.000)
     const okAmount = matchCopStageAmount(norm, reqAmount);
+
+    return { norm, okBankDoc, okKey, okAmount, allOk: okBankDoc && okKey && okAmount };
+  }
+
+  function hasAllCriteriaQuick(rawText, reqAmount) {
+    const targetAccount = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).trim();
+    return analyzeReceiptText(rawText, reqAmount, targetAccount).allOk;
+  }
+
+  function evaluateReceiptCriteria(rawText) {
+    const planParts = document.getElementById('r-plan').value.split('|');
+    const stageName = planParts[0];
+    const reqAmount = Number(planParts[1]);
+    const reqFormatted = '$' + reqAmount.toLocaleString('es-CO') + ' COP';
+    const targetAccount = (localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT).trim();
+
+    const { norm, okBankDoc, okKey, okAmount } = analyzeReceiptText(rawText, reqAmount, targetAccount);
 
     // 4. Anti-duplicate receipt check on local/synced records
     const duplicateRec = currentReceiptHash && localRecords.find(r => r.receiptHash && r.receiptHash === currentReceiptHash && r.status !== 'ANULADA');
@@ -1116,18 +1133,53 @@
     return receiptVerifiedOk;
   }
 
-  async function runOcrOnCanvas(canvasEl, onProgress) {
+  async function runSmartReceiptOcr(sourceEl, reqAmount, onProgress) {
     if (typeof Tesseract === 'undefined') {
       throw new Error('Motor de verificación visual cargando, intenta en 2 segundos.');
     }
-    const result = await Tesseract.recognize(canvasEl, 'spa+eng', {
+    let passStart = 0, passSpan = 0.45;
+    const worker = await Tesseract.createWorker('spa+eng', 1, {
       logger: m => {
         if (m.status === 'recognizing text' && typeof m.progress === 'number' && onProgress) {
-          onProgress(m.progress);
+          onProgress(Math.min(0.99, passStart + m.progress * passSpan));
         }
       }
     });
-    return (result && result.data && result.data.text) ? result.data.text : '';
+
+    try {
+      let combinedText = '';
+
+      // Pass 1: Standard 1600px auto-polarity, PSM 3 (ideal for Nequi & dense receipts)
+      passStart = 0.0; passSpan = 0.45;
+      await worker.setParameters({ tessedit_pageseg_mode: '3' });
+      const p1 = buildPreprocessedCanvas(sourceEl, 1600, 'auto', false);
+      combinedText += (await worker.recognize(p1.canvas)).data.text || '';
+      if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
+
+      // Pass 2: Sparse text PSM 11 on 1400px binarized canvas (captures isolated hero display amounts like Bancolombia Dark Mode)
+      passStart = 0.45; passSpan = 0.27;
+      await worker.setParameters({ tessedit_pageseg_mode: '11' });
+      const p2 = buildPreprocessedCanvas(sourceEl, 1400, 'auto', true);
+      combinedText += '\n' + ((await worker.recognize(p2.canvas)).data.text || '');
+      if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
+
+      // Pass 3: Downscaled 560px canvas with PSM 3 (normalizes oversized hero typography into paragraph scale)
+      passStart = 0.72; passSpan = 0.16;
+      await worker.setParameters({ tessedit_pageseg_mode: '3' });
+      const p3 = buildPreprocessedCanvas(sourceEl, 560, 'auto', false);
+      combinedText += '\n' + ((await worker.recognize(p3.canvas)).data.text || '');
+      if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
+
+      // Pass 4: Sparse text opposite polarity fallback (for colored pills & mixed contrast receipts)
+      passStart = 0.88; passSpan = 0.11;
+      await worker.setParameters({ tessedit_pageseg_mode: '11' });
+      const p4 = buildPreprocessedCanvas(sourceEl, 1200, !p1.invertedUsed, false);
+      combinedText += '\n' + ((await worker.recognize(p4.canvas)).data.text || '');
+
+      return combinedText;
+    } finally {
+      await worker.terminate();
+    }
   }
 
   async function handleReceiptUpload(e) {
@@ -1169,6 +1221,7 @@
     try {
       const arrayBuf = await file.arrayBuffer();
       currentReceiptHash = await computeSha256Hex(arrayBuf);
+      const planAmount = Number(document.getElementById('r-plan').value.split('|')[1]);
 
       if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
         uploadedReceiptMime = "application/pdf";
@@ -1198,10 +1251,9 @@
               prev.style.display = 'block';
               scanBarFill.style.width = '55%';
 
-              // If scanned image-only PDF, run visual OCR on rendered page 1
+              // If scanned image-only PDF, run multi-pass visual OCR on rendered page 1
               if (extractedText.replace(/\s+/g, '').length < 30) {
-                const prep = buildPreprocessedCanvas(pdfCanvas, 1600, 'auto');
-                extractedText += ' ' + await runOcrOnCanvas(prep.canvas, pr => {
+                extractedText += ' ' + await runSmartReceiptOcr(pdfCanvas, planAmount, pr => {
                   scanBarFill.style.width = Math.round(55 + pr * 42) + '%';
                 });
               }
@@ -1214,7 +1266,7 @@
         evaluateReceiptCriteria(extractedText);
 
       } else {
-        // Image visual upload + Dual-Pass OCR (Light & Dark Mode Banking Apps)
+        // Image visual upload + Smart 4-Pass Multi-Scale & Multi-PSM OCR (Bancolombia Dark Mode, Nequi, Nu, Bre-B, etc.)
         uploadedReceiptMime = "image/jpeg";
         const dataUrl = await new Promise((res, rej) => {
           const r = new FileReader();
@@ -1246,25 +1298,10 @@
         prev.src = uploadedReceiptBase64;
         prev.style.display = 'block';
 
-        // 2. Visual OCR Pass 1 (Auto luminance polarity for Dark/Light banking apps)
-        const pass1 = buildPreprocessedCanvas(img, 1600, 'auto');
-        let combinedText = await runOcrOnCanvas(pass1.canvas, pr => {
-          scanBarFill.style.width = Math.round(15 + pr * 65) + '%';
+        // 2. Smart Cascade OCR (stops immediately as soon as 3/3 criteria pass)
+        const combinedText = await runSmartReceiptOcr(img, planAmount, pr => {
+          scanBarFill.style.width = Math.round(12 + pr * 86) + '%';
         });
-
-        // 3. Quick Fallback Pass 2 (opposite polarity) ONLY if Pass 1 missed key or amount due to colored pills
-        const planAmount = Number(document.getElementById('r-plan').value.split('|')[1]);
-        const norm1 = combinedText.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        const quickKeyOk = norm1.replace(/\s+/g, '').includes('oscar9052') || /[o0]scar\s*9[o0][5s][2z]/i.test(norm1);
-        const quickAmtOk = matchCopStageAmount(norm1, planAmount);
-
-        if (!quickKeyOk || !quickAmtOk) {
-          const pass2 = buildPreprocessedCanvas(img, 1600, !pass1.invertedUsed);
-          const text2 = await runOcrOnCanvas(pass2.canvas, pr => {
-            scanBarFill.style.width = Math.round(80 + pr * 18) + '%';
-          });
-          combinedText += '\n' + text2;
-        }
 
         scanBarFill.style.width = '100%';
         isScanningReceipt = false;
