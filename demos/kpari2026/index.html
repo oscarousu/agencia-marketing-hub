@@ -545,6 +545,294 @@
       .cd-cell { text-align: center; }
       .stages-grid, .exp-grid, .field-row { grid-template-columns: 1fr; }
     }
+
+    /* OPCIONES 3, 5, 6 & 8: RULETA, PAPARAZZI, AWARDS GALA, VIDEO BEAM & RECUERDOS */
+    .mission-box {
+      display: none;
+      margin: 4px 0 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(252, 135, 61, 0.2), rgba(88, 0, 205, 0.34));
+      border: 1.5px solid rgba(252, 135, 61, 0.6);
+      text-align: center;
+      box-shadow: 0 10px 28px rgba(252, 135, 61, 0.16);
+    }
+    .mission-box.show { display: block; }
+    .mission-display {
+      font-size: 1.04rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      margin: 8px 0 12px;
+      min-height: 28px;
+    }
+    .mission-mini-btn {
+      background: rgba(255,255,255,0.12);
+      color: var(--kc-orange-soft);
+      border: 1px solid rgba(252,135,61,0.5);
+      border-radius: 99px;
+      padding: 7px 14px;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .mission-mini-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .live-night-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .live-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(179,179,233,0.28);
+      border-radius: 99px;
+      padding: 10px 18px;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.86rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+    .live-pill-btn:hover { transform: translateY(-2px); background: rgba(88,0,205,0.45); }
+    .live-pill-btn.neon { background: linear-gradient(135deg, rgba(252,135,61,0.26), rgba(88,0,205,0.45)); border-color: var(--kc-orange); color: var(--kc-orange-soft); }
+
+    .live-hub-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 24px;
+      margin: 26px 0 36px;
+    }
+    .live-card {
+      background: linear-gradient(155deg, rgba(34, 12, 82, 0.65), rgba(14, 5, 36, 0.85));
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: clamp(20px, 3vw, 28px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+    }
+    .polaroid-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+    .polaroid-card {
+      background: #140633;
+      border: 1px solid rgba(252, 135, 61, 0.35);
+      border-radius: 14px;
+      padding: 7px 7px 10px;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .polaroid-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 9px;
+      display: block;
+      margin-bottom: 6px;
+      background: #0b0320;
+    }
+    .polaroid-author {
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: var(--kc-green-vivid);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .polaroid-cap {
+      font-size: 0.72rem;
+      color: var(--kc-purple-ice);
+      line-height: 1.25;
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .vote-opt-btn {
+      width: 100%;
+      text-align: left;
+      padding: 13px 15px;
+      margin-bottom: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(252,135,61,0.45);
+      background: rgba(88, 0, 205, 0.28);
+      color: #fff;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.14s ease, background 0.2s ease;
+    }
+    .vote-opt-btn:hover:not(:disabled) { transform: translateY(-1px); background: rgba(252, 135, 61, 0.25); }
+    .vote-opt-btn:disabled { cursor: default; opacity: 0.9; }
+    .vote-opt-btn.picked { border-color: var(--kc-green-vivid); background: rgba(0, 127, 78, 0.38); }
+    .live-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ff4d6d;
+      margin-right: 6px;
+      animation: pulseLive 1.1s infinite;
+    }
+    @keyframes pulseLive {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.45); opacity: 0.55; }
+    }
+
+    /* MEMORIES CAPSULE (POST-PARTY OPTION 8) */
+    .memories-capsule {
+      display: none;
+      background: linear-gradient(160deg, rgba(88,0,205,0.28), rgba(14,5,36,0.92));
+      border: 1.5px solid rgba(46,230,156,0.45);
+      border-radius: 30px;
+      padding: clamp(22px, 4vw, 38px);
+      margin: 0 0 46px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.48);
+    }
+    .memories-capsule.open { display: block; }
+    .memories-subhead {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 26px 0 14px;
+    }
+    .memories-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .winner-card {
+      background: linear-gradient(155deg, rgba(252,135,61,0.18), rgba(34,12,82,0.75));
+      border: 1px solid rgba(252,135,61,0.5);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .playlist-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(10,4,28,0.68);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+    .music-link {
+      font-size: 0.76rem;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 99px;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* VIDEO BEAM PROJECTOR MODAL */
+    .projector-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      background: radial-gradient(circle at 20% 10%, rgba(88,0,205,0.45), #090218 65%);
+      color: #fff;
+      flex-direction: column;
+      padding: clamp(14px, 2.5vw, 28px);
+      overflow-y: auto;
+    }
+    .projector-backdrop.open { display: flex; }
+    .projector-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(179,179,233,0.2);
+    }
+    .projector-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.4fr 0.6fr;
+      gap: 24px;
+      margin-top: 20px;
+      align-items: center;
+    }
+    .projector-stage {
+      background: rgba(14, 5, 36, 0.85);
+      border: 1.5px solid rgba(252, 135, 61, 0.45);
+      border-radius: 28px;
+      padding: clamp(20px, 3vw, 34px);
+      min-height: 460px;
+      position: relative;
+      overflow: hidden;
+    }
+    .projector-photo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .projector-photo-wrap img {
+      max-height: 58vh;
+      max-width: 100%;
+      border-radius: 18px;
+      border: 4px solid #fff;
+      box-shadow: 0 22px 54px rgba(0,0,0,0.75);
+      object-fit: contain;
+    }
+    .envelope-chip {
+      background: rgba(252, 135, 61, 0.16);
+      border: 1px solid rgba(252, 135, 61, 0.45);
+      color: var(--kc-orange-soft);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .envelope-chip.active { background: var(--kc-orange); color: #190538; }
+    .bar-track-lg {
+      width: 100%;
+      height: 18px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.12);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .bar-fill-lg {
+      height: 100%;
+      background: linear-gradient(90deg, var(--kc-green-vivid), var(--kc-orange));
+      border-radius: 99px;
+      transition: width 0.45s ease;
+    }
+    @media (max-width: 960px) {
+      .live-hub-grid, .projector-body { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -608,6 +896,38 @@
     <div class="poster-visual">
       <img src="assets/kpari_hero_clean.jpg" alt="K-PARI 2026 Pixar" />
     </div>
+  </section>
+
+  <!-- OPTION 8: POST-PARTY MEMORIES CAPSULE (Auto-opens on Dec 18 02:00 AM or ?modo=recuerdos) -->
+  <section id="memoriesCapsule" class="memories-capsule">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;">
+      <div>
+        <span class="badge" style="background:var(--kc-green);color:#fff;">🎞️ CÁPSULA OFICIAL DE SOBREVIVIENTES • 17 DIC 2026</span>
+        <h2 style="font-size:clamp(1.6rem,3.5vw,2.45rem);color:#fff;">¡Lo que pasó en La Terraza no se olvida!</h2>
+        <p style="color:var(--kc-purple-ice);max-width:680px;margin-top:4px;">Aquí quedan guardadas para el parche las fotos de la Cámara Paparazzi, los ganadores coronados de los <strong>K-PARI Awards</strong> y la playlist oficial que sonó hasta las 2:00 AM.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="button" class="live-pill-btn neon" onclick="document.getElementById('paparazzi').scrollIntoView({behavior:'smooth'})">📸 Subir más fotos del evento</button>
+        <button type="button" id="closeMemoriesPreviewBtn" class="live-pill-btn" style="display:none;" onclick="toggleMemoriesPreview(false)">✕ Salir vista previa</button>
+      </div>
+    </div>
+
+    <div class="memories-subhead">
+      <h3 style="color:var(--kc-orange);font-size:1.25rem;">📸 Álbum Paparazzi de la Noche</h3>
+      <span id="memoriesPhotoCount" style="font-size:0.84rem;color:var(--kc-green-vivid);font-weight:900;">0 fotos capturadas</span>
+    </div>
+    <div id="memoriesPhotoGrid" class="polaroid-strip" style="max-height:none;"></div>
+
+    <div class="memories-subhead">
+      <h3 style="color:var(--kc-orange);font-size:1.25rem;">👑 Cuadro de Honor Oficial — K-PARI Awards</h3>
+    </div>
+    <div id="memoriesWinnersGrid" class="memories-grid-3"></div>
+
+    <div class="memories-subhead">
+      <h3 style="color:var(--kc-orange);font-size:1.25rem;">🎵 Playlist Oficial "Los Himnos de La Terraza"</h3>
+      <button type="button" class="copy-chip" onclick="copyPlaylistText()">📋 Copiar Playlist Completa</button>
+    </div>
+    <div id="memoriesPlaylistGrid" style="display:flex;flex-direction:column;gap:10px;"></div>
   </section>
 
   <!-- 3 PRICING STAGES -->
@@ -675,6 +995,59 @@
     <div class="exp-card">
       <h3>⚡ 4. Boleta Instantánea Sin Filas</h3>
       <p>Cero chats eternos: subes tu comprobante aquí mismo y el sistema desbloquea tu <strong>Boleta Pixar QR</strong> en 2 segundos.</p>
+    </div>
+  </section>
+
+  <!-- LIVE NIGHT EXPERIENCE HUB (OPTIONS 5 & 6) -->
+  <div class="live-night-bar">
+    <a href="#paparazzi" class="live-pill-btn neon">📸 Cámara Desechable Paparazzi</a>
+    <a href="#awards-live" class="live-pill-btn">🏆 Votar en K-PARI Awards</a>
+    <button type="button" class="live-pill-btn" onclick="openProjectorMode('paparazzi')">📽️ Modo Video Beam HD</button>
+    <button type="button" class="live-pill-btn" onclick="toggleMemoriesPreview(true)">🎞️ Ver Cápsula de Recuerdos</button>
+  </div>
+
+  <section id="experiencias-vivo" class="live-hub-grid">
+    <!-- OPTION 6: PAPARAZZI DISPOSABLE CAMERA -->
+    <div id="paparazzi" class="live-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+        <span class="badge" style="background:rgba(252,135,61,0.22);color:var(--kc-orange);margin:0;">📸 CÁMARA EN VIVO AL VIDEO BEAM</span>
+        <button type="button" class="mission-mini-btn" onclick="openProjectorMode('paparazzi')">📽️ Ver en Proyector</button>
+      </div>
+      <h3 style="font-size:1.38rem;margin-bottom:6px;">Cámara Desechable Paparazzi</h3>
+      <p style="font-size:0.88rem;color:var(--kc-purple-ice);margin-bottom:14px;">Sube fotos espontáneas sin instalar apps: caen directo a Google Drive y aparecen en el <strong>Video Beam HD</strong> de La Terraza con marco neón.</p>
+
+      <div class="field-row">
+        <div class="field" style="margin-bottom:10px;">
+          <label>Tu Nombre o Apodo *</label>
+          <input type="text" id="paparazzi-author" class="input" placeholder="Ej. Cata / El Team" />
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label>Pie de foto para la pantalla (Opcional)</label>
+          <input type="text" id="paparazzi-caption" class="input" placeholder="Ej. ¡Salud desde la barra LED!" />
+        </div>
+      </div>
+
+      <input type="file" id="paparazzi-cam-input" accept="image/*" capture="environment" style="display:none;" onclick="this.value=null" onchange="handlePaparazziUpload(event)" />
+      <input type="file" id="paparazzi-file" accept="image/*" style="display:none;" onclick="this.value=null" onchange="handlePaparazziUpload(event)" />
+
+      <div class="field-row" style="margin-top:6px;">
+        <button type="button" class="btn-main btn-orange" onclick="document.getElementById('paparazzi-cam-input').click()">📸 Tomar Foto Ahora</button>
+        <button type="button" class="btn-main btn-purple" onclick="document.getElementById('paparazzi-file').click()">🖼️ Subir de Galería</button>
+      </div>
+      <div id="paparazziStatus" style="display:none;margin-top:10px;font-size:0.84rem;font-weight:700;color:var(--kc-green-vivid);"></div>
+
+      <div id="paparazziGallery" class="polaroid-strip"></div>
+    </div>
+
+    <!-- OPTION 5: K-PARI AWARDS LIVE VOTING & CEREMONY -->
+    <div id="awards-live" class="live-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+        <span class="badge" style="background:rgba(88,0,205,0.55);color:var(--kc-purple-ice);margin:0;">🏆 GALA INTERACTIVA DE PREMIACIÓN</span>
+        <button type="button" class="mission-mini-btn" onclick="openProjectorMode('awards')">✉️ Abrir Gala Video Beam</button>
+      </div>
+      <h3 style="font-size:1.38rem;margin-bottom:6px;">Votación en Vivo — K-PARI Awards</h3>
+      <p style="font-size:0.88rem;color:var(--kc-purple-ice);margin-bottom:14px;">Cuando el anfitrión abra un sobre en el proyector, vota aquí desde tu celular en 30 segundos y corona a los ganadores de la noche.</p>
+      <div id="mobileAwardsLiveBox"></div>
     </div>
   </section>
 
@@ -785,6 +1158,14 @@
             </div>
             <div id="verifyReason" style="margin-top:8px;font-size:0.81rem;color:var(--kc-purple-soft);"></div>
           </div>
+
+          <!-- OPTION 3: SECRET MISSION ROULETTE -->
+          <div id="missionRouletteBox" class="mission-box">
+            <div style="font-size:0.75rem;font-weight:900;letter-spacing:1.3px;color:var(--kc-orange);text-transform:uppercase;">🎰 Ruleta de Misión Secreta K-PARI</div>
+            <div id="missionDisplay" class="mission-display">🎯 Girando tu misión secreta...</div>
+            <button type="button" id="rerollMissionBtn" class="mission-mini-btn" onclick="spinMissionRoulette(true)">🎲 Girar de nuevo (1 comodín)</button>
+            <div style="font-size:0.72rem;color:var(--kc-purple-soft);margin-top:6px;">Se imprimirá directamente en tu Boleta Oficial QR.</div>
+          </div>
         </div>
 
         <button type="button" id="submitBtn" class="btn-main btn-orange" disabled onclick="processSelfServiceRegistration()">
@@ -812,6 +1193,9 @@
         <div id="pv-plan" style="background:var(--kc-green);color:#fff;padding:8px 10px;border-radius:10px;font-weight:900;font-size:0.82rem;margin-bottom:10px;">
           ETAPA 1 • $110.000 COP
         </div>
+        <div id="pv-mission" style="background:rgba(252,135,61,0.16);border:1px dashed rgba(252,135,61,0.5);color:var(--kc-orange-soft);padding:7px 9px;border-radius:10px;font-weight:700;font-size:0.74rem;margin-bottom:10px;">
+          🎯 Misión: Pendiente desbloquear ruleta
+        </div>
         <div id="pv-receipt-badge" style="font-size:0.78rem;color:var(--kc-orange-soft);">⏳ Pendiente adjuntar comprobante</div>
       </div>
       <p style="font-size:0.8rem;color:var(--kc-purple-soft);margin-top:14px;">📍 Llegada 7:00 PM • Calle 10 # 61-47, Cali • <a href="https://www.google.com/maps/search/?api=1&query=Calle+10+61-47+Cali" target="_blank" style="color:var(--kc-orange);">Google Maps</a></p>
@@ -837,11 +1221,21 @@
       </div>
     </div>
 
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
       <button class="btn-main btn-green" style="width:auto;" onclick="syncCloudRepository()">🔄 Sincronizar Comprobantes desde Google Drive</button>
       <button class="btn-main btn-purple" style="width:auto;" onclick="exportListCSV()">📊 Exportar Todo a Excel (CSV)</button>
       <a id="adm-sheet-link" href="#" target="_blank" class="btn-main btn-orange" style="width:auto;display:none;">📂 Abrir Google Sheet Maestro</a>
+      <a id="adm-photos-link" href="#" target="_blank" class="btn-main btn-green" style="width:auto;display:none;">📸 Carpeta Fotos Drive</a>
     </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+      <button type="button" class="live-pill-btn neon" onclick="openProjectorMode('awards')">📽️ Lanzar Modo Proyector (Video Beam HD)</button>
+      <button type="button" class="live-pill-btn" onclick="downloadPaparazziQrPoster()">🖨️ Descargar Cartel QR Cámara Paparazzi (PNG para Mesas)</button>
+      <button type="button" class="live-pill-btn" onclick="toggleMemoriesPreview(true)">🎞️ Previsualizar Modo Recuerdos (18 Dic)</button>
+    </div>
+    <p id="adm-v2-note" style="display:none;font-size:0.8rem;color:var(--kc-orange-soft);margin-bottom:14px;background:rgba(252,135,61,0.14);padding:10px 14px;border-radius:12px;">
+      ⚠️ Tu webhook de Apps Script actual responde en modo v1. Para sincronizar Fotos Paparazzi y Votos en Google Drive/Sheets en tiempo real entre todos los celulares, actualiza el código con <code>Backend_Google_Drive_y_Notificaciones.gs</code> en <b>Implementar → Gestionar implementaciones → Editar → Nueva versión</b>.
+    </p>
 
     <h3>📋 Inscritos y Comprobantes Recibidos (<span id="adm-count">0</span> / 65) — Total en Caja: <span id="adm-sum" style="color:var(--kc-green-vivid);">$0 COP</span></h3>
     <div class="table-scroll">
@@ -851,7 +1245,7 @@
             <th>Boleta</th>
             <th>Asistente & Celular</th>
             <th>Etapa / Valor</th>
-            <th>Canción & Nominación</th>
+            <th>Canción, Nominación & Misión</th>
             <th>Comprobante</th>
             <th>Estado</th>
             <th>Acciones</th>
@@ -875,10 +1269,63 @@
   <div class="modal-box">
     <span class="badge" style="background:var(--kc-green);color:#fff;">✅ COMPROBANTE RECIBIDO • BOLETA DESBLOQUEADA</span>
     <h3 style="font-size:1.45rem;margin-bottom:6px;">¡Nos vemos en la K-PARI 2026!</h3>
-    <p style="font-size:0.86rem;color:var(--kc-purple-ice);margin-bottom:14px;">Guarda tu Boleta Electrónica QR en tu celular y preséntala en la entrada de La Terraza.</p>
+    <p style="font-size:0.86rem;color:var(--kc-purple-ice);margin-bottom:10px;">Guarda tu Boleta Electrónica QR en tu celular y preséntala en la entrada de La Terraza.</p>
+    <div id="unlockedMissionText" style="display:none;background:rgba(252,135,61,0.18);border:1px solid rgba(252,135,61,0.55);color:#fff;padding:8px 12px;border-radius:12px;font-size:0.84rem;font-weight:900;margin-bottom:12px;"></div>
     <canvas id="unlockedCanvas" width="720" height="1220" style="width:100%;max-width:300px;border-radius:18px;margin:0 auto 14px;display:block;box-shadow:0 14px 36px rgba(0,0,0,0.65);"></canvas>
     <button class="btn-main btn-orange" onclick="downloadUnlockedTicket()">⬇️ DESCARGAR MI BOLETA QR (PNG)</button>
     <button class="btn-main btn-purple" style="margin-top:10px;" onclick="closeTicketModal()">Cerrar</button>
+  </div>
+</div>
+
+<!-- VIDEO BEAM HD PROJECTOR MODAL (OPTIONS 5 & 6) -->
+<div id="projectorModal" class="projector-backdrop">
+  <div class="projector-topbar">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="font-weight:900;font-size:1.25rem;color:var(--kc-orange);">📽️ VIDEO BEAM HD • K-PARI 2026</span>
+      <span id="projectorLiveStatus" style="font-size:0.78rem;color:var(--kc-green-vivid);font-weight:700;"><span class="live-dot"></span>En vivo (sincronización cada 6s)</span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" id="projTabPaparazzi" class="live-pill-btn neon" onclick="switchProjectorTab('paparazzi')">📸 Muro Paparazzi en Vivo</button>
+      <button type="button" id="projTabAwards" class="live-pill-btn" onclick="switchProjectorTab('awards')">🏆 Gala K-PARI Awards</button>
+      <button type="button" class="live-pill-btn" onclick="toggleProjectorFullscreen()">⛶ Pantalla Completa</button>
+      <button type="button" class="live-pill-btn" onclick="closeProjectorMode()">✕ Cerrar</button>
+    </div>
+  </div>
+
+  <!-- PAPARAZZI PROJECTOR TAB -->
+  <div id="projPaparazziView" class="projector-body">
+    <div class="projector-stage">
+      <div class="projector-photo-wrap" id="projectorPhotoStage">
+        <div style="padding:70px 20px;color:var(--kc-purple-soft);">
+          <div style="font-size:3rem;margin-bottom:10px;">📸</div>
+          <h3 style="font-size:1.5rem;color:#fff;">¡Esperando la primera foto Paparazzi de la noche!</h3>
+          <p style="margin-top:8px;">Escanea el código QR de la derecha para estrenar el proyector de La Terraza.</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;align-items:center;background:rgba(14,5,36,0.8);border-radius:24px;padding:22px;border:1px solid var(--border);">
+      <div style="font-size:0.8rem;font-weight:900;color:var(--kc-orange);letter-spacing:1.2px;">ESCANEA Y SAL EN PANTALLA</div>
+      <canvas id="projectorCamQr" width="210" height="210" style="border-radius:14px;"></canvas>
+      <p style="font-size:0.82rem;color:var(--kc-purple-ice);text-align:center;">Sin instalar apps: abre tu cámara, toma la foto y aparecerá aquí en vivo.</p>
+      <div id="projectorThumbRail" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;"></div>
+    </div>
+  </div>
+
+  <!-- AWARDS GALA PROJECTOR TAB -->
+  <div id="projAwardsView" class="projector-body" style="display:none;">
+    <div class="projector-stage">
+      <canvas id="confettiCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:20;"></canvas>
+      <div style="position:relative;z-index:2;">
+        <div id="projEnvelopeStrip" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;"></div>
+        <div id="projAwardCenter"></div>
+        <div id="projHostControls" style="margin-top:22px;padding-top:16px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;align-items:center;"></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;align-items:center;background:rgba(14,5,36,0.8);border-radius:24px;padding:22px;border:1px solid var(--border);text-align:center;">
+      <div style="font-size:0.82rem;font-weight:900;color:var(--kc-green-vivid);letter-spacing:1.2px;">VOTA DESDE TU CELULAR</div>
+      <canvas id="projectorVoteQr" width="210" height="210" style="border-radius:14px;"></canvas>
+      <p style="font-size:0.83rem;color:var(--kc-purple-ice);">Escanea cuando el anfitrión abra el sobre para elegir al ganador de esta categoría.</p>
+    </div>
   </div>
 </div>
 
@@ -928,6 +1375,115 @@
   function getWebhookUrl() {
     return (localStorage.getItem('kpari_webhook_url') || DEFAULT_WEBHOOK_URL).trim();
   }
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  }
+
+  const SECRET_MISSIONS = [
+    '🥂 Encuentra a alguien con el mismo color de prenda y tómate un shot',
+    '🕺 Saca a bailar al más tímido del grupo en la pista LED',
+    '📸 Toma una foto Paparazzi grupal gritando "¡K-PARI 2026!" antes de medianoche',
+    '🎤 Canta a todo pulmón el coro de la canción que pediste al DJ',
+    '🕶️ Consigue 3 firmas en una servilleta de personas que hoy llegaron temprano',
+    '🔥 Organiza un tren de baile cuando suene salsa choque o vallenato',
+    '🍸 Inventa un brindis épico de 10 segundos y haz que toda tu mesa choque vasos',
+    '🏆 Haz campaña por tu nominado favorito antes de que abran el sobre en el Video Beam',
+    '🤝 Presenta a dos invitados que no se conocían y tómales selfie para la pantalla',
+    '👑 Lleva las gafas o accesorio más llamativo a la pista LED durante 2 canciones seguidas',
+    '📵 Custodia oficial: advierte a tu mesa cada vez que alguien mire el chat del trabajo',
+    '🌙 Sobreviviente certificado: quédate en la foto oficial del gran cierre de las 2:00 AM'
+  ];
+
+  const DEFAULT_AWARDS_STATE = {
+    updatedAt: 0,
+    categories: [
+      {
+        id: 'cat-dos-y-me-voy',
+        title: 'El / La que dice "me tomo dos y me voy" (y cierra a las 2 AM)',
+        nominees: ['Oscar Ortiz', 'Team Rooftop', 'Invitado Sorpresa'],
+        votes: [0, 0, 0],
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      },
+      {
+        id: 'cat-pista-led',
+        title: 'Rey / Reina indiscutible de la pista LED con humo',
+        nominees: ['Reina del Neón', 'Maestro del Vallenato', 'Salsa Lover'],
+        votes: [0, 0, 0],
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      },
+      {
+        id: 'cat-despecho',
+        title: 'El que pide el himno más despechado de la noche',
+        nominees: ['Team Aguardiente', 'Corazón Valiente', 'DJ Jukebox VIP'],
+        votes: [0, 0, 0],
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      },
+      {
+        id: 'cat-outfit',
+        title: 'Mejor Outfit & Actitud de La Terraza 2026',
+        nominees: ['Look Dorado', 'Flow Urbano', 'Brillo Rooftop'],
+        votes: [0, 0, 0],
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      },
+      {
+        id: 'cat-brindis',
+        title: 'Leyenda oficial de los brindis y los shots',
+        nominees: ['Capitán Shot', 'Anfitrión K-PARI', 'Team Cierre'],
+        votes: [0, 0, 0],
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      }
+    ]
+  };
+
+  let uploadedReceiptBase64 = null;
+  let uploadedReceiptMime = "image/jpeg";
+  let receiptVerifiedOk = false;
+  let isScanningReceipt = false;
+  let lastExtractedReceiptText = null;
+  let currentReceiptHash = null;
+  let currentAssignedMission = "";
+  let missionRerollUsed = false;
+  let missionAnimTimer = null;
+  let isAdminAuthenticated = false;
+  let previewMemoriesMode = (new URLSearchParams(window.location.search).get('modo') === 'recuerdos');
+
+  let localRecords = [];
+  try { localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]'); } catch (e) { localRecords = []; }
+
+  let paparazziPhotos = [];
+  try { paparazziPhotos = JSON.parse(localStorage.getItem('kpari26_paparazzi_photos') || '[]'); } catch (e) { paparazziPhotos = []; }
+
+  let awardsState = null;
+  try {
+    awardsState = JSON.parse(localStorage.getItem('kpari26_awards_state') || 'null');
+  } catch (e) { awardsState = null; }
+  if (!awardsState || !Array.isArray(awardsState.categories) || !awardsState.categories.length) {
+    awardsState = JSON.parse(JSON.stringify(DEFAULT_AWARDS_STATE));
+  }
+
+  let votedMap = {};
+  try { votedMap = JSON.parse(localStorage.getItem('kpari26_voted_map') || '{}'); } catch (e) { votedMap = {}; }
+
+  let livePlaylist = [];
+  let liveGuestNominations = [];
+  let selectedProjectorCatIdx = 0;
+  let projectorActiveTab = 'paparazzi';
+  let projectorSlideIdx = 0;
+  let projectorSlideTimer = null;
+  let projectorSyncTimer = null;
+
+  const liveChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('kpari26_live_bus') : null;
 
   const STAGE_DEFS = [
     {
@@ -1128,10 +1684,13 @@
         }
       } else {
         if (heroTitle) heroTitle.textContent = '🔒 VENTA DE BOLETAS CERRADA';
-        if (heroSub) heroSub.textContent = 'K-PARI 2026 finalizada';
+        if (heroSub) heroSub.textContent = '🎞️ Cápsula de Recuerdos de Sobrevivientes activa abajo';
         if (cuposBar) cuposBar.style.width = '100%';
         planSelect.disabled = true;
         if (fileInput) fileInput.disabled = true;
+      }
+      if (typeof syncMemoriesCapsuleVisibility === 'function') {
+        syncMemoriesCapsuleVisibility(activeIdx >= STAGE_DEFS.length);
       }
     }
 
@@ -1188,17 +1747,11 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
-  let uploadedReceiptBase64 = null;
-  let uploadedReceiptMime = "image/jpeg";
-  let receiptVerifiedOk = false;
-  let isScanningReceipt = false;
-  let lastExtractedReceiptText = null;
-  let currentReceiptHash = null;
-
-  async function computeSha256Hex(buffer) {
-    if (!window.crypto || !window.crypto.subtle) return null;
-    const hashBuf = await window.crypto.subtle.digest('SHA-256', buffer);
-    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  function computeSha256Hex(buffer) {
+    if (!window.crypto || !window.crypto.subtle) return Promise.resolve(null);
+    return window.crypto.subtle.digest('SHA-256', buffer).then(hashBuf =>
+      Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('')
+    );
   }
 
   function buildPreprocessedCanvas(sourceImgOrCanvas, maxDim, invertDark, binarize = false) {
@@ -1295,6 +1848,8 @@
       const headline = document.getElementById('verifyHeadline');
       const reason = document.getElementById('verifyReason');
       const dropZone = document.getElementById('dropZone');
+      const mBox = document.getElementById('missionRouletteBox');
+      if (mBox) mBox.classList.remove('show');
       if (dropZone) { dropZone.classList.remove('loaded', 'scanning'); dropZone.classList.add('rejected'); }
       if (headline) { headline.style.color = '#ff6b86'; headline.innerHTML = '🔒 Venta de boletas cerrada'; }
       if (reason) { reason.style.color = '#ffb3c4'; reason.innerHTML = 'El evento K-PARI 2026 ya finalizó y las etapas de pago están cerradas.'; }
@@ -1341,8 +1896,10 @@
 
     document.getElementById('scanBarWrap').style.display = 'none';
 
+    const mBox = document.getElementById('missionRouletteBox');
     if (duplicateRec) {
       receiptVerifiedOk = false;
+      if (mBox) mBox.classList.remove('show');
       dropZone.classList.remove('loaded', 'scanning');
       dropZone.classList.add('rejected');
       headline.style.color = '#ff6b86';
@@ -1357,8 +1914,11 @@
       headline.innerHTML = '🛡️ Comprobante Verificado con Éxito (3/3 Criterios Aprobados)';
       reason.style.color = '#DDECE5';
       reason.innerHTML = `Pago completo confirmado a <b>${targetAccount}</b> por <b>${reqFormatted}</b>.`;
+      if (mBox) mBox.classList.add('show');
+      if (!currentAssignedMission) spinMissionRoulette(false);
     } else {
       receiptVerifiedOk = false;
+      if (mBox) mBox.classList.remove('show');
       dropZone.classList.remove('loaded', 'scanning');
       dropZone.classList.add('rejected');
       headline.style.color = '#ff6b86';
@@ -1657,7 +2217,25 @@
     }
   }
 
-  function renderTicketOnCanvas(canvasId, ticketId, name, docId, role, stageLabel, amount) {
+  function wrapCanvasLines(ctx, text, maxWidth, maxLines) {
+    const words = String(text || '').trim().split(/\s+/);
+    const lines = [];
+    let cur = '';
+    for (const w of words) {
+      const test = cur ? cur + ' ' + w : w;
+      if (ctx.measureText(test).width <= maxWidth) {
+        cur = test;
+      } else {
+        if (cur) lines.push(cur);
+        cur = w;
+        if (lines.length >= maxLines) break;
+      }
+    }
+    if (cur && lines.length < maxLines) lines.push(cur);
+    return lines;
+  }
+
+  function renderTicketOnCanvas(canvasId, ticketId, name, docId, role, stageLabel, amount, missionText) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#12052C';
@@ -1682,32 +2260,41 @@
     ctx.fillText('17 DE DICIEMBRE 2026 • 7:00 PM', 360, 502);
     ctx.fillStyle = '#DDDFF5';
     ctx.font = '700 22px Lato, sans-serif';
-    ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 536);
+    ctx.fillText('LA TERRAZA • CALLE 10 # 61-47, CALI', 360, 534);
 
     ctx.strokeStyle = 'rgba(255,255,255,0.22)';
     ctx.lineWidth = 2;
     ctx.setLineDash([12, 10]);
-    ctx.beginPath(); ctx.moveTo(42, 564); ctx.lineTo(678, 564); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(42, 554); ctx.lineTo(678, 554); ctx.stroke();
     ctx.setLineDash([]);
 
-    ctx.fillStyle = 'rgba(88, 0, 205, 0.32)';
-    ctx.fillRect(50, 588, 620, 254);
+    ctx.fillStyle = 'rgba(88, 0, 205, 0.34)';
+    ctx.fillRect(50, 570, 620, 276);
 
     ctx.fillStyle = '#B3B3E9';
     ctx.font = '700 18px Lato, sans-serif';
-    ctx.fillText(`PASE PERSONAL E INTRANSFERIBLE • CC ${docId || 'VERIFICADO'}`, 360, 624);
+    ctx.fillText(`PASE PERSONAL E INTRANSFERIBLE • CC ${docId || 'VERIFICADO'}`, 360, 602);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 38px Lato, sans-serif';
-    ctx.fillText(name.toUpperCase(), 360, 676);
+    ctx.font = '900 36px Lato, sans-serif';
+    ctx.fillText(name.toUpperCase(), 360, 648);
     ctx.fillStyle = '#FC873D';
-    ctx.font = '700 21px Lato, sans-serif';
-    ctx.fillText(role.toUpperCase(), 360, 714);
+    ctx.font = '700 20px Lato, sans-serif';
+    ctx.fillText(role.toUpperCase(), 360, 682);
 
     ctx.fillStyle = '#007F4E';
-    ctx.fillRect(85, 744, 550, 64);
+    ctx.fillRect(85, 700, 550, 50);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '900 22px Lato, sans-serif';
-    ctx.fillText(`${stageLabel} ($${Number(amount).toLocaleString('es-CO')}) • COMPROBANTE REGISTRADO`, 360, 784);
+    ctx.font = '900 20px Lato, sans-serif';
+    ctx.fillText(`${stageLabel} ($${Number(amount).toLocaleString('es-CO')}) • COMPROBANTE REGISTRADO`, 360, 732);
+
+    const missionClean = missionText || currentAssignedMission || '🔥 Disfrutar La Terraza hasta las 2:00 AM';
+    ctx.fillStyle = '#FCC294';
+    ctx.font = '900 14px Lato, sans-serif';
+    ctx.fillText('🎯 MISIÓN SECRETA DE LA NOCHE:', 360, 774);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 16px Lato, sans-serif';
+    const mLines = wrapCanvasLines(ctx, missionClean, 565, 2);
+    mLines.forEach((ln, idx) => ctx.fillText(ln, 360, 798 + idx * 21));
 
     const verifyUrl = `${window.location.origin}${window.location.pathname}?verify=${encodeURIComponent(ticketId)}&name=${encodeURIComponent(name)}`;
     drawRealQR(ctx, verifyUrl, 255, 868, 205);
@@ -1723,8 +2310,6 @@
     ctx.fillText('EVENTO PRIVADO • NOS RESERVAMOS EL DERECHO DE ADMISIÓN', 360, 1182);
   }
 
-  let localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]');
-
   async function processSelfServiceRegistration() {
     if (!receiptVerifiedOk || !uploadedReceiptBase64 || !inviteUnlocked) return;
     const activeStageIdx = getActiveStageIndex();
@@ -1732,6 +2317,7 @@
       syncStageAvailability(true);
       return;
     }
+    if (!currentAssignedMission) spinMissionRoulette(false);
     const btn = document.getElementById('submitBtn');
     const statusBox = document.getElementById('submitStatus');
     const name = document.getElementById('r-name').value.trim();
@@ -1743,6 +2329,7 @@
     const amount = Number(planParts[1]);
     const song = document.getElementById('r-song').value.trim();
     const nomination = document.getElementById('r-nom').value.trim();
+    const mission = currentAssignedMission || SECRET_MISSIONS[0];
     const fullNameWithDoc = `${name} (CC ${docId})`;
 
     btn.disabled = true;
@@ -1761,7 +2348,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
-            ticketId, name: fullNameWithDoc, phone, role, stage, amount, song, nomination,
+            ticketId, name: fullNameWithDoc, phone, role, stage, amount, song, nomination, mission,
             receiptBase64: uploadedReceiptBase64,
             receiptMime: uploadedReceiptMime
           })
@@ -1782,16 +2369,22 @@
       id: ticketId,
       name: fullNameWithDoc,
       docId,
-      phone, role, stage, val: amount, song, nomination,
+      phone, role, stage, val: amount, song, nomination, mission,
       status: "VERIFICADO (AUTO)",
       receiptUrl,
       receiptHash: currentReceiptHash
     });
     try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
     renderAdminTable();
+    renderMemoriesCapsule();
 
     currentIssuedTicketId = ticketId;
-    renderTicketOnCanvas('unlockedCanvas', ticketId, name, docId, role, stage, amount);
+    renderTicketOnCanvas('unlockedCanvas', ticketId, name, docId, role, stage, amount, mission);
+    const unlockedM = document.getElementById('unlockedMissionText');
+    if (unlockedM) {
+      unlockedM.style.display = 'block';
+      unlockedM.textContent = 'Tu Misión Secreta impresa: ' + mission;
+    }
     document.getElementById('ticketModal').classList.add('open');
     statusBox.textContent = "✅ ¡Listo! Tu boleta #" + ticketId + " fue emitida.";
     btn.textContent = "✅ BOLETA EMITIDA (#" + ticketId + ")";
@@ -1814,6 +2407,7 @@
   function unlockAdmin() {
     const pin = prompt('Ingresa el PIN de Administrador:');
     if (pin === '2026') {
+      isAdminAuthenticated = true;
       document.getElementById('adminPanel').classList.add('open');
       document.getElementById('adm-webhook').value = getWebhookUrl();
       document.getElementById('adm-paynum').value = localStorage.getItem('kpari_pay_account') || DEFAULT_PAY_ACCOUNT;
@@ -1848,7 +2442,15 @@
           sl.href = data.sheetUrl;
           sl.style.display = 'inline-flex';
         }
+        const pl = document.getElementById('adm-photos-link');
+        if (pl && data.photosFolderUrl) {
+          pl.href = data.photosFolderUrl;
+          pl.style.display = 'inline-flex';
+        }
+        const v2Note = document.getElementById('adm-v2-note');
+        if (v2Note) v2Note.style.display = (Number(data.serverVersion || 1) < 2) ? 'block' : 'none';
         renderAdminTable();
+        renderMemoriesCapsule();
       }
     } catch (err) {
       alert('Error al conectar con el repositorio: ' + err);
@@ -1860,6 +2462,7 @@
     item.status = newStatus;
     try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
     renderAdminTable();
+    renderMemoriesCapsule();
 
     const webhook = getWebhookUrl();
     if (webhook) {
@@ -1883,18 +2486,18 @@
       const isImgData = r.receiptUrl && r.receiptUrl.startsWith('data:image');
       const receiptCell = r.receiptUrl
         ? (isImgData
-            ? `<a href="${r.receiptUrl}" download="Comprobante_${r.id}.jpg"><img src="${r.receiptUrl}" style="height:46px;border-radius:6px;" title="Descargar comprobante"/></a>`
-            : `<a href="${r.receiptUrl}" target="_blank" style="color:var(--kc-green-vivid);font-weight:900;">📄 Ver Recibo Drive</a>`)
+            ? `<a href="${escapeHtml(r.receiptUrl)}" download="Comprobante_${escapeHtml(r.id)}.jpg"><img src="${escapeHtml(r.receiptUrl)}" style="height:46px;border-radius:6px;" title="Descargar comprobante"/></a>`
+            : `<a href="${escapeHtml(r.receiptUrl)}" target="_blank" style="color:var(--kc-green-vivid);font-weight:900;">📄 Ver Recibo Drive</a>`)
         : '—';
       const statusColor = r.status === 'ANULADA' ? '#ff4d6d' : '#2EE69C';
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><strong>${r.id}</strong><br><small style="color:var(--kc-purple-soft);">${r.timestamp || ''}</small></td>
-        <td><strong>${r.name}</strong><br><small>${r.phone || ''}</small></td>
-        <td>${r.stage}<br><strong>$${Number(r.val || 0).toLocaleString('es-CO')}</strong></td>
-        <td>🎵 ${r.song || '-'}<br>🏆 ${r.nomination || '-'}</td>
+        <td><strong>${escapeHtml(r.id)}</strong><br><small style="color:var(--kc-purple-soft);">${escapeHtml(r.timestamp || '')}</small></td>
+        <td><strong>${escapeHtml(r.name)}</strong><br><small>${escapeHtml(r.phone || '')}</small></td>
+        <td>${escapeHtml(r.stage)}<br><strong>$${Number(r.val || 0).toLocaleString('es-CO')}</strong></td>
+        <td>🎵 ${escapeHtml(r.song || '-')}<br>🏆 ${escapeHtml(r.nomination || '-')}${r.mission ? '<br><small style="color:var(--kc-orange-soft);">🎯 ' + escapeHtml(r.mission) + '</small>' : ''}</td>
         <td>${receiptCell}</td>
-        <td style="color:${statusColor};font-weight:900;">${r.status || 'VERIFICADO'}</td>
+        <td style="color:${statusColor};font-weight:900;">${escapeHtml(r.status || 'VERIFICADO')}</td>
         <td>
           <button onclick="changeTicketStatus(${idx}, 'APROBADO ✅')" style="background:#007F4E;color:#fff;border:none;border-radius:6px;padding:5px 8px;cursor:pointer;margin-right:4px;">✅</button>
           <button onclick="changeTicketStatus(${idx}, 'ANULADA')" style="background:#9e1b32;color:#fff;border:none;border-radius:6px;padding:5px 8px;cursor:pointer;">❌</button>
@@ -1907,15 +2510,852 @@
   }
 
   function exportListCSV() {
-    let csv = 'Fecha,Boleta,Nombre,Celular,Rango,Etapa,Valor,Cancion_DJ,Nominacion,Estado,Comprobante_URL\n';
+    let csv = 'Fecha,Boleta,Nombre,Celular,Rango,Etapa,Valor,Cancion_DJ,Nominacion,Mision_Secreta,Estado,Comprobante_URL\n';
     localRecords.forEach(r => {
       const cleanUrl = (r.receiptUrl && !r.receiptUrl.startsWith('data:')) ? r.receiptUrl : 'Guardado_Local';
-      csv += `"${r.timestamp||''}","${r.id}","${r.name}","${r.phone||''}","${r.role||''}","${r.stage}",${r.val},"${(r.song||'').replace(/"/g,"'")}","${(r.nomination||'').replace(/"/g,"'")}","${r.status}","${cleanUrl}"\n`;
+      csv += `"${r.timestamp||''}","${r.id}","${r.name}","${r.phone||''}","${r.role||''}","${r.stage}",${r.val},"${(r.song||'').replace(/"/g,"'")}","${(r.nomination||'').replace(/"/g,"'")}","${(r.mission||'').replace(/"/g,"'")}","${r.status}","${cleanUrl}"\n`;
     });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
     a.download = 'Repositorio_Pagos_KPARI_2026.csv';
     a.click();
+  }
+
+  // OPTION 3: SECRET MISSION ROULETTE LOGIC
+  function updateMissionPreview() {
+    const pv = document.getElementById('pv-mission');
+    const disp = document.getElementById('missionDisplay');
+    if (currentAssignedMission) {
+      if (disp) disp.textContent = currentAssignedMission;
+      if (pv) pv.textContent = '🎯 Misión: ' + currentAssignedMission;
+    } else if (pv) {
+      pv.textContent = '🎯 Misión: Pendiente desbloquear ruleta';
+    }
+  }
+
+  function spinMissionRoulette(isReroll = false) {
+    if (isReroll && missionRerollUsed) return currentAssignedMission;
+    if (missionAnimTimer) {
+      clearInterval(missionAnimTimer);
+      missionAnimTimer = null;
+    }
+    const pool = SECRET_MISSIONS.filter(m => m !== currentAssignedMission);
+    const chosen = pool[Math.floor(Math.random() * pool.length)] || SECRET_MISSIONS[0];
+    currentAssignedMission = chosen;
+
+    if (isReroll) {
+      missionRerollUsed = true;
+      const rBtn = document.getElementById('rerollMissionBtn');
+      if (rBtn) {
+        rBtn.disabled = true;
+        rBtn.textContent = '✅ Misión definitiva bloqueada';
+      }
+    }
+
+    updateMissionPreview();
+    const disp = document.getElementById('missionDisplay');
+    let ticks = 0;
+    if (disp) {
+      missionAnimTimer = setInterval(() => {
+        ticks++;
+        if (ticks >= 5) {
+          clearInterval(missionAnimTimer);
+          missionAnimTimer = null;
+          disp.textContent = chosen;
+        } else {
+          disp.textContent = SECRET_MISSIONS[(ticks + Math.floor(Math.random() * 5)) % SECRET_MISSIONS.length];
+        }
+      }, 65);
+    }
+    return chosen;
+  }
+
+  // OPTION 6: PAPARAZZI DISPOSABLE CAMERA + DRIVE + VIDEO BEAM + QR POSTER
+  function savePaparazziLocalCache() {
+    const trimmed = paparazziPhotos.slice(0, 24).map(p => ({
+      id: p.id,
+      timestamp: p.timestamp,
+      author: p.author,
+      caption: p.caption,
+      thumbUrl: p.thumbUrl,
+      fileUrl: p.fileUrl || ''
+    }));
+    try { localStorage.setItem('kpari26_paparazzi_photos', JSON.stringify(trimmed)); } catch (e) {}
+  }
+
+  async function handlePaparazziUpload(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const statusEl = document.getElementById('paparazziStatus');
+    const authorInput = document.getElementById('paparazzi-author');
+    const captionInput = document.getElementById('paparazzi-caption');
+    const author = ((authorInput && authorInput.value) || '').trim() || 'Invitado K-PARI';
+    const caption = ((captionInput && captionInput.value) || '').trim();
+
+    if (statusEl) {
+      statusEl.style.display = 'block';
+      statusEl.style.color = 'var(--kc-orange)';
+      statusEl.textContent = '📸 Procesando foto para la pantalla gigante...';
+    }
+
+    try {
+      const dataUrl = await new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = ev => res(ev.target.result);
+        r.onerror = rej;
+        r.readAsDataURL(file);
+      });
+      const img = await new Promise((res, rej) => {
+        const im = new Image();
+        im.onload = () => res(im);
+        im.onerror = rej;
+        im.src = dataUrl;
+      });
+
+      const makeScaled = (maxDim, q) => {
+        let w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        return c.toDataURL('image/jpeg', q);
+      };
+
+      const uploadBase64 = makeScaled(1200, 0.82);
+      const localThumb = makeScaled(720, 0.72);
+      const photoId = 'PAP-' + String(Date.now()).slice(-6);
+      const photoObj = {
+        id: photoId,
+        timestamp: new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }),
+        author,
+        caption,
+        thumbUrl: localThumb,
+        fileUrl: ''
+      };
+
+      paparazziPhotos.unshift(photoObj);
+      projectorSlideIdx = 0;
+      savePaparazziLocalCache();
+      renderPaparazziGalleries();
+      renderProjectorView();
+      renderMemoriesCapsule();
+      if (liveChannel) liveChannel.postMessage({ type: 'photos', photos: paparazziPhotos });
+      if (captionInput) captionInput.value = '';
+
+      if (statusEl) {
+        statusEl.style.color = '#2EE69C';
+        statusEl.textContent = '✅ ¡Foto enviada al Muro Paparazzi y al Video Beam HD!';
+      }
+
+      const webhook = getWebhookUrl();
+      if (webhook) {
+        try {
+          const resp = await fetch(webhook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'uploadPaparazzi',
+              photoId,
+              author,
+              caption,
+              photoBase64: uploadBase64,
+              photoMime: 'image/jpeg'
+            })
+          });
+          const data = await resp.json();
+          if (data && data.ok && data.photo) {
+            photoObj.fileUrl = data.photo.fileUrl || '';
+            photoObj.thumbUrl = data.photo.thumbUrl || localThumb;
+            savePaparazziLocalCache();
+            renderPaparazziGalleries();
+            renderMemoriesCapsule();
+          }
+        } catch (err) {
+          console.warn('Paparazzi cloud upload fallback local:', err);
+        }
+      }
+    } catch (err) {
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.style.color = '#ff6b86';
+        statusEl.textContent = '⚠️ No pudimos leer esa imagen, intenta con otra foto.';
+      }
+    }
+  }
+
+  function renderPolaroidStrip(containerEl, photos, withDownload) {
+    if (!containerEl) return;
+    if (!photos.length) {
+      containerEl.innerHTML = `<div style="grid-column:1/-1;padding:18px;border-radius:14px;background:rgba(10,4,28,0.55);color:var(--kc-purple-soft);font-size:0.84rem;text-align:center;">📷 Aún no hay fotos capturadas. ¡Toma la primera para estrenar el muro!</div>`;
+      return;
+    }
+    containerEl.innerHTML = photos.map(p => {
+      const imgSrc = escapeHtml(p.thumbUrl || p.fileUrl || '');
+      const dlHref = escapeHtml(p.fileUrl || p.thumbUrl || '');
+      const dlAttr = (dlHref.startsWith('data:')) ? `download="Paparazzi_${escapeHtml(p.id)}.jpg"` : 'target="_blank"';
+      return `
+        <div class="polaroid-card">
+          <img src="${imgSrc}" alt="Foto Paparazzi" loading="lazy" />
+          <div class="polaroid-author">📸 ${escapeHtml(p.author || 'Invitado')}</div>
+          ${p.caption ? `<div class="polaroid-cap">${escapeHtml(p.caption)}</div>` : ''}
+          ${withDownload && dlHref ? `<a href="${dlHref}" ${dlAttr} class="music-link" style="display:inline-block;margin-top:6px;">⬇️ Descargar</a>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderPaparazziGalleries() {
+    renderPolaroidStrip(document.getElementById('paparazziGallery'), paparazziPhotos, false);
+    const rail = document.getElementById('projectorThumbRail');
+    if (rail) {
+      rail.innerHTML = paparazziPhotos.slice(0, 6).map((p, idx) => `
+        <img src="${escapeHtml(p.thumbUrl || p.fileUrl)}" onclick="projectorSlideIdx=${idx};renderProjectorView();" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ${idx===projectorSlideIdx ? 'var(--kc-orange)' : 'transparent'};" />
+      `).join('');
+    }
+  }
+
+  function generatePaparazziQrPosterDataUrl() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1350;
+    const ctx = canvas.getContext('2d');
+
+    const grad = ctx.createLinearGradient(0, 0, 1080, 1350);
+    grad.addColorStop(0, '#18053B');
+    grad.addColorStop(0.55, '#0E0524');
+    grad.addColorStop(1, '#260859');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 1350);
+
+    ctx.strokeStyle = '#FC873D';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(36, 36, 1008, 1278);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#2EE69C';
+    ctx.font = '900 30px Lato, sans-serif';
+    ctx.fillText('EVENTO PRIVADO • LA TERRAZA CALI • 17 DIC 2026', 540, 135);
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '900 64px Lato, sans-serif';
+    ctx.fillText('📸 CÁMARA DESECHABLE', 540, 232);
+    ctx.fillStyle = '#FC873D';
+    ctx.font = '900 58px Lato, sans-serif';
+    ctx.fillText('PAPARAZZI K-PARI 2026', 540, 306);
+
+    ctx.fillStyle = '#DDDFF5';
+    ctx.font = '700 32px Lato, sans-serif';
+    ctx.fillText('1. Escanea el QR sin instalar ninguna app', 540, 396);
+    ctx.fillText('2. Toma la foto espontánea y ¡sale en el Video Beam HD!', 540, 444);
+
+    const qrUrl = `${window.location.origin}${window.location.pathname}?vip=${encodeURIComponent(DEFAULT_INVITE_CODE)}&cam=1#paparazzi`;
+    drawRealQR(ctx, qrUrl, 290, 520, 500);
+
+    ctx.fillStyle = '#2EE69C';
+    ctx.font = '900 32px Lato, sans-serif';
+    ctx.fillText('✨ TODAS LAS FOTOS QUEDAN EN LA CÁPSULA DEL PARCHE', 540, 1118);
+
+    ctx.fillStyle = '#FCC294';
+    ctx.font = '700 24px Lato, sans-serif';
+    ctx.fillText('LLEGADA 7:00 PM • NOS RESERVAMOS EL DERECHO DE ADMISIÓN', 540, 1205);
+
+    return canvas.toDataURL('image/png');
+  }
+
+  function downloadPaparazziQrPoster() {
+    const url = generatePaparazziQrPosterDataUrl();
+    const a = document.createElement('a');
+    a.download = 'Cartel_QR_Camara_Paparazzi_KPARI_2026.png';
+    a.href = url;
+    a.click();
+  }
+
+  // OPTION 5: K-PARI AWARDS GALA, LIVE MOBILE VOTING & VIDEO BEAM PROJECTOR
+  function getVoterToken() {
+    let tok = '';
+    try { tok = localStorage.getItem('kpari26_voter_token') || ''; } catch (e) {}
+    if (!tok) {
+      tok = 'V-' + Math.random().toString(36).slice(2, 10) + '-' + Date.now().toString(36);
+      try { localStorage.setItem('kpari26_voter_token', tok); } catch (e) {}
+    }
+    return tok;
+  }
+
+  async function persistAwardsState(syncCloud = true) {
+    awardsState.updatedAt = Date.now();
+    try { localStorage.setItem('kpari26_awards_state', JSON.stringify(awardsState)); } catch (e) {}
+    if (liveChannel) liveChannel.postMessage({ type: 'awards', awardsState });
+    renderMobileAwardsVoting();
+    renderProjectorView();
+    renderMemoriesCapsule();
+
+    const webhook = getWebhookUrl();
+    if (syncCloud && webhook && isAdminAuthenticated) {
+      try {
+        await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'saveAwardsState', pin: '2026', awardsState })
+        });
+      } catch (e) {}
+    }
+  }
+
+  function requireHostPin(fn) {
+    if (isAdminAuthenticated) return fn();
+    const pin = prompt('Ingresa el PIN de Anfitrión para controlar la Gala:');
+    if (pin === '2026') {
+      isAdminAuthenticated = true;
+      return fn();
+    } else if (pin !== null) {
+      alert('PIN incorrecto.');
+    }
+  }
+
+  function hostOpenAwardEnvelope(catIdx) {
+    const cat = awardsState.categories[catIdx];
+    if (!cat) return;
+    selectedProjectorCatIdx = catIdx;
+    cat.votingOpen = true;
+    cat.winnerIndex = null;
+    persistAwardsState(true);
+  }
+
+  function hostCrownAwardWinner(catIdx) {
+    const cat = awardsState.categories[catIdx];
+    if (!cat) return;
+    selectedProjectorCatIdx = catIdx;
+    cat.votingOpen = false;
+    const votes = cat.votes || cat.nominees.map(() => 0);
+    let bestIdx = 0;
+    for (let i = 1; i < votes.length; i++) {
+      if (Number(votes[i] || 0) > Number(votes[bestIdx] || 0)) bestIdx = i;
+    }
+    cat.winnerIndex = bestIdx;
+    persistAwardsState(true);
+    launchGoldConfetti();
+  }
+
+  function hostResetAwardCategory(catIdx) {
+    const cat = awardsState.categories[catIdx];
+    if (!cat) return;
+    cat.votes = cat.nominees.map(() => 0);
+    cat.votingOpen = false;
+    cat.winnerIndex = null;
+    cat.votedTokens = [];
+    delete votedMap[cat.id];
+    try { localStorage.setItem('kpari26_voted_map', JSON.stringify(votedMap)); } catch (e) {}
+    persistAwardsState(true);
+  }
+
+  function hostAddCustomCategory() {
+    const title = prompt('Título de la nueva categoría de los K-PARI Awards:');
+    if (!title || !title.trim()) return;
+    const rawNoms = prompt('Escribe los nominados separados por coma (Ej. Juan, Camila, El Primo):');
+    if (!rawNoms || !rawNoms.trim()) return;
+    const nominees = rawNoms.split(',').map(s => s.trim()).filter(Boolean).slice(0, 6);
+    if (nominees.length < 2) {
+      alert('Ingresa al menos 2 nominados separados por coma.');
+      return;
+    }
+    awardsState.categories.push({
+      id: 'cat-' + Date.now().toString(36),
+      title: title.trim(),
+      nominees,
+      votes: nominees.map(() => 0),
+      votingOpen: false,
+      winnerIndex: null,
+      votedTokens: []
+    });
+    selectedProjectorCatIdx = awardsState.categories.length - 1;
+    persistAwardsState(true);
+  }
+
+  function importNominationsFromRecords() {
+    const texts = new Set();
+    localRecords.forEach(r => { if (r.status !== 'ANULADA' && r.nomination) texts.add(String(r.nomination).trim()); });
+    liveGuestNominations.forEach(n => { if (n) texts.add(String(n).trim()); });
+    if (!texts.size) {
+      alert('Aún no hay nominaciones enviadas en los formularios de inscritos.');
+      return;
+    }
+    const items = Array.from(texts).slice(0, 5);
+    const id = 'cat-guest-noms';
+    const existing = awardsState.categories.find(c => c.id === id);
+    if (existing) {
+      existing.nominees = items;
+      existing.votes = items.map((_, i) => existing.votes[i] || 0);
+      selectedProjectorCatIdx = awardsState.categories.indexOf(existing);
+    } else {
+      awardsState.categories.push({
+        id,
+        title: 'Nominaciones Secretas del Público (Postuladas en Registro)',
+        nominees: items,
+        votes: items.map(() => 0),
+        votingOpen: false,
+        winnerIndex: null,
+        votedTokens: []
+      });
+      selectedProjectorCatIdx = awardsState.categories.length - 1;
+    }
+    persistAwardsState(true);
+    alert(`Se importaron ${items.length} nominaciones secretas a la Gala.`);
+  }
+
+  async function castMobileAwardVote(catIdx, nomIdx) {
+    const cat = awardsState.categories[catIdx];
+    if (!cat || !cat.votingOpen) return;
+    if (votedMap[cat.id] !== undefined) return;
+    const tok = getVoterToken();
+    cat.votedTokens = cat.votedTokens || [];
+    if (cat.votedTokens.includes(tok)) {
+      votedMap[cat.id] = nomIdx;
+      renderMobileAwardsVoting();
+      return;
+    }
+
+    cat.votes = cat.votes || cat.nominees.map(() => 0);
+    cat.votes[nomIdx] = Number(cat.votes[nomIdx] || 0) + 1;
+    cat.votedTokens.push(tok);
+    votedMap[cat.id] = nomIdx;
+    try { localStorage.setItem('kpari26_voted_map', JSON.stringify(votedMap)); } catch (e) {}
+    try { localStorage.setItem('kpari26_awards_state', JSON.stringify(awardsState)); } catch (e) {}
+    if (liveChannel) liveChannel.postMessage({ type: 'awards', awardsState });
+
+    renderMobileAwardsVoting();
+    renderProjectorView();
+
+    const webhook = getWebhookUrl();
+    if (webhook) {
+      try {
+        const resp = await fetch(webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'castAwardVote',
+            categoryId: cat.id,
+            categoryIdx: catIdx,
+            nomineeIndex: nomIdx,
+            voterToken: tok
+          })
+        });
+        const d = await resp.json();
+        if (d && d.ok && d.awardsState) {
+          awardsState = d.awardsState;
+          try { localStorage.setItem('kpari26_awards_state', JSON.stringify(awardsState)); } catch (e) {}
+          renderMobileAwardsVoting();
+          renderProjectorView();
+        }
+      } catch (e) {}
+    }
+  }
+
+  function renderMobileAwardsVoting() {
+    const box = document.getElementById('mobileAwardsLiveBox');
+    if (!box) return;
+    const openCats = (awardsState.categories || []).map((c, idx) => ({ c, idx })).filter(x => x.c.votingOpen);
+
+    if (openCats.length) {
+      box.innerHTML = openCats.map(({ c, idx }) => {
+        const pickedIdx = votedMap[c.id];
+        const hasVoted = pickedIdx !== undefined;
+        const total = (c.votes || []).reduce((a, b) => a + Number(b || 0), 0);
+        return `
+          <div style="background:rgba(10,4,28,0.72);border:1.5px solid var(--kc-orange);border-radius:18px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:0.78rem;font-weight:900;color:#ff6b86;text-transform:uppercase;margin-bottom:6px;"><span class="live-dot"></span>EN VIVO EN EL VIDEO BEAM • ${total} voto(s)</div>
+            <div style="font-size:1.05rem;font-weight:900;color:#fff;margin-bottom:12px;">🏆 ${escapeHtml(c.title)}</div>
+            ${c.nominees.map((nom, nIdx) => {
+              const vCount = Number((c.votes && c.votes[nIdx]) || 0);
+              const pct = total > 0 ? Math.round((vCount / total) * 100) : 0;
+              return `
+                <button type="button" class="vote-opt-btn ${pickedIdx === nIdx ? 'picked' : ''}" ${hasVoted ? 'disabled' : ''} onclick="castMobileAwardVote(${idx}, ${nIdx})">
+                  <span>${pickedIdx === nIdx ? '✅ ' : '👉 '}${escapeHtml(nom)}</span>
+                  <span style="font-size:0.84rem;color:var(--kc-orange-soft);">${hasVoted ? `${vCount} votos (${pct}%)` : 'Votar'}</span>
+                </button>
+              `;
+            }).join('')}
+            ${hasVoted ? `<div style="font-size:0.8rem;color:var(--kc-green-vivid);font-weight:900;margin-top:4px;">✅ Tu voto fue registrado para esta categoría. ¡Mira el Video Beam!</div>` : ''}
+          </div>
+        `;
+      }).join('');
+      return;
+    }
+
+    // Idle state: show categories & winners crowned so far
+    box.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        ${(awardsState.categories || []).map((c, idx) => {
+          const hasWinner = typeof c.winnerIndex === 'number' && c.nominees[c.winnerIndex];
+          return `
+            <div style="background:rgba(10,4,28,0.6);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+              <div>
+                <div style="font-size:0.9rem;font-weight:900;color:#fff;">✉️ ${idx + 1}. ${escapeHtml(c.title)}</div>
+                <div style="font-size:0.78rem;color:${hasWinner ? 'var(--kc-green-vivid)' : 'var(--kc-purple-soft)'};margin-top:2px;">
+                  ${hasWinner ? `👑 Ganador oficial: <b>${escapeHtml(c.nominees[c.winnerIndex])}</b>` : 'Sobre sellado — espera a que el anfitrión lo abra en pantalla'}
+                </div>
+              </div>
+              <button type="button" class="mission-mini-btn" onclick="openProjectorMode('awards');selectedProjectorCatIdx=${idx};renderProjectorView();">Ver sobre</button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderProjectorView() {
+    const modal = document.getElementById('projectorModal');
+    if (!modal || !modal.classList.contains('open')) return;
+
+    const pView = document.getElementById('projPaparazziView');
+    const aView = document.getElementById('projAwardsView');
+    const pBtn = document.getElementById('projTabPaparazzi');
+    const aBtn = document.getElementById('projTabAwards');
+    if (pView) pView.style.display = projectorActiveTab === 'paparazzi' ? 'grid' : 'none';
+    if (aView) aView.style.display = projectorActiveTab === 'awards' ? 'grid' : 'none';
+    if (pBtn) pBtn.classList.toggle('neon', projectorActiveTab === 'paparazzi');
+    if (aBtn) aBtn.classList.toggle('neon', projectorActiveTab === 'awards');
+
+    // Render QRs cleanly
+    const camQrCanvas = document.getElementById('projectorCamQr');
+    if (camQrCanvas) {
+      const camCtx = camQrCanvas.getContext('2d');
+      camCtx.clearRect(0, 0, 210, 210);
+      drawRealQR(camCtx, `${window.location.origin}${window.location.pathname}?vip=${encodeURIComponent(DEFAULT_INVITE_CODE)}&cam=1#paparazzi`, 12, 12, 186);
+    }
+    const voteQrCanvas = document.getElementById('projectorVoteQr');
+    if (voteQrCanvas) {
+      const voteCtx = voteQrCanvas.getContext('2d');
+      voteCtx.clearRect(0, 0, 210, 210);
+      drawRealQR(voteCtx, `${window.location.origin}${window.location.pathname}?vip=${encodeURIComponent(DEFAULT_INVITE_CODE)}&vote=1#awards-live`, 12, 12, 186);
+    }
+
+    if (projectorActiveTab === 'paparazzi') {
+      const stage = document.getElementById('projectorPhotoStage');
+      if (stage && paparazziPhotos.length) {
+        if (projectorSlideIdx >= paparazziPhotos.length) projectorSlideIdx = 0;
+        const p = paparazziPhotos[projectorSlideIdx];
+        stage.innerHTML = `
+          <img src="${escapeHtml(p.thumbUrl || p.fileUrl)}" alt="Foto Paparazzi" />
+          <div style="margin-top:14px;font-size:1.35rem;font-weight:900;color:var(--kc-green-vivid);">📸 ${escapeHtml(p.author || 'Invitado K-PARI')}</div>
+          ${p.caption ? `<div style="margin-top:4px;font-size:1.15rem;color:#fff;">"${escapeHtml(p.caption)}"</div>` : ''}
+          <div style="margin-top:6px;font-size:0.8rem;color:var(--kc-purple-soft);">Foto ${projectorSlideIdx + 1} de ${paparazziPhotos.length} • ${escapeHtml(p.timestamp || '')}</div>
+        `;
+      }
+      renderPaparazziGalleries();
+      return;
+    }
+
+    // Awards Projector View
+    const cats = awardsState.categories || [];
+    if (selectedProjectorCatIdx >= cats.length) selectedProjectorCatIdx = 0;
+    const cat = cats[selectedProjectorCatIdx];
+
+    const strip = document.getElementById('projEnvelopeStrip');
+    if (strip) {
+      strip.innerHTML = cats.map((c, idx) => {
+        const icon = typeof c.winnerIndex === 'number' ? '👑' : (c.votingOpen ? '🔴' : '✉️');
+        return `<button type="button" class="envelope-chip ${idx === selectedProjectorCatIdx ? 'active' : ''}" onclick="selectedProjectorCatIdx=${idx};renderProjectorView();">${icon} Sobre #${idx + 1}</button>`;
+      }).join('');
+    }
+
+    const center = document.getElementById('projAwardCenter');
+    if (center && cat) {
+      const total = (cat.votes || []).reduce((a, b) => a + Number(b || 0), 0);
+      const hasWinner = typeof cat.winnerIndex === 'number' && cat.nominees[cat.winnerIndex];
+      let stateHtml = '';
+      if (hasWinner) {
+        stateHtml = `
+          <div style="text-align:center;padding:24px 12px;background:linear-gradient(135deg, rgba(252,135,61,0.28), rgba(0,127,78,0.32));border:2px solid #FC873D;border-radius:22px;margin-bottom:16px;">
+            <div style="font-size:0.95rem;font-weight:900;letter-spacing:2px;color:var(--kc-orange-soft);">👑 GANADOR OFICIAL K-PARI 2026</div>
+            <div style="font-size:clamp(2rem,4.5vw,3.1rem);font-weight:900;color:#fff;margin:8px 0;">${escapeHtml(cat.nominees[cat.winnerIndex])}</div>
+            <div style="font-size:1rem;color:var(--kc-green-vivid);font-weight:900;">${Number((cat.votes && cat.votes[cat.winnerIndex]) || 0)} de ${total} voto(s)</div>
+          </div>
+        `;
+      } else if (!cat.votingOpen) {
+        stateHtml = `
+          <div style="text-align:center;padding:26px 14px;background:rgba(88,0,205,0.22);border:1.5px dashed rgba(252,135,61,0.55);border-radius:22px;margin-bottom:16px;">
+            <div style="font-size:2.4rem;margin-bottom:6px;">✉️✨</div>
+            <div style="font-size:1.15rem;font-weight:900;color:var(--kc-orange-soft);">SOBRE DORADO SELLADO — LISTO PARA ABRIR</div>
+            <div style="font-size:0.9rem;color:var(--kc-purple-ice);margin-top:4px;">Nominados: ${cat.nominees.map(n => escapeHtml(n)).join(' • ')}</div>
+          </div>
+        `;
+      } else {
+        stateHtml = `
+          <div style="font-size:0.86rem;font-weight:900;color:#ff6b86;margin-bottom:10px;"><span class="live-dot"></span>VOTACIÓN ABIERTA EN TIEMPO REAL • ${total} voto(s)</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            ${cat.nominees.map((nom, nIdx) => {
+              const vCount = Number((cat.votes && cat.votes[nIdx]) || 0);
+              const pct = total > 0 ? Math.round((vCount / total) * 100) : 0;
+              return `
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-weight:900;font-size:1.08rem;">
+                    <span>${escapeHtml(nom)}</span>
+                    <span style="color:var(--kc-green-vivid);">${vCount} (${pct}%)</span>
+                  </div>
+                  <div class="bar-track-lg"><div class="bar-fill-lg" style="width:${pct}%"></div></div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      center.innerHTML = `
+        <div style="font-size:0.8rem;font-weight:900;color:var(--kc-orange);letter-spacing:1.5px;text-transform:uppercase;">CATEGORÍA #${selectedProjectorCatIdx + 1} DE ${cats.length}</div>
+        <h2 style="font-size:clamp(1.5rem,3vw,2.25rem);margin:6px 0 18px;color:#fff;">🏆 ${escapeHtml(cat.title)}</h2>
+        ${stateHtml}
+      `;
+    }
+
+    const hostCtrls = document.getElementById('projHostControls');
+    if (hostCtrls && cat) {
+      hostCtrls.innerHTML = `
+        <button type="button" class="live-pill-btn neon" onclick="requireHostPin(() => hostOpenAwardEnvelope(${selectedProjectorCatIdx}))">✨ Abrir Sobre y Activar Votación</button>
+        <button type="button" class="live-pill-btn" style="background:var(--kc-green);border-color:var(--kc-green-vivid);" onclick="requireHostPin(() => hostCrownAwardWinner(${selectedProjectorCatIdx}))">👑 Cerrar Votos y Revelar Ganador</button>
+        <button type="button" class="live-pill-btn" onclick="requireHostPin(() => hostAddCustomCategory())">➕ Categoría Nueva</button>
+        <button type="button" class="live-pill-btn" onclick="requireHostPin(() => importNominationsFromRecords())">📥 Importar Nominaciones</button>
+        <button type="button" class="live-pill-btn" onclick="requireHostPin(() => hostResetAwardCategory(${selectedProjectorCatIdx}))">🔄 Reiniciar Sobre</button>
+      `;
+    }
+  }
+
+  function openProjectorMode(initialTab = 'paparazzi') {
+    const modal = document.getElementById('projectorModal');
+    if (!modal) return;
+    projectorActiveTab = initialTab;
+    modal.classList.add('open');
+    renderProjectorView();
+    if (projectorSlideTimer) clearInterval(projectorSlideTimer);
+    projectorSlideTimer = setInterval(() => {
+      if (projectorActiveTab === 'paparazzi' && paparazziPhotos.length > 1) {
+        projectorSlideIdx = (projectorSlideIdx + 1) % paparazziPhotos.length;
+        renderProjectorView();
+      }
+    }, 6000);
+    if (projectorSyncTimer) clearInterval(projectorSyncTimer);
+    projectorSyncTimer = setInterval(syncLiveFeed, 6000);
+    syncLiveFeed();
+  }
+
+  function switchProjectorTab(tab) {
+    projectorActiveTab = tab;
+    renderProjectorView();
+  }
+
+  function closeProjectorMode() {
+    const modal = document.getElementById('projectorModal');
+    if (modal) modal.classList.remove('open');
+    if (projectorSlideTimer) { clearInterval(projectorSlideTimer); projectorSlideTimer = null; }
+    if (projectorSyncTimer) { clearInterval(projectorSyncTimer); projectorSyncTimer = null; }
+  }
+
+  function toggleProjectorFullscreen() {
+    const el = document.getElementById('projectorModal');
+    if (!document.fullscreenElement && el && el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    } else if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  function launchGoldConfetti() {
+    const canvas = document.getElementById('confettiCanvas');
+    if (!canvas) return;
+    canvas.width = canvas.offsetWidth || 800;
+    canvas.height = canvas.offsetHeight || 500;
+    const ctx = canvas.getContext('2d');
+    const colors = ['#FC873D', '#2EE69C', '#FFD700', '#FFFFFF', '#B3B3E9'];
+    const parts = Array.from({ length: 85 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * -160,
+      w: 6 + Math.random() * 8,
+      h: 8 + Math.random() * 10,
+      vy: 3 + Math.random() * 4.5,
+      vx: -1.8 + Math.random() * 3.6,
+      rot: Math.random() * Math.PI * 2,
+      vr: -0.15 + Math.random() * 0.3,
+      col: colors[Math.floor(Math.random() * colors.length)]
+    }));
+    let frames = 0;
+    function step() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      parts.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.col;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+      frames++;
+      if (frames < 120) requestAnimationFrame(step);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // OPTION 8: POST-PARTY MEMORIES CAPSULE
+  function collectOfficialPlaylist() {
+    const map = new Map();
+    const pushTrack = (song, firstName, role) => {
+      const cleanSong = String(song || '').trim();
+      if (!cleanSong) return;
+      const key = cleanSong.toLowerCase();
+      if (!map.has(key)) {
+        map.set(key, {
+          song: cleanSong,
+          firstName: String(firstName || 'Invitado K-PARI').replace(/\s*\(CC[^)]*\)/gi, '').trim(),
+          role: String(role || 'Invitado VIP')
+        });
+      }
+    };
+    livePlaylist.forEach(t => pushTrack(t.song, t.firstName, t.role));
+    localRecords.forEach(r => {
+      if (r.status !== 'ANULADA' && r.song) pushTrack(r.song, r.name, r.role);
+    });
+    return Array.from(map.values());
+  }
+
+  function renderMemoriesCapsule() {
+    const cap = document.getElementById('memoriesCapsule');
+    if (!cap || !cap.classList.contains('open')) return;
+
+    const countEl = document.getElementById('memoriesPhotoCount');
+    if (countEl) countEl.textContent = `${paparazziPhotos.length} foto(s) capturada(s)`;
+    renderPolaroidStrip(document.getElementById('memoriesPhotoGrid'), paparazziPhotos, true);
+
+    const wGrid = document.getElementById('memoriesWinnersGrid');
+    if (wGrid) {
+      wGrid.innerHTML = (awardsState.categories || []).map(c => {
+        const hasWin = typeof c.winnerIndex === 'number' && c.nominees[c.winnerIndex];
+        const total = (c.votes || []).reduce((a, b) => a + Number(b || 0), 0);
+        const wVotes = hasWin ? Number((c.votes && c.votes[c.winnerIndex]) || 0) : 0;
+        return `
+          <div class="winner-card">
+            <div style="font-size:0.75rem;font-weight:900;color:var(--kc-orange-soft);text-transform:uppercase;margin-bottom:4px;">🏆 ${escapeHtml(c.title)}</div>
+            <div style="font-size:1.18rem;font-weight:900;color:#fff;margin-top:6px;">
+              ${hasWin ? `👑 ${escapeHtml(c.nominees[c.winnerIndex])}` : '⏳ Pendiente de premiación'}
+            </div>
+            <div style="font-size:0.78rem;color:var(--kc-green-vivid);margin-top:4px;font-weight:700;">
+              ${hasWin ? `${wVotes} de ${total} voto(s)` : 'Se revelará en la Gala de La Terraza'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    const pGrid = document.getElementById('memoriesPlaylistGrid');
+    if (pGrid) {
+      const tracks = collectOfficialPlaylist();
+      if (!tracks.length) {
+        pGrid.innerHTML = `<div class="playlist-row"><span style="color:var(--kc-purple-soft);">🎵 Aún no hay canciones registradas al pedir boleta. ¡Cada boleta nueva suma un himno oficial aquí!</span></div>`;
+      } else {
+        pGrid.innerHTML = tracks.map((t, idx) => `
+          <div class="playlist-row">
+            <div>
+              <strong style="color:#fff;">${idx + 1}. 🎵 ${escapeHtml(t.song)}</strong>
+              <div style="font-size:0.78rem;color:var(--kc-purple-soft);">Pedida por ${escapeHtml(t.firstName)} • ${escapeHtml(t.role)}</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <a class="music-link" href="https://open.spotify.com/search/${encodeURIComponent(t.song)}" target="_blank">💚 Spotify</a>
+              <a class="music-link" href="https://music.youtube.com/search?q=${encodeURIComponent(t.song)}" target="_blank">🔴 YouTube Music</a>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+  }
+
+  function copyPlaylistText() {
+    const tracks = collectOfficialPlaylist();
+    if (!tracks.length) {
+      alert('Aún no hay canciones registradas para copiar.');
+      return;
+    }
+    const text = '🎵 PLAYLIST OFICIAL K-PARI 2026 — LA TERRAZA CALI\n\n' +
+      tracks.map((t, i) => `${i + 1}. ${t.song} (pedida por ${t.firstName})`).join('\n');
+    navigator.clipboard.writeText(text);
+    alert('✅ Playlist copiada al portapapeles.');
+  }
+
+  function syncMemoriesCapsuleVisibility(autoOpenFromStage) {
+    const cap = document.getElementById('memoriesCapsule');
+    const closeBtn = document.getElementById('closeMemoriesPreviewBtn');
+    if (!cap) return;
+    const shouldOpen = Boolean(autoOpenFromStage || previewMemoriesMode);
+    cap.classList.toggle('open', shouldOpen);
+    if (closeBtn) closeBtn.style.display = (!autoOpenFromStage && previewMemoriesMode) ? 'inline-flex' : 'none';
+    if (shouldOpen) renderMemoriesCapsule();
+  }
+
+  function toggleMemoriesPreview(show) {
+    previewMemoriesMode = Boolean(show);
+    const activeIdx = getActiveStageIndex();
+    syncMemoriesCapsuleVisibility(activeIdx >= STAGE_DEFS.length);
+    if (show) {
+      const cap = document.getElementById('memoriesCapsule');
+      if (cap) cap.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // HYBRID LIVE SYNC (Cloud + LocalStorage + BroadcastChannel)
+  async function syncLiveFeed() {
+    const webhook = getWebhookUrl();
+    if (!webhook) return;
+    try {
+      const resp = await fetch(`${webhook}?feed=live`);
+      const data = await resp.json();
+      if (!data || !data.ok || Number(data.serverVersion || 1) < 2) return;
+
+      if (Array.isArray(data.photos)) {
+        const merged = [];
+        const seenIds = new Set();
+        [...data.photos, ...paparazziPhotos].forEach(p => {
+          if (p && p.id && !seenIds.has(p.id)) {
+            seenIds.add(p.id);
+            merged.push(p);
+          }
+        });
+        paparazziPhotos = merged.slice(0, 60);
+        savePaparazziLocalCache();
+      }
+      if (data.awardsState && Array.isArray(data.awardsState.categories)) {
+        if (!awardsState.updatedAt || Number(data.awardsState.updatedAt || 0) >= Number(awardsState.updatedAt || 0)) {
+          awardsState = data.awardsState;
+          try { localStorage.setItem('kpari26_awards_state', JSON.stringify(awardsState)); } catch (e) {}
+        }
+      }
+      if (Array.isArray(data.playlist)) livePlaylist = data.playlist;
+      if (Array.isArray(data.guestNominations)) liveGuestNominations = data.guestNominations;
+
+      renderPaparazziGalleries();
+      renderMobileAwardsVoting();
+      renderProjectorView();
+      renderMemoriesCapsule();
+    } catch (e) {}
+  }
+
+  if (liveChannel) {
+    liveChannel.onmessage = (ev) => {
+      const msg = ev.data || {};
+      if (msg.type === 'photos' && Array.isArray(msg.photos)) {
+        paparazziPhotos = msg.photos;
+        renderPaparazziGalleries();
+        renderProjectorView();
+        renderMemoriesCapsule();
+      } else if (msg.type === 'awards' && msg.awardsState) {
+        awardsState = msg.awardsState;
+        renderMobileAwardsVoting();
+        renderProjectorView();
+        renderMemoriesCapsule();
+      }
+    };
   }
 
   // Check URL parameters if someone scans a ticket QR at the door (?verify=KP26-XXX)
@@ -1934,20 +3374,37 @@
         if (d && d.found) {
           const ok = d.status !== 'ANULADA';
           banner.style.background = ok ? 'rgba(0,127,78,0.45)' : 'rgba(180,20,50,0.75)';
-          banner.innerHTML = `<h2>${ok ? '✅ BOLETA VÁLIDA EN PUERTA (VERIFICAR CÉDULA)' : '🚨 ACCESO DENEGADO — DERECHO DE ADMISIÓN APLICADO'}</h2><p><b>#${d.ticketId}</b> — ${d.name} (${d.stage}) • Estado: <b>${d.status}</b></p>`;
+          banner.innerHTML = `<h2>${ok ? '✅ BOLETA VÁLIDA EN PUERTA (VERIFICAR CÉDULA)' : '🚨 ACCESO DENEGADO — DERECHO DE ADMISIÓN APLICADO'}</h2><p><b>#${escapeHtml(d.ticketId)}</b> — ${escapeHtml(d.name)} (${escapeHtml(d.stage)}) • Estado: <b>${escapeHtml(d.status)}</b>${d.mission ? '<br>🎯 <b>Misión secreta:</b> ' + escapeHtml(d.mission) : ''}</p>`;
           return;
         }
       } catch (e) {}
     }
-    banner.innerHTML = `<h2>🎟️ BOLETA ESCANEADA: #${vId}</h2><p>Titular registrado en QR: <b>${vName}</b></p>`;
+    banner.innerHTML = `<h2>🎟️ BOLETA ESCANEADA: #${escapeHtml(vId)}</h2><p>Titular registrado en QR: <b>${escapeHtml(vName)}</b></p>`;
+  })();
+
+  (function handleInitialExperienceParams() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('cam') === '1') {
+      const el = document.getElementById('paparazzi');
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 300);
+    } else if (params.get('vote') === '1') {
+      const el = document.getElementById('awards-live');
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 300);
+    } else if (params.get('projector') === '1') {
+      setTimeout(() => openProjectorMode('paparazzi'), 350);
+    }
   })();
 
   renderAdminTable();
+  renderPaparazziGalleries();
+  renderMobileAwardsVoting();
   syncStageAvailability(true);
   tick();
   setInterval(tick, 1000);
   syncTrustedNetworkTime();
   setInterval(syncTrustedNetworkTime, 300000);
+  syncLiveFeed();
+  setInterval(syncLiveFeed, 18000);
 </script>
 </body>
 </html>
