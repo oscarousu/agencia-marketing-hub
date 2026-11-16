@@ -1458,8 +1458,39 @@
   let isAdminAuthenticated = false;
   let previewMemoriesMode = (new URLSearchParams(window.location.search).get('modo') === 'recuerdos');
 
+  function normalizeRecord(r) {
+    if (!r || typeof r !== 'object') return {};
+    const nameStr = String(r.name ?? '');
+    let docStr = String(r.docId ?? '');
+    if (!docStr) {
+      const m = nameStr.match(/\(CC\s*([^)]+)\)/i);
+      if (m) docStr = m[1].trim();
+    }
+    return {
+      ...r,
+      timestamp: String(r.timestamp ?? ''),
+      id: String(r.id ?? ''),
+      name: nameStr,
+      docId: docStr,
+      phone: String(r.phone ?? ''),
+      role: String(r.role ?? ''),
+      stage: String(r.stage ?? ''),
+      val: Number(r.val || 0),
+      song: String(r.song ?? ''),
+      nomination: String(r.nomination ?? ''),
+      mission: String(r.mission ?? ''),
+      status: String(r.status ?? 'VERIFICADO'),
+      receiptUrl: String(r.receiptUrl ?? ''),
+      fileId: String(r.fileId ?? ''),
+      receiptHash: r.receiptHash ? String(r.receiptHash) : null
+    };
+  }
+
   let localRecords = [];
-  try { localRecords = JSON.parse(localStorage.getItem('kpari26_repo') || '[]'); } catch (e) { localRecords = []; }
+  try {
+    const rawRepo = JSON.parse(localStorage.getItem('kpari26_repo') || '[]');
+    localRecords = Array.isArray(rawRepo) ? rawRepo.map(normalizeRecord) : [];
+  } catch (e) { localRecords = []; }
 
   let paparazziPhotos = [];
   try { paparazziPhotos = JSON.parse(localStorage.getItem('kpari26_paparazzi_photos') || '[]'); } catch (e) { paparazziPhotos = []; }
@@ -1944,57 +1975,75 @@
     return receiptVerifiedOk;
   }
 
+  function withTimeout(promise, ms, msg) {
+    let timer;
+    return Promise.race([
+      promise,
+      new Promise((_, rej) => { timer = setTimeout(() => rej(new Error(msg)), ms); })
+    ]).finally(() => clearTimeout(timer));
+  }
+
   async function runSmartReceiptOcr(sourceEl, reqAmount, onProgress) {
     if (typeof Tesseract === 'undefined') {
-      throw new Error('Motor de verificación visual cargando, intenta en 2 segundos.');
+      throw new Error('Motor de verificación visual aún cargando, intenta de nuevo en 2 segundos.');
     }
-    let passStart = 0, passSpan = 0.45;
-    const worker = await Tesseract.createWorker('spa+eng', 1, {
-      logger: m => {
-        if (m.status === 'recognizing text' && typeof m.progress === 'number' && onProgress) {
-          onProgress(Math.min(0.99, passStart + m.progress * passSpan));
-        }
-      }
-    });
-
+    let passStart = 0.14, passSpan = 0.36;
+    let worker = null;
     try {
+      worker = await withTimeout(
+        Tesseract.createWorker('spa+eng', 1, {
+          logger: m => {
+            if (!onProgress || typeof m.progress !== 'number') return;
+            if (m.status === 'recognizing text') {
+              onProgress(Math.min(0.99, passStart + m.progress * passSpan));
+            } else if (m.status && (m.status.includes('loading') || m.status.includes('initializing'))) {
+              onProgress(Math.min(0.14, 0.03 + m.progress * 0.11));
+            }
+          }
+        }),
+        25000,
+        'Tiempo agotado al iniciar el escáner OCR. Verifica tu internet e intenta nuevamente.'
+      );
+
       let combinedText = '';
 
       // Pass 1: Standard 1600px auto-polarity, PSM 3 (ideal for Nequi & dense receipts)
-      passStart = 0.0; passSpan = 0.45;
+      passStart = 0.14; passSpan = 0.36;
       await worker.setParameters({ tessedit_pageseg_mode: '3' });
       const p1 = buildPreprocessedCanvas(sourceEl, 1600, 'auto', false);
-      combinedText += (await worker.recognize(p1.canvas)).data.text || '';
+      combinedText += (await withTimeout(worker.recognize(p1.canvas), 20000, 'Tiempo agotado leyendo el comprobante.')).data.text || '';
       if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
 
       // Pass 2: Sparse text PSM 11 on 1400px binarized canvas (captures isolated hero display amounts like Bancolombia Dark Mode)
-      passStart = 0.45; passSpan = 0.27;
+      passStart = 0.50; passSpan = 0.24;
       await worker.setParameters({ tessedit_pageseg_mode: '11' });
       const p2 = buildPreprocessedCanvas(sourceEl, 1400, 'auto', true);
-      combinedText += '\n' + ((await worker.recognize(p2.canvas)).data.text || '');
+      combinedText += '\n' + ((await withTimeout(worker.recognize(p2.canvas), 20000, 'Tiempo agotado leyendo el comprobante.')).data.text || '');
       if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
 
       // Pass 3: Downscaled 560px canvas with PSM 3 (normalizes oversized hero typography into paragraph scale)
-      passStart = 0.72; passSpan = 0.16;
+      passStart = 0.74; passSpan = 0.15;
       await worker.setParameters({ tessedit_pageseg_mode: '3' });
       const p3 = buildPreprocessedCanvas(sourceEl, 560, 'auto', false);
-      combinedText += '\n' + ((await worker.recognize(p3.canvas)).data.text || '');
+      combinedText += '\n' + ((await withTimeout(worker.recognize(p3.canvas), 15000, 'Tiempo agotado leyendo el comprobante.')).data.text || '');
       if (hasAllCriteriaQuick(combinedText, reqAmount)) return combinedText;
 
       // Pass 4: Sparse text opposite polarity fallback (for colored pills & mixed contrast receipts)
-      passStart = 0.88; passSpan = 0.11;
+      passStart = 0.89; passSpan = 0.10;
       await worker.setParameters({ tessedit_pageseg_mode: '11' });
       const p4 = buildPreprocessedCanvas(sourceEl, 1200, !p1.invertedUsed, false);
-      combinedText += '\n' + ((await worker.recognize(p4.canvas)).data.text || '');
+      combinedText += '\n' + ((await withTimeout(worker.recognize(p4.canvas), 15000, 'Tiempo agotado leyendo el comprobante.')).data.text || '');
 
       return combinedText;
     } finally {
-      await worker.terminate();
+      if (worker) {
+        try { await worker.terminate(); } catch (e) {}
+      }
     }
   }
 
   async function handleReceiptUpload(e) {
-    const file = e.target.files[0];
+    const file = e.target.files && e.target.files[0];
     if (!file) return;
 
     receiptVerifiedOk = false;
@@ -2009,37 +2058,40 @@
     const headline = document.getElementById('verifyHeadline');
     const reason = document.getElementById('verifyReason');
 
-    dropZone.classList.remove('loaded', 'rejected');
-    dropZone.classList.add('scanning');
-    document.getElementById('uploadPrompt').style.display = 'none';
-    document.getElementById('receiptFileName').textContent = "📄 " + file.name;
-
-    auditBox.classList.add('show');
-    scanBarWrap.style.display = 'block';
-    scanBarFill.style.width = '12%';
-    headline.style.color = 'var(--kc-orange)';
-    headline.textContent = '🔍 Escaneando visualmente el comprobante...';
-    reason.textContent = 'Validando autenticidad bancaria, llave @oscar9052 y valor de la etapa...';
-    ['chk-doc', 'chk-key', 'chk-amt'].forEach((id, i) => {
-      const el = document.getElementById(id);
-      el.className = 'audit-item';
-      if (i === 0) el.innerHTML = '⏳ 1. Analizando estructura de comprobante bancario...';
-      if (i === 1) el.innerHTML = '⏳ 2. Buscando llave destino <b>@oscar9052</b>...';
-      if (i === 2) el.innerHTML = '⏳ 3. Comprobando valor exacto de la etapa...';
-    });
-    checkFormReady();
-
     try {
+      dropZone.classList.remove('loaded', 'rejected');
+      dropZone.classList.add('scanning');
+      document.getElementById('uploadPrompt').style.display = 'none';
+      document.getElementById('receiptFileName').textContent = "📄 " + file.name;
+
+      auditBox.classList.add('show');
+      scanBarWrap.style.display = 'block';
+      scanBarFill.style.width = '12%';
+      headline.style.color = 'var(--kc-orange)';
+      headline.textContent = '🔍 Escaneando visualmente el comprobante...';
+      reason.style.color = 'var(--kc-purple-soft)';
+      reason.textContent = 'Validando autenticidad bancaria, llave @oscar9052 y valor de la etapa...';
+      ['chk-doc', 'chk-key', 'chk-amt'].forEach((id, i) => {
+        const el = document.getElementById(id);
+        el.className = 'audit-item';
+        if (i === 0) el.innerHTML = '⏳ 1. Analizando estructura de comprobante bancario...';
+        if (i === 1) el.innerHTML = '⏳ 2. Buscando llave destino <b>@oscar9052</b>...';
+        if (i === 2) el.innerHTML = '⏳ 3. Comprobando valor exacto de la etapa...';
+      });
+      checkFormReady();
+
       const arrayBuf = await file.arrayBuffer();
       currentReceiptHash = await computeSha256Hex(arrayBuf);
       const planAmount = Number(document.getElementById('r-plan').value.split('|')[1]);
 
       if (file.type === "application/pdf" || file.name.toLowerCase().endsWith('.pdf')) {
         uploadedReceiptMime = "application/pdf";
-        uploadedReceiptBase64 = await new Promise(res => {
+        const pdfBlob = new Blob([arrayBuf], { type: 'application/pdf' });
+        uploadedReceiptBase64 = await new Promise((res, rej) => {
           const r = new FileReader();
           r.onload = ev => res(ev.target.result);
-          r.readAsDataURL(file);
+          r.onerror = rej;
+          r.readAsDataURL(pdfBlob);
         });
 
         let extractedText = '';
@@ -2077,20 +2129,15 @@
         evaluateReceiptCriteria(extractedText);
 
       } else {
-        // Image visual upload + Smart 4-Pass Multi-Scale & Multi-PSM OCR (Bancolombia Dark Mode, Nequi, Nu, Bre-B, etc.)
+        // Single-read image decode + Smart 4-Pass Multi-Scale & Multi-PSM OCR
         uploadedReceiptMime = "image/jpeg";
-        const dataUrl = await new Promise((res, rej) => {
-          const r = new FileReader();
-          r.onload = ev => res(ev.target.result);
-          r.onerror = rej;
-          r.readAsDataURL(file);
-        });
-
+        const imgBlob = new Blob([arrayBuf], { type: file.type || 'image/jpeg' });
+        const objUrl = URL.createObjectURL(imgBlob);
         const img = await new Promise((res, rej) => {
           const im = new Image();
-          im.onload = () => res(im);
-          im.onerror = rej;
-          im.src = dataUrl;
+          im.onload = () => { URL.revokeObjectURL(objUrl); res(im); };
+          im.onerror = () => { URL.revokeObjectURL(objUrl); rej(new Error('Formato de imagen no compatible con el navegador (si es HEIC, usa captura PNG/JPG).')); };
+          im.src = objUrl;
         });
 
         // 1. Save clean compressed JPEG (<180KB) for fast Drive storage
@@ -2108,10 +2155,11 @@
         const prev = document.getElementById('receiptPreview');
         prev.src = uploadedReceiptBase64;
         prev.style.display = 'block';
+        scanBarFill.style.width = '22%';
 
         // 2. Smart Cascade OCR (stops immediately as soon as 3/3 criteria pass)
         const combinedText = await runSmartReceiptOcr(img, planAmount, pr => {
-          scanBarFill.style.width = Math.round(12 + pr * 86) + '%';
+          scanBarFill.style.width = Math.round(22 + pr * 76) + '%';
         });
 
         scanBarFill.style.width = '100%';
@@ -2123,12 +2171,14 @@
       console.error('Receipt scan error:', err);
       isScanningReceipt = false;
       receiptVerifiedOk = false;
+      scanBarWrap.style.display = 'none';
       dropZone.classList.remove('loaded', 'scanning');
       dropZone.classList.add('rejected');
       headline.style.color = '#ff6b86';
-      headline.textContent = '⚠️ No se pudo leer el archivo subido';
-      reason.textContent = 'Por favor sube una captura de pantalla (JPG/PNG) o PDF válido de tu banco.';
-      checkFormReady();
+      headline.textContent = '⚠️ No se pudo completar la lectura del comprobante';
+      reason.style.color = '#ffb3c4';
+      reason.textContent = (err && err.message) ? err.message : 'Por favor sube una captura nítida (JPG/PNG) o PDF válido de tu banco.';
+      try { checkFormReady(); } catch (e2) {}
     }
   }
 
@@ -2147,12 +2197,13 @@
 
     const cleanDoc = docId.replace(/\D+/g, '');
     const cleanPhone = phone.replace(/\D+/g, '');
-    const alreadyRegisteredPerson = (cleanDoc.length >= 5 || cleanPhone.length >= 7) && localRecords.find(r =>
-      r.status !== 'ANULADA' && (
-        (cleanDoc.length >= 5 && r.docId && r.docId.replace(/\D+/g, '') === cleanDoc) ||
-        (cleanPhone.length >= 7 && r.phone && r.phone.replace(/\D+/g, '') === cleanPhone)
-      )
-    );
+    const alreadyRegisteredPerson = (cleanDoc.length >= 5 || cleanPhone.length >= 7) && localRecords.find(r => {
+      if (!r || String(r.status || '') === 'ANULADA') return false;
+      const recDoc = String(r.docId || (String(r.name || '').match(/\(CC\s*([^)]+)\)/i) || [])[1] || '').replace(/\D+/g, '');
+      const recPhone = String(r.phone ?? '').replace(/\D+/g, '');
+      return (cleanDoc.length >= 5 && recDoc && recDoc === cleanDoc) ||
+             (cleanPhone.length >= 7 && recPhone && recPhone === cleanPhone);
+    });
 
     const badgeEl = document.getElementById('pv-receipt-badge');
     if (alreadyRegisteredPerson) {
@@ -2436,7 +2487,8 @@
       const resp = await fetch(`${webhook}?pin=2026`);
       const data = await resp.json();
       if (data && data.ok) {
-        localRecords = data.records || [];
+        localRecords = (data.records || []).map(normalizeRecord);
+        try { localStorage.setItem('kpari26_repo', JSON.stringify(localRecords)); } catch(e) {}
         if (data.sheetUrl) {
           const sl = document.getElementById('adm-sheet-link');
           sl.href = data.sheetUrl;
@@ -2482,12 +2534,13 @@
     tb.innerHTML = '';
     let sum = 0;
     localRecords.forEach((r, idx) => {
-      if (r.status !== 'ANULADA') sum += Number(r.val || 0);
-      const isImgData = r.receiptUrl && r.receiptUrl.startsWith('data:image');
-      const receiptCell = r.receiptUrl
+      if (String(r.status || '') !== 'ANULADA') sum += Number(r.val || 0);
+      const recUrlStr = String(r.receiptUrl || '');
+      const isImgData = recUrlStr.startsWith('data:image');
+      const receiptCell = recUrlStr
         ? (isImgData
-            ? `<a href="${escapeHtml(r.receiptUrl)}" download="Comprobante_${escapeHtml(r.id)}.jpg"><img src="${escapeHtml(r.receiptUrl)}" style="height:46px;border-radius:6px;" title="Descargar comprobante"/></a>`
-            : `<a href="${escapeHtml(r.receiptUrl)}" target="_blank" style="color:var(--kc-green-vivid);font-weight:900;">📄 Ver Recibo Drive</a>`)
+            ? `<a href="${escapeHtml(recUrlStr)}" download="Comprobante_${escapeHtml(r.id)}.jpg"><img src="${escapeHtml(recUrlStr)}" style="height:46px;border-radius:6px;" title="Descargar comprobante"/></a>`
+            : `<a href="${escapeHtml(recUrlStr)}" target="_blank" style="color:var(--kc-green-vivid);font-weight:900;">📄 Ver Recibo Drive</a>`)
         : '—';
       const statusColor = r.status === 'ANULADA' ? '#ff4d6d' : '#2EE69C';
       const tr = document.createElement('tr');
@@ -2512,8 +2565,9 @@
   function exportListCSV() {
     let csv = 'Fecha,Boleta,Nombre,Celular,Rango,Etapa,Valor,Cancion_DJ,Nominacion,Mision_Secreta,Estado,Comprobante_URL\n';
     localRecords.forEach(r => {
-      const cleanUrl = (r.receiptUrl && !r.receiptUrl.startsWith('data:')) ? r.receiptUrl : 'Guardado_Local';
-      csv += `"${r.timestamp||''}","${r.id}","${r.name}","${r.phone||''}","${r.role||''}","${r.stage}",${r.val},"${(r.song||'').replace(/"/g,"'")}","${(r.nomination||'').replace(/"/g,"'")}","${(r.mission||'').replace(/"/g,"'")}","${r.status}","${cleanUrl}"\n`;
+      const recUrlStr = String(r.receiptUrl || '');
+      const cleanUrl = (recUrlStr && !recUrlStr.startsWith('data:')) ? recUrlStr : 'Guardado_Local';
+      csv += `"${String(r.timestamp||'')}","${String(r.id||'')}","${String(r.name||'')}","${String(r.phone||'')}","${String(r.role||'')}","${String(r.stage||'')}",${Number(r.val||0)},"${String(r.song||'').replace(/"/g,"'")}","${String(r.nomination||'').replace(/"/g,"'")}","${String(r.mission||'').replace(/"/g,"'")}","${String(r.status||'')}","${cleanUrl}"\n`;
     });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
