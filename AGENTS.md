@@ -18,6 +18,7 @@ Este archivo (`AGENTS.md`) se carga automáticamente al iniciar cualquier conver
    - ✅ **Team Cano (`@teamcano_fit`):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` en `demos/teamcano/`).
    - ✅ **Molle Pizza (`@mollepizza`):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` en `demos/mollepizza/`).
    - ✅ **CuidArte Estética y Micropigmentación (`@cuidartesteticakg` — Katherine Gil, Jamundí):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` libres de cajas `v2` en `demos/cuidarte/`).
+   - ✅ **Magic Beauty (`@magic_beauty_jdi` — Jamundí):** Completado y certificado `5/5` (`3 Reels 9:16` + `Reel 04 Cine 35mm ASMR` + `4 Posts 3:4` libres de cajas en `demos/magicbeauty/`).
    - ✅ **Sala Cine 35mm ASMR (`demos/laboratorio-35mm/`):** Comparador interactivo *Antes (`6s+6s`) vs. Estándar Cine 35mm ASMR (`5 cortes / 13s`)* + Playbook de 6 nichos publicado en vivo.
    - 🆕 **Cualquier Nuevo Cliente:** Crear su directorio exclusivo `demos/<nuevo-cliente>/` y su portal `demos/<nuevo-cliente>/index.html` desde el inicio aplicando el **Estándar Cine 35mm ASMR**.
 

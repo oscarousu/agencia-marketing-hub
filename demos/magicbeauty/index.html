@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sala Exclusiva de Entregables · Magic Beauty (@magic_beauty_jdi · Jamundí)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Jost:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #15110D;
+      --bg-elevated: #1D1813;
+      --card: #241E18;
+      --gold: #C29A4D;
+      --gold-soft: rgba(194, 154, 77, 0.16);
+      --gold-glow: rgba(194, 154, 77, 0.38);
+      --nude: #F5EFE6;
+      --cream-2: #E6D3A4;
+      --white: #FFFFFF;
+      --muted: #C8BCA9;
+      --border: rgba(194, 154, 77, 0.28);
+      --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --sans: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(194, 154, 77, 0.14) 0%, transparent 48%),
+        radial-gradient(circle at 86% 8%, rgba(230, 211, 164, 0.08) 0%, transparent 42%),
+        linear-gradient(180deg, #1E1812 0%, var(--bg) 45%, #0F0C09 100%);
+      color: var(--white);
+      line-height: 1.55;
+      padding-bottom: 72px;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: rgba(21, 17, 13, 0.94);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo-floating {
+      height: 54px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.85));
+    }
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-soft);
+      border: 1px solid var(--gold);
+      color: var(--nude);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 5px 13px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 30px 24px;
+    }
+
+    .client-switcher {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      padding: 12px 18px;
+      background: rgba(36, 30, 24, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      align-items: center;
+    }
+
+    .client-switcher span {
+      font-size: 0.82rem;
+      color: var(--nude);
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .client-tab {
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 9px;
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .client-tab:hover {
+      border-color: var(--gold);
+      color: var(--cream-2);
+    }
+
+    .client-tab.active {
+      background: linear-gradient(135deg, var(--cream-2) 0%, var(--gold) 100%);
+      color: #15110D;
+      border-color: var(--nude);
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(194, 154, 77, 0.32);
+    }
+
+    .hero-panel {
+      position: relative;
+      background: linear-gradient(135deg, rgba(41, 37, 31, 0.96) 0%, rgba(21, 17, 13, 0.98) 100%);
+      border: 1px solid var(--gold-glow);
+      border-radius: 20px;
+      padding: 28px 30px;
+      margin-bottom: 36px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.52);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--cream-2), var(--gold), transparent);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 3.2vw, 2.55rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+
+    h1 span {
+      color: var(--cream-2);
+      font-style: italic;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 0.96rem;
+      max-width: 980px;
+      margin-bottom: 20px;
+    }
+
+    .sub strong {
+      color: var(--nude);
+    }
+
+    .verified-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(194, 154, 77, 0.22);
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.81rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(194, 154, 77, 0.32);
+      color: var(--nude);
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    a.verified-pill:hover {
+      background: rgba(194, 154, 77, 0.16);
+      border-color: var(--gold);
+    }
+
+    .swatch-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .section-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 38px 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-hdr h2 {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+
+    .section-hdr p {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(194, 154, 77, 0.28);
+    }
+
+    .img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #100D0A;
+    }
+
+    .card img.post-preview {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      cursor: zoom-in;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .card:hover img.post-preview {
+      transform: scale(1.02);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(21, 17, 13, 0.84);
+      border: 1px solid rgba(194, 154, 77, 0.58);
+      color: var(--nude);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .card video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      background: #0F0C09;
+      display: block;
+    }
+
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+    }
+
+    .card-kicker {
+      font-size: 0.71rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--gold);
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--nude);
+      line-height: 1.25;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .tech-specs {
+      font-size: 0.75rem;
+      color: var(--cream-2);
+      background: rgba(194, 154, 77, 0.09);
+      border: 1px solid rgba(194, 154, 77, 0.24);
+      border-radius: 8px;
+      padding: 7px 10px;
+      margin-top: 2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.79rem;
+      font-weight: 700;
+      padding: 10px 12px;
+      border-radius: 9px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--cream-2) 0%, var(--gold) 100%);
+      color: #15110D;
+      border: 1px solid var(--nude);
+      font-weight: 800;
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.07);
+    }
+
+    .btn.secondary {
+      background: rgba(245, 239, 230, 0.07);
+      color: var(--nude);
+      border: 1px solid var(--border);
+    }
+
+    .btn.secondary:hover {
+      background: rgba(194, 154, 77, 0.16);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+
+    footer {
+      max-width: 1260px;
+      margin: 48px auto 0;
+      padding: 22px 24px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 11, 8, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: rgba(36, 30, 24, 0.92);
+      border: 1px solid var(--gold);
+      color: var(--nude);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .lightbox img {
+      max-width: 94vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      border: 1px solid rgba(194, 154, 77, 0.48);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.92);
+    }
+
+    .lightbox-caption {
+      margin-top: 12px;
+      font-size: 0.86rem;
+      color: var(--cream-2);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 14px 18px; }
+      .container { padding: 20px 16px; }
+      .hero-panel { padding: 22px 18px; }
+      .brand-logo-floating { height: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img class="brand-logo-floating" src="./brand_assets/magicbeauty_logo_floating_light.png" alt="Magic Beauty · Since 2016 · Jamundí" />
+    <div class="brand-meta">
+      <span class="badge">💅 Sala Exclusiva Cliente · @magic_beauty_jdi</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a href="https://wa.me/573005707810" target="_blank" rel="noopener noreferrer" class="btn secondary" style="flex:initial; padding:8px 14px;">💬 WhatsApp 300 570 7810</a>
+    <a href="https://www.magicbeauty.com.co/" target="_blank" rel="noopener noreferrer" class="btn secondary" style="flex:initial; padding:8px 14px;">🌐 magicbeauty.com.co</a>
+    <a href="https://www.instagram.com/magic_beauty_jdi/" target="_blank" rel="noopener noreferrer" class="btn secondary" style="flex:initial; padding:8px 14px;">📲 @magic_beauty_jdi</a>
+    <a href="../../" class="btn primary" style="flex:initial; padding:8px 15px;">🔐 Volver al Hub Oscar &amp; Camilo</a>
+  </div>
+</header>
+
+<div class="container">
+  <div class="client-switcher">
+    <span>🏢 Espacios Exclusivos por Cliente:</span>
+    <a href="../teamcano/" class="client-tab">🏋️‍♂️ Team Cano (3 Sedes)</a>
+    <a href="../mollepizza/" class="client-tab">🍕 Molle Pizza (Cali &amp; Jamundí)</a>
+    <a href="../cuidarte/" class="client-tab">✨ CuidArte Estética &amp; Spa (Jamundí)</a>
+    <a href="./" class="client-tab active">💅 Magic Beauty (Jamundí)</a>
+    <a href="../laboratorio-35mm/" class="client-tab">🎬 Sala Cine 35mm ASMR</a>
+  </div>
+
+  <section class="hero-panel">
+    <div class="hero-eyebrow">Luxury Nail Studio &amp; Beauty Spa · Since 2016 · Edición Cine 35mm ASMR · Jamundí, Valle del Cauca</div>
+    <h1>Magic Beauty · <span>Salón &amp; Spa de Lujo</span></h1>
+    <p class="sub">
+      Sede principal en <strong>Cra. 10 # 8-31 Piso 2 · Barrio La Esmeralda · Jamundí</strong> desde <strong>2016</strong>. Paquete completo certificado <code>5/5 QA</code> (<strong>4 Reels 9:16 incluyendo Edición Especial Cine 35mm ASMR + 4 Posts 3:4</strong>) especializado en <strong>Uñas (Dama &amp; Caballero), Pestañas, Cejas y Cabello</strong>, con identidad limpia sin recuadros invasivos (logotipo oficial con astas flotante + tipografía condensada en negrilla de alto contraste), audio ASMR multicapa a <code>-14.0 LUFS</code> (cero voces) y paleta oficial Magic Beauty: <strong>Espresso Profundo (#15110D) · Tabaco (#29251F) · Oro Antiguo (#C29A4D) · Oro Champán (#E6D3A4) · Crema Seda (#F5EFE6)</strong>.
+    </p>
+    <div class="verified-strip">
+      <span class="verified-pill">✨ Magic Beauty · Since 2016</span>
+      <span class="verified-pill">📍 Cra. 10 # 8-31 Piso 2 · Barrio La Esmeralda · Jamundí</span>
+      <span class="verified-pill">🕒 Lunes a Sábado 9:00 a.m. – 7:00 p.m.</span>
+      <span class="verified-pill">💅 Uñas Dama &amp; Caballero · Pestañas · Cejas · Cabello</span>
+      <a href="https://wa.me/573005707810" target="_blank" rel="noopener noreferrer" class="verified-pill">📲 WhatsApp 300 570 7810</a>
+      <a href="https://www.instagram.com/magic_beauty_jdi/" target="_blank" rel="noopener noreferrer" class="verified-pill">📸 @magic_beauty_jdi</a>
+      <span class="verified-pill">
+        <span class="swatch-dot" style="background:#15110D;"></span>
+        <span class="swatch-dot" style="background:#29251F;"></span>
+        <span class="swatch-dot" style="background:#C29A4D;"></span>
+        <span class="swatch-dot" style="background:#E6D3A4;"></span>
+        <span class="swatch-dot" style="background:#F5EFE6;"></span>
+        5/5 QA · Cine 35mm ASMR
+      </span>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: 4 REELS COMERCIALES OFICIALES 9:16 -->
+  <div class="section-hdr">
+    <div>
+      <h2>🎬 4 Reels Comerciales Oficiales 9:16 (Incluye Edición Especial Cine 35mm ASMR · -14.0 LUFS · 0% Voces)</h2>
+      <p>Edición Disruptiva Kodak Vision3 35mm ASMR (5 cortes polirrítmicos en 13.00s + Counter-Audio Drop a los 9.0s) junto a 3 Reels luxury producidos con Google Flow Omni 1.2 Flash.</p>
+    </div>
+    <span class="badge">Certificados 5/5 QA · Dual Download</span>
+  </div>
+
+  <div class="grid-4">
+    <!-- REEL 04 CINE 35MM ASMR (DESTACADO) -->
+    <article class="card" style="border-color: var(--gold); box-shadow: 0 14px 38px rgba(194, 154, 77, 0.24);">
+      <video controls playsinline preload="metadata" poster="./video_04_magia_tactil_35mm_asmr_poster.jpg">
+        <source src="./video_04_magia_tactil_35mm_asmr_branded.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">🔥 Nuevo · Cine 35mm ASMR · 5 Cortes · 13.00s</div>
+        <div class="card-title">Reel 04 · “Magia en Cada Detalle” (Kodak 35mm ASMR)</div>
+        <div class="card-desc">Montaje polirrítmico en celuloide 35mm: hilo macro 100mm de gel constructor rosado, barrido de luz dorada sobre uñas almendradas en gamuza espresso, cepillado de pestañas bajo persianas de sol, ritual cenital 90° de cutícula y caída Counter-Audio Drop a los 9.0s en galería natural.</div>
+        <div class="tech-specs">🎞️ Master: <code>1080×1920 · 30fps · 13.00s</code> · Kodak Vision3 35mm + ASMR Físico (<code>-14.0 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_04_magia_tactil_35mm_asmr_branded.mp4" download="MagicBeauty_Reel_04_Magia_Tactil_35mm_ASMR_Branded.mp4" class="btn primary">⬇ Branded ASMR</a>
+          <a href="./video_04_magia_tactil_35mm_asmr_clean.mp4" download="MagicBeauty_Reel_04_Magia_Tactil_35mm_ASMR_Clean.mp4" class="btn secondary">⬇ Clean ASMR</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- REEL 01 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_01_unas_lujo_branded.jpg">
+        <source src="./video_01_unas_lujo_12s_branded.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 01 · 9:16 · 12.00s · Sin Cajas</div>
+        <div class="card-title">Reel 01 · Alta Manicura &amp; Gel Luxury</div>
+        <div class="card-desc">Pincelado de precisión 45° con gel perla rosado, salida fluida desde lámpara LED blanca y dorada sobre piedra clara y brindis final con bebida fría de frutos rojos sin vapor. Logo oficial flotante y tipografía nítida en contraste.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Audio 4 capas SFX + Score Luxury (<code>-14.3 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_01_unas_lujo_12s_branded.mp4" download="MagicBeauty_Reel_01_Unas_Lujo_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_01_unas_lujo_12s_clean.mp4" download="MagicBeauty_Reel_01_Unas_Lujo_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- REEL 02 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_02_pestanas_mirada_branded.jpg">
+        <source src="./video_02_pestanas_mirada_12s_branded.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 02 · 9:16 · 12.00s · Sin Cajas</div>
+        <div class="card-title">Reel 02 · Mirada que Hipnotiza (Pestañas)</div>
+        <div class="card-desc">Aplicación precisa pelo a pelo con pinza curva dorada sobre parche hidrogel, apertura progresiva en cámara lenta hacia iris miel bañado de sol y revelación auténtica frente al espejo Hollywood del estudio.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Foley cepillo + Score Luxury (<code>-14.3 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_02_pestanas_mirada_12s_branded.mp4" download="MagicBeauty_Reel_02_Pestanas_Mirada_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_02_pestanas_mirada_12s_clean.mp4" download="MagicBeauty_Reel_02_Pestanas_Mirada_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- REEL 03 -->
+    <article class="card">
+      <video controls playsinline preload="metadata" poster="./post_04_experiencia_magic_branded.jpg">
+        <source src="./video_03_experiencia_magic_12s_branded.mp4" type="video/mp4" />
+      </video>
+      <div class="card-body">
+        <div class="card-kicker">Reel Oficial 03 · 9:16 · 12.00s · Sin Cajas</div>
+        <div class="card-title">Reel 03 · Tu Ritual de Reina en Jamundí</div>
+        <div class="card-desc">Spa de pies con pétalos rosados en cerámica y masaje suave, retoque de pestañas en poltrona rosa dentro de la sede real en ladrillo a la vista y sonrisa final natural en Cra. 10 # 8-31 Piso 2.</div>
+        <div class="tech-specs">🎚️ Master: <code>1080×1920 · 30fps · 12.00s</code> · Agua spa + Brisa + Score Luxury (<code>-14.0 LUFS</code> · 0% voces).</div>
+        <div class="actions">
+          <a href="./video_03_experiencia_magic_12s_branded.mp4" download="MagicBeauty_Reel_03_Experiencia_Magic_Branded.mp4" class="btn primary">⬇ Reel con Diseño</a>
+          <a href="./video_03_experiencia_magic_12s_clean.mp4" download="MagicBeauty_Reel_03_Experiencia_Magic_Limpio.mp4" class="btn secondary">⬇ Reel Limpio</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- SECCIÓN 2: 4 IMÁGENES OFICIALES PARA POST DE INSTAGRAM (3:4 · 1080x1440) -->
+  <div class="section-hdr" style="margin-top: 52px;">
+    <div>
+      <h2>📸 4 Imágenes Oficiales para Post de Instagram (Formato Vertical 3:4 · 1080×1440 · Sin Cajas)</h2>
+      <p>Haz clic sobre cualquier fotografía para ampliarla en pantalla completa (Lightbox). Diseño limpio con logo oficial flotante, contraste nítido y producto héroe 100% despejado.</p>
+    </div>
+    <span class="badge">Certificadas 5/5 QA · Dual Download</span>
+  </div>
+
+  <div class="grid-4">
+    <!-- POST 01 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_01_unas_lujo_branded.jpg" alt="Post 01 Magic Beauty · Uñas de Lujo Dama &amp; Caballero" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 01 · Uñas Dama &amp; Caballero</div>
+        <div class="card-title">Arte y Lujo en tus Manos · Acrílico &amp; Polygel</div>
+        <div class="card-desc">Manicura semipermanente, polygel y diseño de lujo con terminación impecable. Identidad flotante @magic_beauty_jdi con foco despejado sobre uñas almendradas.</div>
+        <div class="actions">
+          <a href="./post_01_unas_lujo_branded.jpg" download="MagicBeauty_Post_01_Unas_Lujo_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_01_unas_lujo_clean.jpg" download="MagicBeauty_Post_01_Unas_Lujo_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 02 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_02_pestanas_mirada_branded.jpg" alt="Post 02 Magic Beauty · Pestañas Pelo a Pelo &amp; Diseño de Cejas" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 02 · Pestañas &amp; Cejas</div>
+        <div class="card-title">Mirada que Hipnotiza · Pelo a Pelo &amp; Volumen</div>
+        <div class="card-desc">Extensiones clásicas, tecnológicas y volumen diseñadas según la anatomía de cada rostro, combinadas con laminado y diseño natural de cejas.</div>
+        <div class="actions">
+          <a href="./post_02_pestanas_mirada_branded.jpg" download="MagicBeauty_Post_02_Pestanas_Mirada_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_02_pestanas_mirada_clean.jpg" download="MagicBeauty_Post_02_Pestanas_Mirada_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 03 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_03_manos_pies_spa_branded.jpg" alt="Post 03 Magic Beauty · Spa de Manos y Pies" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 03 · Spa de Manos &amp; Pies</div>
+        <div class="card-title">Tu Ritual de Reina · Descanso &amp; Cuidado</div>
+        <div class="card-desc">Pedicura y manicura spa con pétalos naturales, aceites cálidos y atención personalizada para dama y caballero en el corazón de La Esmeralda.</div>
+        <div class="actions">
+          <a href="./post_03_manos_pies_spa_branded.jpg" download="MagicBeauty_Post_03_Manos_Pies_Spa_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_03_manos_pies_spa_clean.jpg" download="MagicBeauty_Post_03_Manos_Pies_Spa_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 04 -->
+    <article class="card">
+      <div class="img-wrap">
+        <img class="post-preview" src="./post_04_experiencia_magic_branded.jpg" alt="Post 04 Magic Beauty · Experiencia Salón Cabello, Uñas, Pestañas &amp; Cejas" onclick="openLb(this.src, this.alt)" />
+        <span class="zoom-hint">🔍 Ampliar 3:4</span>
+      </div>
+      <div class="card-body">
+        <div class="card-kicker">Post 04 · Experiencia Magic Beauty</div>
+        <div class="card-title">Hoy Elígete a Ti · Cabello, Cejas &amp; Estilo</div>
+        <div class="card-desc">Una pausa luminosa en nuestro estudio del 2° piso en Barrio La Esmeralda, Jamundí, integrando cabello, cejas, pestañas y uñas bajo cita en Lunes a Sábado.</div>
+        <div class="actions">
+          <a href="./post_04_experiencia_magic_branded.jpg" download="MagicBeauty_Post_04_Experiencia_Magic_Branded.jpg" class="btn primary">⬇ Post con Diseño</a>
+          <a href="./post_04_experiencia_magic_clean.jpg" download="MagicBeauty_Post_04_Experiencia_Magic_Limpia.jpg" class="btn secondary">⬇ Foto Limpia</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <footer>
+    <div>💅 <strong>Magic Beauty · Since 2016</strong> · Cra. 10 # 8-31 Piso 2, Barrio La Esmeralda, Jamundí · WhatsApp 300 570 7810 · @magic_beauty_jdi</div>
+    <div>Sala Exclusiva Aislada · Producido por Agencia Marketing IA (Oscar Ortiz &amp; Camilo Cortés)</div>
+  </footer>
+</div>
+
+<div id="lb" class="lightbox" onclick="closeLb()">
+  <button type="button" class="lightbox-close" onclick="closeLb()">✕ Cerrar Vista Ampliada</button>
+  <img id="lb-img" src="" alt="Vista previa pantalla completa Magic Beauty" onclick="event.stopPropagation()" />
+  <div id="lb-caption" class="lightbox-caption"></div>
+</div>
+
+<script>
+  function openLb(src, caption) {
+    var img = document.getElementById('lb-img');
+    var cap = document.getElementById('lb-caption');
+    img.src = src;
+    cap.textContent = caption || '';
+    document.getElementById('lb').classList.add('open');
+  }
+
+  function closeLb() {
+    document.getElementById('lb').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLb();
+  });
+</script>
+</body>
+</html>
